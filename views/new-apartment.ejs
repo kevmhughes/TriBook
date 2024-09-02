@@ -10,6 +10,24 @@
 >
 </head>
 <body>
-    <p>Hello, this is the add apartment form!</p>
-</body>
+  <h1 class="container">Add New Apartment</h1>
+  <form class="container" action="/admin/apartment/new-apartment" method="POST">
+    <label for="title">Title</label>
+    <input
+      type="text"
+      name="title"
+      id="title"
+      maxlength="30"
+      required
+    />
+    <label for="title">Description</label>
+    <textarea rows="5" name="description" id="description"></textarea>
+    <label for="price">Price/Night</label>
+    <input type="number" name="price" id="price" min="0" required/>
+    <label for="size">M <sup>2</sup></label>
+    <input type="number" name="size" id="size" min="0" required />
+    <label for="main-photo">Main Photo</label>
+    <input type="url" name="main-photo" id="main-photo" required />
+    <input type="submit" value="Add Apartment" />
+  </form></body>
 </html>
