@@ -6,18 +6,22 @@ const apartmentSchema = new Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        required: true
+    },
     price: {
         type: Number,
         required: true,
     },
-    squareMetres: {
+    size: {
         type: Number,
         required: true,
+        min: 0
     },
     mainPhoto: {
         type: String,
         required: true,
-        match: [/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i, "URL not valid"]
     },
     services: {
         wifi: Boolean,

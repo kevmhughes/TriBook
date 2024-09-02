@@ -15,10 +15,10 @@ const adminRoutes = require("./routes/admin")
 const app = express();
 
 //middleware setup
+app.use(express.urlencoded({ extended: true })); // parsing form data
 app.use(morgan("tiny")); // logging requests
 app.use("/admin", adminRoutes) // admin routes
 app.use("/", indexRoutes) // public routes
-app.use(express.urlencoded({ extended: true })); // parsing form data
 app.use(express.static("public")); // serving static files
 const mongoose = require("mongoose");
 
