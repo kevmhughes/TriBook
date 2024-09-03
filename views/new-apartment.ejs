@@ -10,29 +10,59 @@
     />
   </head>
   <body>
-    <h1 class="container">Add New Apartment</h1>
     <main class="container">
-      <form
-      action="/admin/apartment/new-apartment"
-      method="POST"
-    >
-      <label for="title">Title</label>
-      <input type="text" name="title" id="title" maxlength="30" required />
+      <h1><%= apartment._id ? "Edit" : "Add New" %> Apartment</h1>
 
-      <label for="description">Description</label>
-      <textarea rows="5" name="description" id="description"></textarea>
+      <form action="/admin/apartment/new-apartment" method="POST">
+        <!-- hidden document id -->
+        <input type="hidden" name="id" id="id" value="<%= apartment._id %>" />
 
-      <label for="price">Price/Night</label>
-      <input type="number" name="price" id="price" min="0" required />
+        <label for="title">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          maxlength="30"
+          required
+          value="<%= apartment.title %>"
+        />
 
-      <label for="size">M <sup>2</sup></label>
-      <input type="number" name="size" id="size" min="0" required />
+        <label for="description">Description</label>
+        <textarea rows="5" name="description" id="description">
+<%= apartment.description %></textarea
+        >
 
-      <label for="main-photo">Main Photo</label>
-      <input type="url" name="mainPhoto" id="mainPhoto" required />
-      
-      <input type="submit" value="Add Apartment" />
-    </form>
+        <label for="price">Price/Night</label>
+        <input
+          type="number"
+          name="price"
+          id="price"
+          min="0"
+          required
+          value="<%= apartment.price %>"
+        />
+
+        <label for="size">M <sup>2</sup></label>
+        <input
+          type="number"
+          name="size"
+          id="size"
+          min="0"
+          required
+          value="<%= apartment.size %>"
+        />
+
+        <label for="main-photo">Main Photo</label>
+        <input
+          type="url"
+          name="mainPhoto"
+          id="mainPhoto"
+          required
+          value="<%= apartment.mainPhoto %>"
+        />
+
+        <input type="submit" value="<%= apartment._id ? "Edit Apartment" : "Add Apartment" %>" />
+      </form>
     </main>
   </body>
 </html>
