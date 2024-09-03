@@ -8,11 +8,28 @@ const apartmentSchema = new Schema({
     },
     description: {
         type: String,
-        required: true
+    },
+    rules: {
+        type: String,
+    },
+    bedrooms: {
+        type: Number,
+        min: 0
+    },
+    totalBeds: {
+        type: Number,
+        min: 0
+    },
+    bathrooms: {
+        type: Number,
+        min: 0  
     },
     price: {
         type: Number,
         required: true,
+    },
+    maxNumberOfGuests: {
+        type: Number,
     },
     size: {
         type: Number,
@@ -23,14 +40,21 @@ const apartmentSchema = new Schema({
         type: String,
         required: true,
     },
-    services: {
-        wifi: Boolean,
-        airConditioner: Boolean, 
-        kitchen: Boolean,
-        disability: Boolean,
-        heater: Boolean,
-        tv: Boolean
-    }
+    wifi: Boolean,
+    airConditioning: Boolean,
+    kitchen: Boolean,
+    disability: Boolean,
+    heater: Boolean,
+    tv: Boolean,
+    province: {
+        type: String,
+    },
+    city: {
+        type: String,
+    },
+    gps: {
+        type: String,
+    },
 })
 
 const Apartment = model('Apartment', apartmentSchema);

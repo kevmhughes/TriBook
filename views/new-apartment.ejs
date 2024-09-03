@@ -32,6 +32,34 @@
 <%= apartment.description %></textarea
         >
 
+        <label for="rules">Rules</label>
+        <textarea rows="5" name="rules" id="rules"></textarea
+        >
+
+        <label for="bedrooms">Bedrooms</label>
+        <input
+          type="number"
+          name="bedrooms"
+          id="bedrooms"
+          min="0"
+        />
+
+        <label for="totalBeds">Total Number Of Beds</label>
+        <input
+          type="number"
+          name="totalBeds"
+          id="totalBeds"
+          min="0"
+        />
+
+        <label for="bathrooms">Number Of Bathrooms</label>
+        <input
+          type="number"
+          name="bathrooms"
+          id="bathrooms"
+          min="0"
+        />
+
         <label for="price">Price/Night</label>
         <input
           type="number"
@@ -40,6 +68,14 @@
           min="0"
           required
           value="<%= apartment.price %>"
+        />
+
+        <label for="maxNumberOfGuests">Maximum Number Of Guests</label>
+        <input
+          type="number"
+          name="maxNumberOfGuests"
+          id="maxNumberOfGuests"
+          min="0"
         />
 
         <label for="size">M <sup>2</sup></label>
@@ -59,6 +95,46 @@
           id="mainPhoto"
           required
           value="<%= apartment.mainPhoto %>"
+        />
+
+        <label>
+          <input type="checkbox" name="wifi" value="true"> Wi-Fi
+      </label>
+      <label>
+          <input type="checkbox" name="airConditioning" value="true"> Air Conditioning
+      </label>
+      <label>
+          <input type="checkbox" name="kitchen" value="true"> Kitchen
+      </label>
+      <label>
+          <input type="checkbox" name="disability" value="true"> Disability Access
+      </label>
+      <label>
+          <input type="checkbox" name="heater" value="true"> Heater
+      </label>
+      <label>
+          <input type="checkbox" name="tv" value="true"> TV
+      </label><br>
+
+        <label for="province">Province</label>
+        <input
+          type="string"
+          name="province"
+          id="province"
+        />
+
+        <label for="city">City</label>
+        <input
+          type="string"
+          name="city"
+          id="city"
+        />
+
+        <label for="GPS">GPS</label>
+        <input
+          type="string"
+          name="gps"
+          id="gps"
         />
 
         <input type="submit" value="<%= apartment._id ? "Edit Apartment" : "Add Apartment" %>" />
