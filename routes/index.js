@@ -6,4 +6,6 @@ const indexControllers = require("../controllers/index.js")
 
 router.get("/", indexControllers.getApartments)
 
+router.get("/apartment/:idApartment", indexControllers.getApartmentById)
+
 module.exports = router;

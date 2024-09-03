@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
->
-</head>
-<body>
-  <main class="container apartments">
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+  </head>
+  <body>
+    <main class="container">
+      <% for (const ap of apartments) { %>
 
-    <% for (const ap of apartments) { %>
+      <article class="apartment">
+        <header><%= ap.title %></header>
         <a href="/apartment/<%= ap._id %>">
-            <article class="apartment">
-                <header>
-                    <%= ap.title %>
-                </header>
-                <div><img src="<%= ap.mainPhoto %>" alt=""></div>
-                <footer>
-                    <%= ap.price %> €/night
-                </footer>
-            </article>
+          <div><img src="<%= ap.mainPhoto %>" alt="" /></div>
         </a>
-        <% } %>
-</main>
-</body>
+        <footer>
+          <%= ap.price %> €/night
+          <a href="/apartment/<%= ap._id %>">
+            <button>details</button>
+          </a>
+        </footer>
+      </article>
+
+      <% } %>
+    </main>
+  </body>
 </html>

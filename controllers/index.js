@@ -8,6 +8,17 @@ const getApartments = async (req, res) => {
     })
 }
 
+const getApartmentById = async (req, res) => {
+    console.log(req.params)
+    const {idApartment } = req.params 
+    const selectedApartment = await Apartment.findById(idApartment);
+
+    res.render("apartment-details", {
+        selectedApartment
+    })
+}
+
 module.exports = {
-    getApartments
+    getApartments,
+    getApartmentById
 }
