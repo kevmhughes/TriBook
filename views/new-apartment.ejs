@@ -1,144 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-    />
-  </head>
-  <body>
-    <main class="container">
-      <h1><%= apartment._id ? "Edit" : "Add New" %> Apartment</h1>
 
-      <form action="/admin/apartment/new-apartment" method="POST">
-        <!-- hidden document id -->
-        <input type="hidden" name="id" id="id" value="<%= apartment._id %>" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+</head>
 
-        <label for="title">Title</label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          maxlength="30"
-          required
-          value="<%= apartment.title %>"
-        />
+<body>
+  <main class="container">
+    <h1>
+      <%= apartment._id ? "Edit" : "Add New" %> Apartment
+    </h1>
 
-        <label for="description">Description</label>
-        <textarea rows="5" name="description" id="description">
-<%= apartment.description %></textarea
-        >
+    <form action="/admin/apartment/new-apartment" method="POST">
+      <!-- hidden document id -->
+      <input type="hidden" name="id" id="id" value="<%= apartment._id %>" />
 
-        <label for="rules">Rules</label>
-        <textarea rows="5" name="rules" id="rules"></textarea
-        >
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title" maxlength="30" required value="<%= apartment.title %>" />
 
-        <label for="bedrooms">Bedrooms</label>
-        <input
-          type="number"
-          name="bedrooms"
-          id="bedrooms"
-          min="0"
-        />
+      <label for="description">Description</label>
+      <textarea rows="5" name="description" id="description">
+<%= apartment.description %></textarea>
 
-        <label for="totalBeds">Total Number Of Beds</label>
-        <input
-          type="number"
-          name="totalBeds"
-          id="totalBeds"
-          min="0"
-        />
+      <label for="rules">Rules</label>
+      <textarea rows="5" name="rules" id="rules"><%= apartment.rules %></textarea>
 
-        <label for="bathrooms">Number Of Bathrooms</label>
-        <input
-          type="number"
-          name="bathrooms"
-          id="bathrooms"
-          min="0"
-        />
+      <fieldset class="grid">
+        <div>
+          <label for="price">Price/Night</label>
+          <input type="number" name="price" id="price" min="0" required value="<%= apartment.price %>" />
+        </div>
+        <div>
+          <label for="size">M <sup>2</sup></label>
+          <input type="number" name="size" id="size" min="0" required value="<%= apartment.size %>" />
+        </div>
+      </fieldset>
 
-        <label for="price">Price/Night</label>
-        <input
-          type="number"
-          name="price"
-          id="price"
-          min="0"
-          required
-          value="<%= apartment.price %>"
-        />
+      <fieldset class="grid">
+        <div>
+          <label for="province">Province</label>
+          <input type="string" name="province" id="province" value="<%= apartment.province %>"/>
+        </div>
+        <div>
+          <label for="city">City</label>
+          <input type="string" name="city" id="city" value="<%= apartment.city %>"/>
+        </div>
+        <div>
+          <label for="GPS">GPS</label>
+          <input type="string" name="gps" id="gps" value="<%= apartment.gps %>"/>
+        </div>
+      </fieldset>
 
-        <label for="maxNumberOfGuests">Maximum Number Of Guests</label>
-        <input
-          type="number"
-          name="maxNumberOfGuests"
-          id="maxNumberOfGuests"
-          min="0"
-        />
+      <fieldset class="grid">
+        <div>
+          <label for="bedrooms">Bedrooms</label>
+          <input type="number" name="bedrooms" id="bedrooms" min="0" value="<%= apartment.bedrooms %>"/>
+        </div>
+        <div>
+          <label for="totalBeds">Total Beds</label>
+          <input type="number" name="totalBeds" id="totalBeds" min="0" value="<%= apartment.totalBeds %>"/>
+        </div>
+        <div>
+          <label for="bathrooms">Bathrooms</label>
+          <input type="number" name="bathrooms" id="bathrooms" min="0" value="<%= apartment.bathrooms %>"/>
+        </div>
+        <div>
+          <label for="maxNumberOfGuests">Max Guests</label>
+          <input type="number" name="maxNumberOfGuests" id="maxNumberOfGuests" min="0" value="<%= apartment.maxNumberOfGuests %>"/>
+        </div>
+      </fieldset>
 
-        <label for="size">M <sup>2</sup></label>
-        <input
-          type="number"
-          name="size"
-          id="size"
-          min="0"
-          required
-          value="<%= apartment.size %>"
-        />
+      <fieldset class="grid">
+        <div>
+          <label for="mainPhoto">Main Photo URL</label>
+          <input type="url" name="mainPhoto" id="mainPhoto" required value="<%= apartment.mainPhoto %>" />
+        </div>
+        <div>
+          <label for="mainPhotoCaption">Main Photo Caption</label>
+          <input type="string" name="mainPhotoCaption" id="mainPhotoCaption" value="<%= apartment.mainPhotoCaption %>"/>
+        </div>
+      </fieldset>
 
-        <label for="mainPhoto">Main Photo</label>
-        <input
-          type="url"
-          name="mainPhoto"
-          id="mainPhoto"
-          required
-          value="<%= apartment.mainPhoto %>"
-        />
 
-        <label>
-          <input type="checkbox" name="wifi" value="true"> Wi-Fi
+      <fieldset class="grid">
+        <div>
+          <label for="photoTwo">2nd Photo URL</label>
+          <input type="url" name="photoTwo" id="photoTwo" value="<%= apartment.photoTwo %>"/>
+        </div>
+        <div>
+          <label for="photoTwoCaption">2nd Photo Caption</label>
+          <input type="string" name="photoTwoCaption" id="photoTwoCaption" value="<%= apartment.photoTwoCaption %>"/>
+        </div>
+      </fieldset>
+
+      <fieldset class="grid">
+        <div>
+          <label for="photoThree">3rd Photo URL</label>
+          <input type="url" name="photoThree" id="photoThree" value="<%= apartment.photoThree %>"/>
+        </div>
+        <div>
+          <label for="photoThreeCaption">3rd Photo Caption</label>
+          <input type="string" name="photoThreeCaption" id="photoThreeCaption" value="<%= apartment.photoThreeCaption %>"/>
+        </div>
+      </fieldset>
+
+      <fieldset class="grid">
+        <div>
+          <label for="photoFour">4th Photo URL</label>
+          <input type="url" name="photoFour" id="photoFour" value="<%= apartment.photoFour %>"/>
+        </div>
+        <div>
+          <label for="photoFourCaption">4th Photo Caption</label>
+          <input type="string" name="photoFourCaption" id="photoFourCaption" value="<%= apartment.photoFourCaption %>"/>
+        </div>
+      </fieldset>
+
+      <label for="services">Services</label>
+      <label>
+        <input type="checkbox" name="airConditioning" value="true" <%= apartment.airConditioning ? "checked" : "" %> /> Air Conditioning
       </label>
       <label>
-          <input type="checkbox" name="airConditioning" value="true"> Air Conditioning
+        <input type="checkbox" name="centralHeating" value="true" <%= apartment.centralHeating ? "checked" : "" %> /> Central Heating
       </label>
       <label>
-          <input type="checkbox" name="kitchen" value="true"> Kitchen
+        <input type="checkbox" name="disabledAccess" value="true" <%= apartment.disabledAccess ? "checked" : "" %> /> Disabled Access
       </label>
       <label>
-          <input type="checkbox" name="disability" value="true"> Disability Access
+        <input type="checkbox" name="tv" value="true" <%= apartment.tv ? "checked" : "" %> /> TV
       </label>
       <label>
-          <input type="checkbox" name="heater" value="true"> Heater
+        <input type="checkbox" name="kitchen" value="true" <%= apartment.kitchen ? "checked" : "" %> /> Kitchen
       </label>
       <label>
-          <input type="checkbox" name="tv" value="true"> TV
-      </label><br>
+        <input type="checkbox" name="wifi" value="true" <%= apartment.wifi ? "checked" : "" %> /> Wi-Fi
+      </label>
+      <br>
 
-        <label for="province">Province</label>
-        <input
-          type="string"
-          name="province"
-          id="province"
-        />
+      <input type="submit" value="<%= apartment._id ? " Edit Apartment" : "Add Apartment" %>" />
+    </form>
+  </main>
+</body>
 
-        <label for="city">City</label>
-        <input
-          type="string"
-          name="city"
-          id="city"
-        />
-
-        <label for="GPS">GPS</label>
-        <input
-          type="string"
-          name="gps"
-          id="gps"
-        />
-
-        <input type="submit" value="<%= apartment._id ? "Edit Apartment" : "Add Apartment" %>" />
-      </form>
-    </main>
-  </body>
 </html>

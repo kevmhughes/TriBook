@@ -21,29 +21,20 @@ const postNewApartment = async (req, res) => {
   // "id" from name="id" in the HTML form
   const { id } = req.body;
 
-  // it is possible to send simply req.body in the following objects
-  // => await Apartment.findByIdAndUpdate(id, {req.body);
-  // => await Apartment.create(id, {req.body);
-  console.log(req.body);
+  const services = ["tv", "airConditioning", "centralHeating", "disabledAccess", "kitchen", "wifi"];
+  services.forEach(service => {
+    if (req.body[service] === undefined) {
+      req.body[service] = false;
+    }
+  });
 
   if (id) {
-    await Apartment.findByIdAndUpdate(id, {
-      title: req.body.title,
-      description: req.body.description,
-      price: req.body.price,
-      size: req.body.size,
-      mainPhoto: req.body.mainPhoto,
-    });
+    console.log(req.body)
+    await Apartment.findByIdAndUpdate(id, req.body);
 
     res.send("Apartment updated");
   } else {
-    await Apartment.create({
-      title: req.body.title,
-      description: req.body.description,
-      price: req.body.price,
-      size: req.body.size,
-      mainPhoto: req.body.mainPhoto,
-    });
+    await Apartment.create(req.body);
 
     res.send("Apartment added");
   }

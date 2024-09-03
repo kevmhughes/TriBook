@@ -3,6 +3,8 @@ const Apartment = require('../models/apartment.model.js');
 const getApartments = async (req, res) => {
     const apartments = await Apartment.find();
 
+    console.log(res.locals.isAdmin)
+
     res.render("home", {
         apartments
     })

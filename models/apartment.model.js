@@ -40,12 +40,30 @@ const apartmentSchema = new Schema({
         type: String,
         required: true,
     },
-    wifi: Boolean,
+    photoTwo: {
+        type: String,
+    },
+    photoTwoCaption: {
+        type: String,
+    },
+    photoThree: {
+        type: String,
+    },
+    photoThreeCaption: {
+        type: String,
+    },
+    photoFour: {
+        type: String,
+    },
+    photoFourCaption: {
+        type: String,
+    },
     airConditioning: Boolean,
-    kitchen: Boolean,
-    disability: Boolean,
-    heater: Boolean,
+    centralHeating: Boolean,
+    disabledAccess: Boolean,
     tv: Boolean,
+    kitchen: Boolean,
+    wifi: Boolean,
     province: {
         type: String,
     },
