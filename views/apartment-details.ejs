@@ -15,8 +15,51 @@
             <header><%= selectedApartment.title %></header>
             <div><img src="<%= selectedApartment.mainPhoto %>" alt="" />
             </div>
+            <div><img src="<%= selectedApartment.photoTwo %>" alt="" />
+              <caption><%= selectedApartment.photoTwoCaption %></caption>
+            </div>
+            <div><img src="<%= selectedApartment.photoThree %>" alt="" />
+              <caption><%= selectedApartment.photoThreeCaption %></caption>
+            </div>
+            <div><img src="<%= selectedApartment.photoFour %>" alt="" />
+              <caption><%= selectedApartment.photoFourCaption %></caption>
+            </div>
           <footer>
-            <%= selectedApartment.price %> €/night
+            <div>
+              <%= selectedApartment.price %> €/night
+            </div>
+            <div>
+             Description: <%= selectedApartment.description %>
+            </div>
+            <div>
+              Rules: <%= selectedApartment.rules %> 
+            </div>
+            <div>
+              Number of Bedrooms<%= selectedApartment.bedrooms %> 
+            </div>
+            <div>
+              Total Beds: <%= selectedApartment.totalBeds %> 
+            </div>
+            <div>
+              Bathrooms: <%= selectedApartment.bathrooms %> 
+            </div>
+            <div>
+              Maximum Number Of Guests: <%= selectedApartment.maxNumberOfGuests %> 
+            </div>
+            <div>
+              Size: <%= selectedApartment.size %>  M <sup>2</sup>
+            </div>
+            <div>
+              Services: 
+            </div>
+            <div>
+              <%= selectedApartment.tv ? "tv" : "" %> 
+              <%= selectedApartment.airConditioning ? "air conditioning" : "" %> 
+              <%= selectedApartment.centralHeating ? "central heating" : "" %> 
+              <%= selectedApartment.wifi ? "wi-fi" : "" %> 
+              <%= selectedApartment.disabledAccess ? "disabled access" : "" %> 
+              <%= selectedApartment.kitchen ? "kitchen" : "" %> 
+            </div>
           </footer>
           <div>
             Is the user admin? <%= isAdmin %>

@@ -1,32 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-    />
-  </head>
-  <body>
-    <main class="container">
-      <% for (const ap of apartments) { %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+  <style>
+    .services {
+      display: flex;
+    }
+
+    .services div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      /* Adjust the spacing between icons as needed */
+    }
+
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <% for (const ap of apartments) { %>
 
       <article class="apartment">
-        <header><%= ap.title %></header>
+        <header>
+          <%= ap.title %>
+        </header>
         <a href="/apartment/<%= ap._id %>">
           <div><img src="<%= ap.mainPhoto %>" alt="" /></div>
         </a>
         <footer>
-          <%= ap.price %> €/night
-          <a href="/apartment/<%= ap._id %>">
-            <button>details</button>
-          </a>
+          <div>
+            <%= ap.price %> €/night
+          </div>
+          <div>
+            <%= ap.size %> M <sup>2</sup>
+              <div>
+                <a href="/apartment/<%= ap._id %>">
+                  <button>details</button>
+                </a>
+              </div>
+          </div>
         </footer>
+        <footer>
+          <div class="services">
+            <div>
+              <%- ap.airConditioning ? '<img src="air-con.svg" alt="TV Icon" width="32" height="32"' : "" %>
+            </div>
+            <div>
+              <%- ap.centralHeating ? '<img src="heating.svg" alt="TV Icon" width="24" height="24"' : "" %>
+            </div>
+            <div>
+              <%- ap.disabledAccess ? '<img src="wheelchair.svg" alt="Wheelchair Icon" width="24" height="24"' : "" %>
+            </div>
+            <div>
+              <%- ap.tv ? '<img src="tv.svg" alt="TV Icon" width="24" height="24"' : "" %>
+            </div>
+            <div>
+              <%- ap.kitchen ? '<img src="kitchen.svg" alt="TV Icon" width="24" height="24"' : "" %>
+            </div>
+            <div>
+              <%- ap.wifi ? '<img src="wi-fi.svg" alt="TV Icon" width="24" height="24"' : "" %>
+            </div>
+          </div>
+        </footer>
+
       </article>
 
       <% } %>
-    </main>
-  </body>
+  </main>
+</body>
+
 </html>
