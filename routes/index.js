@@ -6,6 +6,10 @@ const indexControllers = require("../controllers/index.js")
 
 router.get("/", indexControllers.getApartments)
 
+router.get("/search", indexControllers.searchApartments)
+
 router.get("/apartment/:idApartment", indexControllers.getApartmentById)
+
+router.post("/apartment/new-reservation", indexControllers.postNewReservation)
 
 module.exports = router;

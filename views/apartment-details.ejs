@@ -26,7 +26,7 @@
             </div>
           <footer>
             <div>
-              <%= selectedApartment.price %> €/night
+              <del style="color:grey"><%= selectedApartment.price %></del> <%= selectedApartment.price * 0.9 %>€/night
             </div>
             <div>
              Description: <%= selectedApartment.description %>
@@ -35,7 +35,7 @@
               Rules: <%= selectedApartment.rules %> 
             </div>
             <div>
-              Number of Bedrooms<%= selectedApartment.bedrooms %> 
+              Number of Bedrooms: <%= selectedApartment.bedrooms %> 
             </div>
             <div>
               Total Beds: <%= selectedApartment.totalBeds %> 
@@ -53,24 +53,35 @@
               Services: 
             </div>
             <div>
-              <%= selectedApartment.tv ? "tv" : "" %> 
-              <%= selectedApartment.airConditioning ? "air conditioning" : "" %> 
-              <%= selectedApartment.centralHeating ? "central heating" : "" %> 
-              <%= selectedApartment.wifi ? "wi-fi" : "" %> 
-              <%= selectedApartment.disabledAccess ? "disabled access" : "" %> 
-              <%= selectedApartment.kitchen ? "kitchen" : "" %> 
+              <%= selectedApartment.tv ? "tv" : "" %> <br>
+              <%= selectedApartment.airConditioning ? "air conditioning" : "" %> <br>
+              <%= selectedApartment.centralHeating ? "central heating" : "" %> <br>
+              <%= selectedApartment.wifi ? "wi-fi" : "" %> <br>
+              <%= selectedApartment.disabledAccess ? "disabled access" : "" %> <br>
+              <%= selectedApartment.kitchen ? "kitchen" : "" %> <br>
+              <br>
             </div>
           </footer>
-          <div>
-            Is the user admin? <%= isAdmin %>
-            <% if (isAdmin) { %>
-                <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">Editar apartamento</a>
-                <% } else { %> <!-- Si no soy adminitrador-->
-
-                    <p>Mostrar botón de reservar con sus campos de fecha de inicio...fecha de fin, etc.</p>
-                    <% } %>
-          </div>
         </article>
+        <div>
+          Is the user admin? <%= isAdmin %>
+          <% if (isAdmin) { %>
+              <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">Editar apartamento</a>
+              <% } else { %> <!-- Si no soy administrador-->
+
+                <form action="/apartment/new-reservation" method="POST">
+                  <label for="id"></label>
+                  <input type="id" name="id" value="<%= selectedApartment._id %>">
+                  <label for="email"></label>
+                  <input type="string" name="email" id="email" placeholder="email" required>
+                  <label for="startDate"></label>
+                  <input type="date" name="startDate" id="startDate" placeholder="start date" required>
+                  <label for="endDate"></label>
+                  <input type="date" name="endDate" id="endDate">
+                  <input type="submit" value="reserve" placeholder="end date" required>
+                </form>
+                  <% } %>
+        </div>
       </main>
 </body>
 </html>
