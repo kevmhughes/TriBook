@@ -14,6 +14,7 @@
         <article class="apartment">
             <header><%= selectedApartment.title %></header>
             <div><img src="<%= selectedApartment.mainPhoto %>" alt="" />
+              <caption><%= selectedApartment.mainPhotoCaption %></caption>
             </div>
             <div><img src="<%= selectedApartment.photoTwo %>" alt="" />
               <caption><%= selectedApartment.photoTwoCaption %></caption>
@@ -28,6 +29,15 @@
             <div>
               <del style="color:grey"><%= selectedApartment.price %></del> <%= selectedApartment.price * 0.9 %>€/night
             </div>
+            <div>
+              City: <%= selectedApartment.city %>
+             </div>
+             <div>
+              Province: <%= selectedApartment.province %>
+             </div>
+             <div>
+              GPS: <%= selectedApartment.gps %>
+             </div>
             <div>
              Description: <%= selectedApartment.description %>
             </div>

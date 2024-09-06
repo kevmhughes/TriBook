@@ -40,6 +40,9 @@ const apartmentSchema = new Schema({
         type: String,
         required: true,
     },
+    mainPhotoCaption: {
+        type: String,
+    },
     photoTwo: {
         type: String,
     },
