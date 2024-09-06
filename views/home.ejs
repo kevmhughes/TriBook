@@ -23,10 +23,15 @@
 </head>
 
 <body>
+
   <form action="/search" method="GET" class="container grid">
+    <input type="number" name="minPrice" id="minPrice" min="0" max="10000" placeholder="min price">
     <input type="number" name="maxPrice" id="maxPrice" min="0" max="10000" placeholder="max price">
-    <input type="submit" value="filter">
+    <input type="number" name="numberOfGuests" id="numberOfGuests" min="0" max="100" placeholder="number of guests">
+    <input type="text" name="location" id="location" placeholder="city/town">
+    <input type="submit" value="search">
   </form>
+
   <main class="container">
     <% for (const ap of apartments) { %>
 

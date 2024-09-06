@@ -21,11 +21,47 @@ const getApartmentById = async (req, res) => {
 }
 
 const searchApartments = async (req, res) => {
-    const { maxPrice } = req.query
-    const apartments = await Apartment.find({price: {$lte: maxPrice}})
+    let { maxPrice, minPrice, numberOfGuests, location } = req.query
+
+    if (minPrice == "") {
+        minPrice = "0"
+    } 
+
+    if (maxPrice == "") {
+        maxPrice = "10000"
+    } 
+
+    if (numberOfGuests == "") {
+        numberOfGuests = "1"
+    } 
+
+    const searchQuery = {
+        price: {
+            $gte: minPrice,
+            $lte: maxPrice
+        },
+        maxNumberOfGuests: {
+            $gte: numberOfGuests
+        }
+    };
+
+    if (location) {
+        searchQuery.city = location;
+    }
+
+
+    const apartments = await Apartment.find(searchQuery);
+
+
+  console.log("min price: ", minPrice)
+  console.log("max price: ", maxPrice)
+  console.log("number of guests: ", numberOfGuests)
+  console.log("location: ", location)
+  console.log("apartment one", apartments[0])
 
     if (apartments.length == 0) {
-        res.send("create an error message later")
+        console.log("number of apartments: ", apartments.length)
+        res.send("create an error message later - SHOW A LIST OF SOME APARTMENTS ANYWAY!!!!")
     }
     res.render("home", {
         apartments
