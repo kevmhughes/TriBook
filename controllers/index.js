@@ -23,25 +23,13 @@ const getApartmentById = async (req, res) => {
 const searchApartments = async (req, res) => {
     let { maxPrice, minPrice, numberOfGuests, location } = req.query
 
-    if (minPrice == "") {
-        minPrice = "0"
-    } 
-
-    if (maxPrice == "") {
-        maxPrice = "10000"
-    } 
-
-    if (numberOfGuests == "") {
-        numberOfGuests = "1"
-    } 
-
     const searchQuery = {
         price: {
-            $gte: minPrice,
-            $lte: maxPrice
+            $gte: minPrice ? minPrice : "0",
+            $lte: maxPrice ? maxPrice : "10000"
         },
         maxNumberOfGuests: {
-            $gte: numberOfGuests
+            $gte: numberOfGuests ? numberOfGuests : "1"
         }
     };
 
@@ -52,10 +40,6 @@ const searchApartments = async (req, res) => {
 
     const apartments = await Apartment.find(searchQuery);
 
-
-  console.log("min price: ", minPrice)
-  console.log("max price: ", maxPrice)
-  console.log("number of guests: ", numberOfGuests)
   console.log("location: ", location)
   console.log("apartment one", apartments[0])
 
@@ -82,7 +66,7 @@ const postNewReservation = async (req, res) => {
    const checkReservation = await Reservation.find()
    .populate('apartment')
 
-   console.log(checkReservation)
+   console.log("check reservation: ", checkReservation)
 
    res.json(req.body);
 
