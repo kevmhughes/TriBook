@@ -74,23 +74,33 @@
           </footer>
         </article>
         <div>
-          Is the user admin? <%= isAdmin %>
+          Is the user admin? <%= isAdmin %><br>
           <% if (isAdmin) { %>
-              <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">Editar apartamento</a>
-              <% } else { %> <!-- Si no soy administrador-->
+            <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">Editar apartamento</a>
+        <% } else if (isUser) { %>
+        
+            <form action="/apartment/new-reservation" method="POST">
+                <label for="id"></label>
+                <input type="hidden" name="id" value="<%= selectedApartment._id %>"> <!-- Changed 'id' input type to 'hidden' -->
+                
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" placeholder="Email" required>
+        
+                <label for="startDate">Start Date:</label>
+                <input type="date" name="startDate" id="startDate" placeholder="Start Date" required>
+        
+                <label for="endDate">End Date:</label>
+                <input type="date" name="endDate" id="endDate" placeholder="End Date" required>
+        
+                <input type="submit" value="Reserve">
+            </form>
+        
+        <% } else if (!isAuthenticated) { %> 
+              <p><a href="/login">Log In</a> or <a href="/sign-up">sign up</a> as a standard user here if you want to make a reservation</p>
+                
 
-                <form action="/apartment/new-reservation" method="POST">
-                  <label for="id"></label>
-                  <input type="id" name="id" value="<%= selectedApartment._id %>">
-                  <label for="email"></label>
-                  <input type="string" name="email" id="email" placeholder="email" required>
-                  <label for="startDate"></label>
-                  <input type="date" name="startDate" id="startDate" placeholder="start date" required>
-                  <label for="endDate"></label>
-                  <input type="date" name="endDate" id="endDate">
-                  <input type="submit" value="reserve" placeholder="end date" required>
-                </form>
-                  <% } %>
+        <% } %>
+        
         </div>
       </main>
 </body>

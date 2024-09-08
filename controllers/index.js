@@ -4,7 +4,9 @@ const Reservation = require("../models/reservation.model.js");
 const getApartments = async (req, res) => {
     const apartments = await Apartment.find();
 
-    console.log(res.locals.isAdmin)
+    console.log("isAdmin?", res.locals.isAdmin)
+    console.log("isUser?", res.locals.isUser)
+    console.log("isAuthenticated?", res.locals.isAuthenticated)
 
     res.render("home", {
         apartments
