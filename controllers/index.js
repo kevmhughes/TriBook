@@ -1,120 +1,153 @@
-const Apartment = require('../models/apartment.model.js');
+const Apartment = require("../models/apartment.model.js");
 const Reservation = require("../models/reservation.model.js");
 
+// Get all properties and show on home page
 const getApartments = async (req, res) => {
+  try {
     const apartments = await Apartment.find();
 
-    console.log("isAdmin?", res.locals.isAdmin)
-    console.log("isUser?", res.locals.isUser)
-    console.log("isAuthenticated?", res.locals.isAuthenticated)
+    console.log("isAdmin?", res.locals.isAdmin);
+    console.log("isUser?", res.locals.isUser);
+    console.log("isAuthenticated?", res.locals.isAuthenticated);
 
-    res.render("home", {
-        apartments
-    })
-}
+    res.render("home", { apartments, zeroResultsMessage: false });
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+    res.status(500).json({ error: "Failed to fetch apartments" });
+  }
+};
 
+// Get a specific property by ID and its reserved dates
 const getApartmentById = async (req, res) => {
-    const {idApartment} = req.params 
-    const selectedApartment = await Apartment.findById(idApartment);
+  const { idApartment } = req.params;
 
+  try {
+    const selectedApartment = await Apartment.findById(idApartment);
     const reservations = await Reservation.find({ apartment: idApartment });
 
     const reservedDates = reservations.reduce((acc, reservation) => {
-        const { startDate, endDate } = reservation; // Assuming your schema has these fields
-        const range = getDateRange(new Date(startDate), new Date(endDate));
-        return acc.concat(range);
+      const { startDate, endDate } = reservation;
+      const range = getDateRange(new Date(startDate), new Date(endDate));
+      return acc.concat(range);
     }, []);
 
     res.render("apartment-details", {
-        selectedApartment,
-        reservedDates
-    })
+      selectedApartment,
+      reservedDates,
+    });
+  } catch (error) {
+    console.error("Error fetching apartment details:", error);
+    res.status(500).json({ error: "Failed to fetch apartment details" });
+  }
+};
 
-    function getDateRange(startDate, endDate) {
-        const dates = [];
-        let currentDate = new Date(startDate);
-    
-        while (currentDate <= endDate) {
-            dates.push(new Date(currentDate));
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-    
-        console.log("these are the dates", dates)
-        return dates;
-    }
-}
-
+// Search for properties based on filters
 const searchApartments = async (req, res) => {
-    let { maxPrice, minPrice, numberOfGuests, location } = req.query
+  let { maxPrice, minPrice, numberOfGuests, location } = req.query;
 
-    const searchQuery = {
-        price: {
-            $gte: minPrice ? minPrice : "0",
-            $lte: maxPrice ? maxPrice : "10000"
-        },
-        maxNumberOfGuests: {
-            $gte: numberOfGuests ? numberOfGuests : "1"
-        }
-    };
+  const searchQuery = {
+    price: {
+      $gte: minPrice ? minPrice : "0",
+      $lte: maxPrice ? maxPrice : "10000",
+    },
+    maxNumberOfGuests: {
+      $gte: numberOfGuests ? numberOfGuests : "1",
+    },
+  };
 
-    if (location) {
-        searchQuery.city = location;
-    }
+  if (location) {
+    searchQuery.city = location;
+  }
 
-
+  try {
     const apartments = await Apartment.find(searchQuery);
 
-  console.log("location: ", location)
-  console.log("apartment one", apartments[0])
-
     if (apartments.length == 0) {
-        console.log("number of apartments: ", apartments.length)
-        res.send("create an error message later - SHOW A LIST OF SOME APARTMENTS ANYWAY!!!!")
+      const defaultApartments = await Apartment.find().limit(5); // Fetch 5 default properties
+      return res.render("home", {
+        apartments: defaultApartments,
+        zeroResultsMessage: true,
+      });
     }
-    res.render("home", {
-        apartments
-    })
-}
 
+    res.render("home", { apartments, zeroResultsMessage: false });
+  } catch (error) {
+    console.error("Error during property search:", error);
+    res.status(500).json({ error: "Failed to search for properties" });
+  }
+};
+
+// Post a new reservation for a specific apartment
 const postNewReservation = async (req, res) => {
+  const startDate = new Date(req.body.startDate);
+  const endDate = new Date(req.body.endDate);
 
-    const startDate = new Date(req.body.startDate)
-    const endDate = new Date(req.body.endDate)
+  if (isNaN(startDate) || isNaN(endDate)) {
+    return res.status(400).json({ error: "Invalid dates provided." });
+  }
 
+  try {
+    // Get all reservations for this apartment
+    const reservations = await Reservation.find({ apartment: req.body.id });
+
+    // Create an array of all reserved dates
+    const reservedDates = reservations.reduce((acc, reservation) => {
+      const { startDate, endDate } = reservation;
+      const range = getDateRange(new Date(startDate), new Date(endDate));
+      return acc.concat(range);
+    }, []);
+
+    // Get the range of dates for the new reservation
+    const dateRangeForNewReservation = getDateRange(startDate, endDate);
+
+    // Check if any of the new reservation dates overlap with existing booking dates
+    const hasOverlap = dateRangeForNewReservation.some((date) =>
+      reservedDates.some(
+        (reservedDate) => date.getTime() === reservedDate.getTime()
+      )
+    );
+
+    if (hasOverlap) {
+      return res
+        .status(400)
+        .json({ error: "The requested dates are not available." });
+    }
+
+    // Ensure the start date is before the end date
     if (startDate < endDate) {
-        const booking = await Reservation.create(
-            {   
-            email: req.body.email,
-            startDate: req.body.startDate,
-            endDate: req.body.endDate,
-            apartment: req.body.id
-            }
-       );
+      await Reservation.create({
+        email: req.body.email,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+        apartment: req.body.id,
+      });
 
-       console.log("this is the booking", booking)
-       const bookedApartment = await Reservation.find(booking._id)
-       .populate('apartment')
-       console.log("this is the apartment", bookedApartment[0].apartment.title )
-       /* const checkReservation = await Reservation.find()
-       .populate('apartment') */
-       /* console.log("this is the apartment", checkReservation) */
+      res.render("reservation");
+    } else {
+      res.status(400).json({ error: "Invalid date range." });
+    }
+  } catch (error) {
+    console.error("Error posting reservation:", error);
+    res.status(500).json({ error: "Failed to create reservation" });
+  }
+};
 
-       res.render("reservation", {booking, bookedApartment})
-    
-     } else {
-        res.json(req.body)
-     }
+// Helper function to generate all dates between start and end date
+function getDateRange(startDate, endDate) {
+  const dates = [];
+  let currentDate = new Date(startDate);
 
-  /*  const checkReservation = await Reservation.find()
-   .populate('apartment') */
+  while (currentDate <= endDate) {
+    dates.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
 
-   /* res.json(req.body); */
-
+  return dates;
 }
 
 module.exports = {
-    getApartments,
-    getApartmentById,
-    searchApartments,
-    postNewReservation
-}
+  getApartments,
+  getApartmentById,
+  searchApartments,
+  postNewReservation,
+};

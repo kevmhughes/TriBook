@@ -1,0 +1,26 @@
+#logo {
+    height: 100px;
+}
+
+#header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#login-button {
+    color: white;
+    text-decoration: none;
+}
+
+.services {
+    display: flex;
+  }
+
+  .services div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    /* Adjust the spacing between icons as needed */
+  }

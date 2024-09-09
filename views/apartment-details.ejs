@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-  />
+  <%- include('partials/head', { title: 'Apartment Details'}) %>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
+  <%- include('partials/header') %>
+
     <main class="container">
         <article class="apartment">
             <header><%= selectedApartment.title %></header>
@@ -77,15 +73,14 @@
         <div>
           Is the user admin? <%= isAdmin %><br>
           <% if (isAdmin) { %>
-            <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">Editar apartamento</a>
+            <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">Edit the apartment</a>
         <% } else if (isUser) { %>
         
             <form action="/apartment/new-reservation" method="POST">
                 <label for="id"></label>
                 <input type="hidden" name="id" value="<%= selectedApartment._id %>"> 
                 
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" placeholder="Email" required>
+                <input type="email" name="email" id="email" placeholder="e-mail" required>
                 <input type="text" id="datepicker" name="startDate" id="startDate=" placeholder="start date">
                 <input type="text" id="datepicker" name="endDate" id="endDate=" placeholder="end date">
 

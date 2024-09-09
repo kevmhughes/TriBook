@@ -1,24 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+    <%- include('partials/head', { title: 'Reservation'}) %>
 </head>
 <body>
-    <!-- formats the start date of the reservation to a more legible date -->
-    <% const dateOne = new Date(booking.startDate); %>
-    <% const optionsOne = { year: 'numeric', month: 'long', day: 'numeric' }; %>
-    <% const formattedStartDate = dateOne.toLocaleDateString('en-US', optionsOne); %>
-    <!-- formats the end date of the reservation to a more legible date -->
-    <% const dateTwo = new Date(booking.endDate); %>
-    <% const optionsTwo = { year: 'numeric', month: 'long', day: 'numeric' }; %>
-    <% const formattedEndDate = dateTwo.toLocaleDateString('en-US', optionsTwo); %>
+    <%- include('partials/header') %>
 
-    <main class="container">
-        <h1>Your reservation from <%= formattedStartDate %> to <%= formattedEndDate %> has been made successfully</h1>
-        <p><%= bookedApartment[0].apartment.title %></p>
-    </main>
 </body>
 </html>
