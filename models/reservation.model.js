@@ -8,19 +8,17 @@ const reservationSchema = new Schema({
         required: true
     },
     startDate: {
-        type: String,
+        type: Date,
         required: true
     },
     endDate: {
-        type: String,
+        type: Date,
         required: true
     },
-    status: {
-        type: String,
-        enum: ["Pending", "Accepted", "Rejected"],
-        default: "Pending"
-    },
-    apartment: { type: Schema.Types.ObjectId, ref: 'Apartment' }
+    apartment: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'Apartment', 
+        required: true }
 })
 
 const Reservation = model('Reservation', reservationSchema);

@@ -14,12 +14,34 @@ const getApartments = async (req, res) => {
 }
 
 const getApartmentById = async (req, res) => {
-    const {idApartment } = req.params 
+    const {idApartment} = req.params 
     const selectedApartment = await Apartment.findById(idApartment);
 
+    const reservations = await Reservation.find({ apartment: idApartment });
+
+    const reservedDates = reservations.reduce((acc, reservation) => {
+        const { startDate, endDate } = reservation; // Assuming your schema has these fields
+        const range = getDateRange(new Date(startDate), new Date(endDate));
+        return acc.concat(range);
+    }, []);
+
     res.render("apartment-details", {
-        selectedApartment
+        selectedApartment,
+        reservedDates
     })
+
+    function getDateRange(startDate, endDate) {
+        const dates = [];
+        let currentDate = new Date(startDate);
+    
+        while (currentDate <= endDate) {
+            dates.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+    
+        console.log("these are the dates", dates)
+        return dates;
+    }
 }
 
 const searchApartments = async (req, res) => {
@@ -56,21 +78,37 @@ const searchApartments = async (req, res) => {
 
 const postNewReservation = async (req, res) => {
 
-   await Reservation.create(
-        {   
-        email: req.body.email,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
-        apartment: req.body.id
-        }
-   );
+    const startDate = new Date(req.body.startDate)
+    const endDate = new Date(req.body.endDate)
 
-   const checkReservation = await Reservation.find()
-   .populate('apartment')
+    if (startDate < endDate) {
+        const booking = await Reservation.create(
+            {   
+            email: req.body.email,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate,
+            apartment: req.body.id
+            }
+       );
 
-   console.log("check reservation: ", checkReservation)
+       console.log("this is the booking", booking)
+       const bookedApartment = await Reservation.find(booking._id)
+       .populate('apartment')
+       console.log("this is the apartment", bookedApartment[0].apartment.title )
+       /* const checkReservation = await Reservation.find()
+       .populate('apartment') */
+       /* console.log("this is the apartment", checkReservation) */
 
-   res.json(req.body);
+       res.render("reservation", {booking, bookedApartment})
+    
+     } else {
+        res.json(req.body)
+     }
+
+  /*  const checkReservation = await Reservation.find()
+   .populate('apartment') */
+
+   /* res.json(req.body); */
 
 }
 

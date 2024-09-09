@@ -8,6 +8,7 @@
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
   />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
     <main class="container">
@@ -81,27 +82,40 @@
         
             <form action="/apartment/new-reservation" method="POST">
                 <label for="id"></label>
-                <input type="hidden" name="id" value="<%= selectedApartment._id %>"> <!-- Changed 'id' input type to 'hidden' -->
+                <input type="hidden" name="id" value="<%= selectedApartment._id %>"> 
                 
                 <label for="email">Email:</label>
                 <input type="email" name="email" id="email" placeholder="Email" required>
-        
-                <label for="startDate">Start Date:</label>
-                <input type="date" name="startDate" id="startDate" placeholder="Start Date" required>
-        
-                <label for="endDate">End Date:</label>
-                <input type="date" name="endDate" id="endDate" placeholder="End Date" required>
-        
+                <input type="text" id="datepicker" name="startDate" id="startDate=" placeholder="start date">
+                <input type="text" id="datepicker" name="endDate" id="endDate=" placeholder="end date">
+
                 <input type="submit" value="Reserve">
             </form>
         
         <% } else if (!isAuthenticated) { %> 
-              <p><a href="/login">Log In</a> or <a href="/sign-up">sign up</a> as a standard user here if you want to make a reservation</p>
+              <p><a href="/login">Log in</a> or <a href="/sign-up">sign up</a> as a standard user here if you want to make a reservation</p>
                 
 
         <% } %>
         
         </div>
       </main>
+
+      <!-- Include Flatpickr JS from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+  
+const reservedDates = <%- JSON.stringify(reservedDates.map(date => date.toISOString().split('T')[0])) %>;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        flatpickr("#datepicker", {
+            enableTime: false,
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            disable: reservedDates // Example of disabling specific dates
+        });
+    });
+</script>
 </body>
 </html>
