@@ -15,7 +15,7 @@
                 <input type="password" name="password" placeholder="Contraseña" required />
                 <button type="submit">Log In</button>
                 <% if (loginMessage) { %>
-                    <div style="background-color: green;">
+                    <div id="message">
                         That user already exists, please proceed to log in with your username and password
                     </div>
                     <% } else { %>

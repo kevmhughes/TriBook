@@ -1,24 +1,18 @@
 const User = require("../models/user.model.js");
 
-/* const USERNAME = "admin";
-const PASSWORD = "admin";
- */
 const getLoginForm = (req, res) => {
     res.render("login", {
         loginMessage: false
     })
-
 }
 
 const getSignUpForm = (req, res) => {
     res.render("sign-up", {
         signupMessage: false
     })
-
 }
 
 const postSignUpForm = async (req, res) => {
-
 
     const {password, username} = req.body
 
@@ -41,10 +35,10 @@ const postLoginForm = async (req, res) => {
     const isUserInDatabase = await User.find(req.body)
 
     if (isUserInDatabase.length == 0) {
-        res.redirect("/sign-up")
-    }
-
- if (isUserInDatabase && isUserInDatabase[0].userType == "admin") {
+        res.render("sign-up", {
+            signupMessage: true
+        })
+    } else if (isUserInDatabase && isUserInDatabase[0].userType == "admin") {
         console.log("after login: admin user")
         req.session.isAuthenticated = true;
         req.session.userType = "admin"

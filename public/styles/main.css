@@ -13,6 +13,13 @@
     text-decoration: none;
 }
 
+#message {
+    background-color: green;
+    padding: 18px;
+    border-radius: 5px;
+    color: white;
+}
+
 .services {
     display: flex;
   }

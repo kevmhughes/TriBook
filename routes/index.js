@@ -8,6 +8,8 @@ router.get("/", indexControllers.getApartments)
 
 router.get("/search", indexControllers.searchApartments)
 
+router.get("/dashboard", indexControllers.getDashboard)
+
 router.get("/apartment/:idApartment", indexControllers.getApartmentById)
 
 router.post("/apartment/new-reservation", indexControllers.postNewReservation)

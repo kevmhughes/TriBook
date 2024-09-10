@@ -1,6 +1,10 @@
 const Apartment = require("../models/apartment.model.js");
 const Reservation = require("../models/reservation.model.js");
 
+const getDashboard = async (req, res) => {
+  res.render("dashboard")
+}
+
 // Get all properties and show on home page
 const getApartments = async (req, res) => {
   try {
@@ -146,6 +150,7 @@ function getDateRange(startDate, endDate) {
 }
 
 module.exports = {
+  getDashboard,
   getApartments,
   getApartmentById,
   searchApartments,

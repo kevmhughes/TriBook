@@ -9,17 +9,14 @@
   <%- include('partials/header') %>
 
   <div class="container">
-    <p>
-      <% if (isAdmin) { %> <a href="/admin/apartment/new-apartment">Add a new apartment</a>
-        <% } %>
-    </p>
-    <p>
-      <% if (isUser) { %>
-        <p><a class="button-logout" href="/sign-up">Create</a> or <a class="button-logout" href="/login">log in</a> to
-          your admin account if you want to list an apartment on this app.</p>
-        <% } %>
-    </p>
+    <% if (isAdmin) { %>
+      <p><a href="/admin/apartment/new-apartment">Add a new apartment</a></p>
+    <% } %>
   
+    <% if (isUser) { %>
+      <p><a class="button-logout" href="/sign-up">Create</a> or <a class="button-logout" href="/login">log in</a> to
+      an admin account if you want to list an apartment on this app.</p>
+    <% } %>
   </div>
 
   <form action="/search" method="GET" class="container grid">
@@ -32,11 +29,17 @@
 
   <main class="container">
 
-    <% if (zeroResultsMessage) { %>
-      <div class="alert alert-info">
-          <p>No results were found for your search. However, the following properties might be of interest to you. </p>
+    <% if (zeroResultsMessage && apartments.length == 0) { %>
+      <div id="message">
+          No results were found for your search. Feel free to list an apartment with an admin account. 
       </div>
   <% } %>
+
+  <% if (zeroResultsMessage && apartments.length > 0) { %>
+    <div id="message">
+        No results were found for your search. However, the following properties might be of interest to you.
+    </div>
+<% } %>
 
     <% for (const ap of apartments) { %>
 
