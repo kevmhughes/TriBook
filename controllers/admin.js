@@ -20,7 +20,6 @@ const getEditApartmentForm = async (req, res) => {
     const apartment = await Apartment.findById(idApartment);
 
     if (!apartment) {
-      // Render the custom 404 page with a message
       return res.status(404).render("404", {
         message: "Apartment not found. It might have been removed or the ID might be incorrect.",
       });
@@ -37,12 +36,10 @@ const getEditApartmentForm = async (req, res) => {
   }
 };
 
-// Post new property to the database
+// Post new apartment to the database
 const postNewApartment = async (req, res) => {
   try {
-    // Extract apartment ID from the request body
     const { id, listed } = req.body;
-
     // Handle checkbox default value
     const isListed = listed === 'true'; // Checkbox value is sent as a string
 
@@ -56,19 +53,16 @@ const postNewApartment = async (req, res) => {
       "wifi"
     ];
 
-    // Set values to false for services that are not included in the request
+    // Set values to false for services that are "undefined" in the request
     services.forEach(service => {
       if (req.body[service] === undefined) {
         req.body[service] = false;
       }
     });
 
-
-    // !!! testing ground
     req.body.latitude = parseFloat(req.body.latitude);
     req.body.longitude = parseFloat(req.body.longitude);
 
-    // Update or create apartment
     if (id) {
       // Update existing apartment if ID is provided
       await Apartment.findByIdAndUpdate(id, { listed: isListed, ...req.body });
