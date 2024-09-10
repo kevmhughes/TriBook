@@ -60,6 +60,11 @@ const postNewApartment = async (req, res) => {
       }
     });
 
+
+    // !!! testing ground
+    req.body.latitude = parseFloat(req.body.latitude);
+    req.body.longitude = parseFloat(req.body.longitude);
+
     if (id) {
       // Update existing apartment if ID is provided
       await Apartment.findByIdAndUpdate(id, req.body);

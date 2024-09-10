@@ -54,7 +54,7 @@
                 <button>Details</button>
               </a>
               <a href="mailto:<%= res.apartment.user.email %>">
-                <button style="background-color: green;">Contact Host</button>
+                <button>Contact Host</button>
               </a>
             </div>
           </footer>
@@ -82,14 +82,16 @@
                 <div>
                   <%= ap.price %>€/night
                 </div>
+                <%= ap.size %> M <sup>2</sup>
+              </footer>
+              <footer>
                 <div>
-                  <%= ap.size %> M <sup>2</sup>
                     <div style="display: flex; justify-content: space-between;">
                       <a href="/apartment/<%= ap._id %>">
-                        <button>details</button>
+                        <button>Details</button>
                       </a>
                       <a href="/delist/<%= ap._id %>">
-                        <button style="background-color: red;">delist</button>
+                        <button id="alert">Delist</button>
                       </a>
                     </div>
                 </div>
@@ -111,7 +113,7 @@
                   <p>user: <%= my.user.username %></p>
                   <p>contact e-mail: <%= my.user.email %></p>
                 <footer>
-
+                  <button>Contact Guest</button>
                 </footer>
               </article>
   

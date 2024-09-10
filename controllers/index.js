@@ -4,7 +4,7 @@ const Reservation = require("../models/reservation.model.js");
 const getDashboard = async (req, res) => {
   try {
     if (res.locals.isAuthenticated){
-      // get list of all reservations - made by specific standard user
+      // Get list of all reservations - made by specific standard user
       const reservations = await Reservation.find({user: userData.id}).populate({
         path: 'apartment',
         populate: {
@@ -14,18 +14,13 @@ const getDashboard = async (req, res) => {
       })
       .exec();
 
-      // get list of all reservations - owned by specific admin user
+      // Get list of all reservations 
       const allApartmentsBooked = await Reservation.find().populate("apartment").populate("user");
 
-      console.log("all apartments booked: ", allApartmentsBooked[0])
-
+      // Filter reservation by specific admin used per used id
       const myApartmentsBooked = allApartmentsBooked.filter(ap => ap.apartment.user._id.toString() === userData.id)
 
-      console.log("my apartments booked", myApartmentsBooked)
-      console.log("find apartment owner user id: ", allApartmentsBooked[0].apartment.user._id.toString() === userData.id)
-      console.log("userdata id: ", userData.id)
-
-      // get list of all apartments - owned by specific admin user
+      // Get list of all apartments - owned by specific admin user
       const apartments = await Apartment.find({user: userData.id})
       
       res.render("dashboard", {reservations, apartments, myApartmentsBooked}) 

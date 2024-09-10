@@ -3,7 +3,11 @@
 <head>
   <%- include('partials/head', { title: 'Apartment Details'}) %>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
+<style>
+  #map { height: 300px; }
+</style>
 <body>
   <%- include('partials/header') %>
 
@@ -33,7 +37,10 @@
               Province: <%= selectedApartment.province %>
              </div>
              <div>
-              GPS: <%= selectedApartment.gps %>
+              Latitude: <%= selectedApartment.latitude %>
+             </div>
+             <div></div>
+              Longitude: <%= selectedApartment.longitude %>
              </div>
             <div>
              Description: <%= selectedApartment.description %>
@@ -68,6 +75,18 @@
               <%= selectedApartment.kitchen ? "kitchen" : "" %> <br>
               <br>
             </div>
+          </footer>
+          <footer>
+            <% if (isAdmin && selectedApartment.user == userData.id) { %>
+              <button id="alert">Delist</button>
+            <% } %>
+
+            <% if (isUser) { %>
+              <button>Contact Host</button>
+            <% } %>
+          </footer>
+          <footer>
+            <div style="box-sizing: unset;" id="map"></div>
           </footer>
         </article>
         <div>
@@ -108,9 +127,34 @@ const reservedDates = <%- JSON.stringify(reservedDates.map(date => date.toISOStr
             enableTime: false,
             dateFormat: "Y-m-d",
             minDate: "today",
-            disable: reservedDates // Example of disabling specific dates
+            disable: reservedDates 
         });
     });
 </script>
+
+<!-- !!! testing ground -->
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Ensure latitude and longitude are properly parsed
+      var lat = parseFloat(<%= JSON.stringify(selectedApartment.latitude) %>);
+      var lng = parseFloat(<%= JSON.stringify(selectedApartment.longitude) %>);
+      
+      // Check for valid coordinates
+      if (!isNaN(lat) && !isNaN(lng)) {
+        var map = L.map('map').setView([lat, lng], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([lat, lng]).addTo(map);
+      } else {
+        console.error("Invalid latitude or longitude values.");
+      }
+    });
+  </script>
 </body>
 </html>

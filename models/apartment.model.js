@@ -73,8 +73,11 @@ const apartmentSchema = new Schema({
     city: {
         type: String,
     },
-    gps: {
-        type: String,
+    latitude: {
+        type: Number,
+    },
+    longitude: {
+        type: Number,
     },
     user: { 
         type: Schema.Types.ObjectId, 
