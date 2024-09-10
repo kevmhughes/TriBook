@@ -1,58 +1,66 @@
 const Apartment = require("../models/apartment.model.js");
 const Reservation = require("../models/reservation.model.js");
+const { getDateRange } = require("../utils/dateUtils.js")
 
 const getDashboard = async (req, res) => {
   try {
-    if (res.locals.isAuthenticated){
+    if (res.locals.isAuthenticated) {
       // Get list of all reservations - made by specific standard user
-      const reservations = await Reservation.find({user: userData.id}).populate({
-        path: 'apartment',
-        populate: {
-          path: 'user', // Populate the user field inside the apartment
-          select: 'name email' // Select which fields to include from the user schema
-        }
-      })
-      .exec();
+      const reservations = await Reservation.find({ user: userData.id })
+        .populate({
+          path: "apartment",
+          populate: {
+            path: "user", // Populate the user field inside the apartment
+            select: "name email", // Select which fields to include from the user schema
+          },
+        })
+        .exec();
 
-      // Get list of all reservations 
-      const allApartmentsBooked = await Reservation.find().populate("apartment").populate("user");
+      // Get list of all reservations and populate the user object
+      const allApartmentsBooked = await Reservation.find()
+        .populate("apartment")
+        .populate("user");
 
-      // Filter reservation by specific admin used per used id
-      const myApartmentsBooked = allApartmentsBooked.filter(ap => ap.apartment.user._id.toString() === userData.id)
+      // Filter reservations by admin user id so that an admin only sees their apartment reservations
+      const myApartmentsBooked = allApartmentsBooked.filter(
+        (ap) => ap.apartment.user._id.toString() === userData.id
+      );
 
-      // Get list of all apartments - owned by specific admin user
-      const apartments = await Apartment.find({user: userData.id})
-      
-      res.render("dashboard", {reservations, apartments, myApartmentsBooked}) 
+      // Get list of all apartments owned by admin user using their user id
+      const apartments = await Apartment.find({ user: userData.id });
+
+      res.render("dashboard", { reservations, apartments, myApartmentsBooked });
     } else {
-      res.status(404).render("404", {message: "You must log in to see your dashboard."})
+      res
+        .status(404)
+        .render("404", { message: "You must log in to see your dashboard." });
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
+// Render reservation.ejs with success message and further call to action buttons
 const getReservation = async (req, res) => {
   try {
-    if (res.locals.isAuthenticated && res.locals.isUser){
-      res.render("reservation") 
+    if (res.locals.isAuthenticated && res.locals.isUser) {
+      res.render("reservation");
     } else {
-      res.status(404).render("404", {message: "You must log in before making a reservation."})
+      res
+        .status(404)
+        .render("404", {
+          message: "You must log in before making a reservation.",
+        });
     }
   } catch (error) {
-    
+    console.error("Error fetching reservation confirmation:", error);
+    res.status(500).json({ error: "Failed to fetch reservation confirmation" });
   }
-}
+};
 
-// Get all properties and show on home page
+// Get all listed properties to show on opening home page
 const getApartments = async (req, res) => {
   try {
-    const apartments = await Apartment.find({listed: true});
-
-    console.log("isAdmin?", res.locals.isAdmin);
-    console.log("isUser?", res.locals.isUser);
-    console.log("isAuthenticated?", res.locals.isAuthenticated);
-
+    // Find all apartments in the database that have been listed by their respective hosts (admin users)
+    const apartments = await Apartment.find({ listed: true });
     res.render("home", { apartments, zeroResultsMessage: false });
   } catch (error) {
     console.error("Error fetching properties:", error);
@@ -62,12 +70,14 @@ const getApartments = async (req, res) => {
 
 // Get a specific property by ID and its reserved dates
 const getApartmentById = async (req, res) => {
-  const { idApartment } = req.params;
-
   try {
+    const { idApartment } = req.params;
+    // Find the apartment
     const selectedApartment = await Apartment.findById(idApartment);
+    // Find all reservations of that apartment
     const reservations = await Reservation.find({ apartment: idApartment });
 
+    // Find all reserved dates of all reservations of the specific apartment
     const reservedDates = reservations.reduce((acc, reservation) => {
       const { startDate, endDate } = reservation;
       const range = getDateRange(new Date(startDate), new Date(endDate));
@@ -86,15 +96,17 @@ const getApartmentById = async (req, res) => {
 
 // Search for properties based on filters
 const searchApartments = async (req, res) => {
-  let { maxPrice, minPrice, numberOfGuests, location } = req.query;
+  let { maxPrice, minPrice, numberOfGuests, location, startDate, endDate } =
+    req.query;
 
+  // set default values if and when no value is given by the user in the input of the HTML form
   const searchQuery = {
     price: {
-      $gte: minPrice ? minPrice : "0",
-      $lte: maxPrice ? maxPrice : "10000",
+      $gte: minPrice || "0",
+      $lte: maxPrice || "10000",
     },
     maxNumberOfGuests: {
-      $gte: numberOfGuests ? numberOfGuests : "1",
+      $gte: numberOfGuests || "1",
     },
   };
 
@@ -103,15 +115,40 @@ const searchApartments = async (req, res) => {
   }
 
   try {
+    let reservedApartmentIds = [];
+
+    // Check if startDate and endDate are provided
+    if (startDate && endDate) {
+      // Convert the startDate and endDate to JavaScript Date objects
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+
+      // Find all reservations that overlap with the given date range
+      const reservations = await Reservation.find({
+        $or: [
+          {
+            startDate: { $lte: end }, // Reservation starts before or on the search end date
+            endDate: { $gte: start }, // Reservation ends after or on the search start date
+          },
+        ],
+      }).select("apartment");
+
+      // Get the apartment IDs that are reserved in the given range
+      reservedApartmentIds = reservations.map(
+        (reservation) => reservation.apartment
+      );
+    }
+
+    // Add condition to exclude reserved apartments if there are any
+    if (reservedApartmentIds.length > 0) {
+      searchQuery._id = { $nin: reservedApartmentIds }; // Exclude reserved apartments
+    }
+
+    // Filter apartments based on search query
     const apartments = await Apartment.find(searchQuery);
 
-    // !!! testing ground
-    const reservations = await Reservation.find();
-    console.log("searching for apartments:", apartments[0])
-    console.log("searching for reservations:", reservations[0])
-
     if (apartments.length == 0) {
-      const defaultApartments = await Apartment.find().limit(5); // Fetch 5 default properties
+      const defaultApartments = await Apartment.find().limit(5); // Fetch 5 default properties if filter gives zero results
       return res.render("home", {
         apartments: defaultApartments,
         zeroResultsMessage: true,
@@ -135,7 +172,7 @@ const postNewReservation = async (req, res) => {
   }
 
   try {
-    // Get all reservations for this apartment
+    // Get all reservations for the specific apartment using the apartment's id
     const reservations = await Reservation.find({ apartment: req.body.id });
 
     // Create an array of all reserved dates
@@ -155,6 +192,7 @@ const postNewReservation = async (req, res) => {
       )
     );
 
+    // Send error message if there are overlapping dates
     if (hasOverlap) {
       return res
         .status(400)
@@ -180,19 +218,6 @@ const postNewReservation = async (req, res) => {
     res.status(500).json({ error: "Failed to create reservation" });
   }
 };
-
-// Helper function to generate all dates between start and end date
-function getDateRange(startDate, endDate) {
-  const dates = [];
-  let currentDate = new Date(startDate);
-
-  while (currentDate <= endDate) {
-    dates.push(new Date(currentDate));
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-
-  return dates;
-}
 
 module.exports = {
   getDashboard,
