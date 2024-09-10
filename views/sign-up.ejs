@@ -10,13 +10,14 @@
         <main class="container">
 
             <form method="POST" action="/sign-up">
-                <input type="text" name="username" placeholder="Usuario" required />
-                <input type="password" name="password" placeholder="Contraseña" required />
+                <input type="text" name="username" id="username" placeholder="Username" required />
+                <input type="password" name="password" id="password" placeholder="Password" required />
+                <input type="text" name="email" id=""email placeholder="email" required>
+                
                 <label for="userType">Choose Your User Type:</label>
-
                 <select name="userType" id="userType">
-                    <option value="standard">standard</option>
-                    <option value="admin">admin</option>
+                    <option value="standard">Standard</option>
+                    <option value="admin">Admin</option>
                 </select>
 
                 <button type="submit">Sign Up</button>

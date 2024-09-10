@@ -37,6 +37,9 @@ app.use((req, res, next) => {
     // Si el usuario esta autentificado entonces es que es de tipo administrador
     
     if (req.session.isAuthenticated) {
+        // testing area
+        res.locals.userData = userData
+
         res.locals.isAuthenticated = true;
         res.locals.isAdmin = req.session.userType === "admin"; // Check if admin
         res.locals.isUser = req.session.userType === "standard"; // Check if standard user

@@ -2,7 +2,38 @@ const Apartment = require("../models/apartment.model.js");
 const Reservation = require("../models/reservation.model.js");
 
 const getDashboard = async (req, res) => {
-  res.render("dashboard")
+  try {
+    if (res.locals.isAuthenticated){
+      // get list of all reservations - made by specific standard user
+      const reservations = await Reservation.find({user: userData.id}).populate("apartment")
+
+      // get list of all reservations - owned by specific admin user
+      const myApartmentsBooked = await Reservation.find().populate("apartment").populate("user")
+
+      console.log("my apartments booked - dashboard: ", myApartmentsBooked)
+
+      // get list of all apartments - owned by specific admin user
+      const apartments = await Apartment.find({user: userData.id})
+      
+      res.render("dashboard", {reservations, apartments, myApartmentsBooked}) 
+    } else {
+      res.status(404).render("404", {message: "You must log in to see your dashboard."})
+    }
+  } catch (error) {
+    
+  }
+}
+
+const getReservation = async (req, res) => {
+  try {
+    if (res.locals.isAuthenticated && res.locals.isUser){
+      res.render("reservation") 
+    } else {
+      res.status(404).render("404", {message: "You must log in before making a reservation."})
+    }
+  } catch (error) {
+    
+  }
 }
 
 // Get all properties and show on home page
@@ -124,9 +155,10 @@ const postNewReservation = async (req, res) => {
         startDate: req.body.startDate,
         endDate: req.body.endDate,
         apartment: req.body.id,
+        user: userData.id,
       });
 
-      res.render("reservation");
+      res.redirect("/reservation");
     } else {
       res.status(400).json({ error: "Invalid date range." });
     }
@@ -151,6 +183,7 @@ function getDateRange(startDate, endDate) {
 
 module.exports = {
   getDashboard,
+  getReservation,
   getApartments,
   getApartmentById,
   searchApartments,

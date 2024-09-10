@@ -14,8 +14,8 @@
     <% } %>
   
     <% if (isUser) { %>
-      <p><a class="button-logout" href="/sign-up">Create</a> or <a class="button-logout" href="/login">log in</a> to
-      an admin account if you want to list an apartment on this app.</p>
+      <p>If you want to list an apartment on this app, <a class="button-logout" href="/sign-up">create</a> or <a class="button-logout" href="/login">log in</a> to
+      an admin account.</p>
     <% } %>
   </div>
 
@@ -23,7 +23,7 @@
     <input type="number" name="minPrice" id="minPrice" min="0" max="10000" placeholder="min price">
     <input type="number" name="maxPrice" id="maxPrice" min="0" max="10000" placeholder="max price">
     <input type="number" name="numberOfGuests" id="numberOfGuests" min="0" max="100" placeholder="number of guests">
-    <input type="text" name="location" id="location" placeholder="city/town">
+    <input type="text" name="location" id="location" placeholder="location">
     <input type="submit" value="search">
   </form>
 
@@ -31,7 +31,7 @@
 
     <% if (zeroResultsMessage && apartments.length == 0) { %>
       <div id="message">
-          No results were found for your search. Feel free to list an apartment with an admin account. 
+          There are no properties to display. If you have an admin account, feel free to list an apartment. 
       </div>
   <% } %>
 

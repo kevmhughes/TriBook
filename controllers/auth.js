@@ -40,6 +40,10 @@ const postLoginForm = async (req, res) => {
         })
     } else if (isUserInDatabase && isUserInDatabase[0].userType == "admin") {
         console.log("after login: admin user")
+
+        // !!! testing area
+        userData = isUserInDatabase[0]
+
         req.session.isAuthenticated = true;
         req.session.userType = "admin"
         res.locals.isAdmin = true;
@@ -47,6 +51,10 @@ const postLoginForm = async (req, res) => {
         res.redirect('/');
     } else if (isUserInDatabase && isUserInDatabase[0].userType == "standard") {
         console.log("after login: standard user")
+
+         // !!! testing area
+        userData = isUserInDatabase[0]
+
         req.session.isAuthenticated = true;
         req.session.userType = "standard"
         res.locals.isAdmin = false;

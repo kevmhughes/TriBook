@@ -1,18 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <%- include('partials/head', { title: 'Dashboard' }) %>
 </head>
+
 <body>
-    
+  <header class="container">
+    <div id="header-container">
+      <div>
+        <a href="/"><img src="/images/tribook.svg" alt="tribook-logo" id="logo"></a>
+      </div>
+      <nav>
+          <a id="login-button" href="/"><button style="margin-right: 5px;">Home</button></a>
+          <a id="login-button" href="/logout"><button>Log Out</button></a>
+      </nav>
+    </div>
+
+  </header>
+  <div class="container">
     <% if (isUser) { %>
-        <p>account type: standard user</p>
-      <% } %>
+      <div id="message">account type: standard user</div>
+
+      <% for (const res of reservations) { %>
+        <br>
+        <div>
+        <div>These are your reservations:</div>
+        <article class="apartment">
+          <header>
+            <%= res.apartment.title %>
+          </header>
+          <a href="/apartment/<%= res.apartment._id %>">
+            <div><img src="<%= res.apartment.mainPhoto %>" alt="" /></div>
+          </a>
+          <footer>
+            <div>
+              checking-in date: <%= res.startDate %>
+            </div>
+            <div>
+              <%= res.apartment.price %>€/night
+            </div>
+            <div>
+              <%= res.apartment.size %> M <sup>2</sup>
+                <div>
+                  <a href="/apartment/<%= res.apartment._id %>">
+                    <button>details</button>
+                  </a>
+                </div>
+            </div>
+          </footer>
+        </article>        
+      </div>
+
   
-      <% if (isAdmin) { %>
-        <p>account type: admin</p>
+        <% } %>
+
       <% } %>
+
+        <% if (isAdmin) { %>
+          <div id="message">account type: admin</div>
+          <p>These are your aprtaments listed on Tribook:</p>
+          <% for (const ap of apartments) { %>
+
+            <article class="apartment">
+              <header>
+                <%= ap.title %>
+              </header>
+              <a href="/apartment/<%= ap._id %>">
+                <div><img src="<%= ap.mainPhoto %>" alt="" /></div>
+              </a>
+              <footer>
+                <div>
+                  <%= ap.price %>€/night
+                </div>
+                <div>
+                  <%= ap.size %> M <sup>2</sup>
+                    <div>
+                      <a href="/apartment/<%= ap._id %>">
+                        <button>details</button>
+                      </a>
+                    </div>
+                </div>
+              </footer>
+            </article>
+
+            <% } %>
+
+            <p>reservations: </p>
+
+            <% for (const my of myApartmentsBooked) { %>
+
+              <article class="apartment">
+                <header>
+                  <%= my.apartment.title %>
+                </header>
+                  <p>checking-in date: <%= my.startDate %></p>
+                  <p>checking-out date: <%= my.endDate %></p>
+                  <p>user: <%= my.user.username %></p>
+                  <p>contact e-mail: <%= my.user.email %></p>
+                <footer>
+
+                </footer>
+              </article>
+  
+              <% } %>
+  
+          <% } %>
+
+          
+  </div>
 </body>
+
 </html>

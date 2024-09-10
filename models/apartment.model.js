@@ -76,6 +76,10 @@ const apartmentSchema = new Schema({
     gps: {
         type: String,
     },
+    user: {
+        type: String,
+        required: true
+    }
 })
 
 const Apartment = model('Apartment', apartmentSchema);

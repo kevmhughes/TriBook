@@ -24,7 +24,7 @@
             </div>
           <footer>
             <div>
-              <del style="color:grey"><%= selectedApartment.price %></del> <%= selectedApartment.price * 0.9 %>€/night
+              <del style="color:grey"><%= selectedApartment.price %></del> <%= selectedApartment.price * 0.9 %> €/night
             </div>
             <div>
               City: <%= selectedApartment.city %>
@@ -72,15 +72,16 @@
         </article>
         <div>
           Is the user admin? <%= isAdmin %><br>
-          <% if (isAdmin) { %>
+          Is the user the owner of the apartment? <%= isAdmin && selectedApartment.user == userData.id %>
+          <% if (isAdmin && selectedApartment.user == userData.id) { %>
             <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">Edit the apartment</a>
         <% } else if (isUser) { %>
         
             <form action="/apartment/new-reservation" method="POST">
                 <label for="id"></label>
-                <input type="hidden" name="id" value="<%= selectedApartment._id %>"> 
+                <input type="text" name="id" value="<%= selectedApartment._id %>"> 
                 
-                <input type="email" name="email" id="email" placeholder="e-mail" required>
+                <input type="email" name="email" id="email" placeholder="e-mail" value="<%= userData.email%>" required>
                 <input type="text" id="datepicker" name="startDate" id="startDate=" placeholder="start date">
                 <input type="text" id="datepicker" name="endDate" id="endDate=" placeholder="end date">
 

@@ -17,6 +17,8 @@
       <!-- hidden document id -->
       <input type="hidden" name="id" id="id" value="<%= apartment._id %>" />
 
+      <input type="hidden" name="user" id="user" value="<%= userData.id %>">
+
       <label for="title">Title</label>
       <input type="text" name="title" id="title" maxlength="30" required value="<%= apartment.title %>" />
 

@@ -18,7 +18,11 @@ const reservationSchema = new Schema({
     apartment: { 
         type: Schema.Types.ObjectId, 
         ref: 'Apartment', 
-        required: true }
+        required: true },
+    user: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'User', 
+        required: true },
 })
 
 const Reservation = model('Reservation', reservationSchema);

@@ -4,15 +4,15 @@
         <a href="/"><img src="/images/tribook.svg" alt="tribook-logo" id="logo"></a>
       </div>
       <nav>
-        <div >
+        <div>
           <% if (isAuthenticated) { %>
-              <a id="login-button" href="/logout"><button>Log Out</button></a>
               <a id="login-button" href="/dashboard"><button>Dashboard</button></a>
+              <a id="login-button" href="/logout"><button>Log Out</button></a>
             <% } else { %>
               <a id="login-button" href="/login"><button>Log In</button></a>
               <a id="login-button" href="/sign-up"><button>Sign Up</button></a>
                 <% } %>
         </div>
+      </nav>
     </div>
-    </nav>
   </header>
