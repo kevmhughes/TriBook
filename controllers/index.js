@@ -5,12 +5,25 @@ const getDashboard = async (req, res) => {
   try {
     if (res.locals.isAuthenticated){
       // get list of all reservations - made by specific standard user
-      const reservations = await Reservation.find({user: userData.id}).populate("apartment")
+      const reservations = await Reservation.find({user: userData.id}).populate({
+        path: 'apartment',
+        populate: {
+          path: 'user', // Populate the user field inside the apartment
+          select: 'name email' // Select which fields to include from the user schema
+        }
+      })
+      .exec();
 
       // get list of all reservations - owned by specific admin user
-      const myApartmentsBooked = await Reservation.find().populate("apartment").populate("user")
+      const allApartmentsBooked = await Reservation.find().populate("apartment").populate("user");
 
-      console.log("my apartments booked - dashboard: ", myApartmentsBooked)
+      console.log("all apartments booked: ", allApartmentsBooked[0])
+
+      const myApartmentsBooked = allApartmentsBooked.filter(ap => ap.apartment.user._id.toString() === userData.id)
+
+      console.log("my apartments booked", myApartmentsBooked)
+      console.log("find apartment owner user id: ", allApartmentsBooked[0].apartment.user._id.toString() === userData.id)
+      console.log("userdata id: ", userData.id)
 
       // get list of all apartments - owned by specific admin user
       const apartments = await Apartment.find({user: userData.id})

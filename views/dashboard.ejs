@@ -25,7 +25,7 @@
       <% for (const res of reservations) { %>
         <br>
         <div>
-        <div>These are your reservations:</div>
+        <h1>Your confirmed bookings:</h1>
         <article class="apartment">
           <header>
             <%= res.apartment.title %>
@@ -38,15 +38,24 @@
               checking-in date: <%= res.startDate %>
             </div>
             <div>
+              checking-out date: <%= res.endDate %>
+            </div>
+            <div>
               <%= res.apartment.price %>€/night
             </div>
             <div>
               <%= res.apartment.size %> M <sup>2</sup>
-                <div>
-                  <a href="/apartment/<%= res.apartment._id %>">
-                    <button>details</button>
-                  </a>
-                </div>
+            </div>
+            <div>
+              contact e-mail: <%= res.apartment.user.email %>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <a href="/apartment/<%= res.apartment._id %>">
+                <button>Details</button>
+              </a>
+              <a href="mailto:<%= res.apartment.user.email %>">
+                <button style="background-color: green;">Contact Host</button>
+              </a>
             </div>
           </footer>
         </article>        
@@ -59,7 +68,7 @@
 
         <% if (isAdmin) { %>
           <div id="message">account type: admin</div>
-          <p>These are your aprtaments listed on Tribook:</p>
+          <h1>Your apartments listed on Tribook:</h1>
           <% for (const ap of apartments) { %>
 
             <article class="apartment">
@@ -75,9 +84,12 @@
                 </div>
                 <div>
                   <%= ap.size %> M <sup>2</sup>
-                    <div>
+                    <div style="display: flex; justify-content: space-between;">
                       <a href="/apartment/<%= ap._id %>">
                         <button>details</button>
+                      </a>
+                      <a href="/delist/<%= ap._id %>">
+                        <button style="background-color: red;">delist</button>
                       </a>
                     </div>
                 </div>
@@ -86,7 +98,7 @@
 
             <% } %>
 
-            <p>reservations: </p>
+            <h1>Your bookings: </h1>
 
             <% for (const my of myApartmentsBooked) { %>
 
@@ -105,9 +117,11 @@
   
               <% } %>
   
+              <h1>Your delisted apartments:</h1>
+              <h1>WORK ON THIS SECTION!!</h1>
+              
           <% } %>
 
-          
   </div>
 </body>
 

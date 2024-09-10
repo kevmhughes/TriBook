@@ -76,10 +76,10 @@ const apartmentSchema = new Schema({
     gps: {
         type: String,
     },
-    user: {
-        type: String,
-        required: true
-    }
+    user: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'User', 
+        required: true },
 })
 
 const Apartment = model('Apartment', apartmentSchema);

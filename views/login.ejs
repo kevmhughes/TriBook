@@ -6,7 +6,23 @@
 </head>
 
 <body>
-    <%- include('partials/header') %>
+    <header class="container">
+        <div id="header-container">
+          <div>
+            <a href="/"><img src="/images/tribook.svg" alt="tribook-logo" id="logo"></a>
+          </div>
+          <nav>
+            <div>
+              <% if (isAuthenticated) { %>
+                  <a id="login-button" href="/dashboard"><button>Dashboard</button></a>
+                  <a id="login-button" href="/logout"><button>Log Out</button></a>
+                <% } else { %>
+                  <a id="login-button" href="/sign-up"><button>Sign Up</button></a>
+                    <% } %>
+            </div>
+          </nav>
+        </div>
+      </header>
 
         <main class="container">
 

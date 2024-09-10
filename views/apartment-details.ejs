@@ -79,9 +79,8 @@
         
             <form action="/apartment/new-reservation" method="POST">
                 <label for="id"></label>
-                <input type="text" name="id" value="<%= selectedApartment._id %>"> 
-                
-                <input type="email" name="email" id="email" placeholder="e-mail" value="<%= userData.email%>" required>
+                <input type="hidden" name="id" value="<%= selectedApartment._id %>">  
+                <input type="hidden" name="email" id="email" placeholder="e-mail" value="<%= userData.email%>" required>
                 <input type="text" id="datepicker" name="startDate" id="startDate=" placeholder="start date">
                 <input type="text" id="datepicker" name="endDate" id="endDate=" placeholder="end date">
 
