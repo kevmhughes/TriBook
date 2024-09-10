@@ -90,9 +90,7 @@
                       <a href="/apartment/<%= ap._id %>">
                         <button>Details</button>
                       </a>
-                      <a href="/delist/<%= ap._id %>">
-                        <button id="alert">Delist</button>
-                      </a>
+                      <%- ap.listed ? '<button id="message">Listed</button>' : '<button id="alert">Delisted</button>' %>
                     </div>
                 </div>
               </footer>
@@ -118,10 +116,6 @@
               </article>
   
               <% } %>
-  
-              <h1>Your delisted apartments:</h1>
-              <h1>WORK ON THIS SECTION!!</h1>
-              
           <% } %>
 
   </div>

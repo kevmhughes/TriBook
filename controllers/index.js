@@ -47,7 +47,7 @@ const getReservation = async (req, res) => {
 // Get all properties and show on home page
 const getApartments = async (req, res) => {
   try {
-    const apartments = await Apartment.find();
+    const apartments = await Apartment.find({listed: true});
 
     console.log("isAdmin?", res.locals.isAdmin);
     console.log("isUser?", res.locals.isUser);
@@ -104,6 +104,11 @@ const searchApartments = async (req, res) => {
 
   try {
     const apartments = await Apartment.find(searchQuery);
+
+    // !!! testing ground
+    const reservations = await Reservation.find();
+    console.log("searching for apartments:", apartments[0])
+    console.log("searching for reservations:", reservations[0])
 
     if (apartments.length == 0) {
       const defaultApartments = await Apartment.find().limit(5); // Fetch 5 default properties

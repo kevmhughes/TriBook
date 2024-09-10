@@ -18,8 +18,6 @@ const postSignUpForm = async (req, res) => {
 
     const isUserInDatabase = await User.find({password, username})
 
-    console.log(req.body)
-
     if (isUserInDatabase.length > 0) {
         res.render('login', {
             loginMessage: true

@@ -41,7 +41,10 @@ const getEditApartmentForm = async (req, res) => {
 const postNewApartment = async (req, res) => {
   try {
     // Extract apartment ID from the request body
-    const { id } = req.body;
+    const { id, listed } = req.body;
+
+    // Handle checkbox default value
+    const isListed = listed === 'true'; // Checkbox value is sent as a string
 
     // Define the list of service features
     const services = [
@@ -65,14 +68,14 @@ const postNewApartment = async (req, res) => {
     req.body.latitude = parseFloat(req.body.latitude);
     req.body.longitude = parseFloat(req.body.longitude);
 
+    // Update or create apartment
     if (id) {
       // Update existing apartment if ID is provided
-      await Apartment.findByIdAndUpdate(id, req.body);
-      console.log("Apartment updated:", req.body);
+      await Apartment.findByIdAndUpdate(id, { listed: isListed, ...req.body });
       res.send("Apartment updated successfully");
     } else {
       // Create a new apartment if no ID is provided
-      await Apartment.create(req.body);
+      await Apartment.create({ listed: isListed, ...req.body });
       res.send("Apartment added successfully");
     }
   } catch (error) {

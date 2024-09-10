@@ -83,6 +83,10 @@ const apartmentSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'User', 
         required: true },
+    listed: {
+        type: Boolean,
+        default: true
+         } 
 })
 
 const Apartment = model('Apartment', apartmentSchema);
