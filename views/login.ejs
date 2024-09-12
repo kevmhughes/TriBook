@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <%- include('partials/head', { title: 'Log In' }) %>
@@ -30,9 +30,9 @@
                 <input type="text" name="username" placeholder="Username" required />
                 <input type="password" name="password" placeholder="Password" required />
                 <button type="submit">Log In</button>
-                <% if (loginMessage) { %>
-                    <div id="message">
-                        That user already exists, please proceed to log in with your username and password
+                <% if (message) { %>
+                    <div id="alert-message">
+                        <%= message %>
                     </div>
                     <% } else { %>
                         <p></p>

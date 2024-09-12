@@ -2,13 +2,13 @@ const User = require("../models/user.model.js");
 
 const getLoginForm = (req, res) => {
     res.render("login", {
-        loginMessage: false
+        message: ""
     })
 }
 
 const getSignUpForm = (req, res) => {
     res.render("sign-up", {
-        signupMessage: false
+        message: ""
     })
 }
 
@@ -18,9 +18,17 @@ const postSignUpForm = async (req, res) => {
 
     const isUserInDatabase = await User.find({password, username})
 
+    const isUsernameDuplicated = await User.find({username})
+
     if (isUserInDatabase.length > 0) {
         res.render('login', {
-            loginMessage: true
+            /* loginMessage: true */
+            message: "That user already exists, please proceed to log in with your username and password."
+        });
+    } else if (isUsernameDuplicated) {
+        res.render('sign-up', {
+            /* loginMessage: true */
+            message: "That username has already been used, please choose another username."
         });
     } else {
         await User.create(req.body)
@@ -34,7 +42,7 @@ const postLoginForm = async (req, res) => {
 
     if (isUserInDatabase.length == 0) {
         res.render("sign-up", {
-            signupMessage: true
+            message: "That user does not exist, please sign up."
         })
     } else if (isUserInDatabase && isUserInDatabase[0].userType == "admin") {
         console.log("after login: admin user")

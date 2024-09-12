@@ -68,7 +68,7 @@ const getApartments = async (req, res) => {
   }
 };
 
-// Get a specific property by ID and its reserved dates
+// Get a specific property by ID, and get its reserved dates
 const getApartmentById = async (req, res) => {
   try {
     const { idApartment } = req.params;
