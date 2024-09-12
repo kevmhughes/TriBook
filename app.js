@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -23,7 +24,7 @@ const app = express();
 // Tenemos que usar un nuevo middleware para indicar a Express que queremos procesar peticiones de tipo POST
 app.use(express.urlencoded({ extended: true }));
 
-// Configurar sesión
+// Set up session middleware
 app.use(session({
     secret: 'miSecretoSuperSecreto',
     resave: false,
@@ -31,10 +32,16 @@ app.use(session({
     cookie: { secure: false } // secure: true en producción con HTTPS
 }));
 
+// Set up flash middleware
+app.use(flash());
+
 
 app.use((req, res, next) => {
     // La variable req.locals es una variable "global" de tipo objecto a la que todas las vistas pueden acceder
     // Si el usuario esta autentificado entonces es que es de tipo administrador
+
+    res.locals.successMessage = req.flash('success');
+    res.locals.errorMessage = req.flash('error');
     
     if (req.session.isAuthenticated) {
         // testing area

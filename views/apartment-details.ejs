@@ -12,6 +12,12 @@
   <%- include('partials/header') %>
 
     <main class="container">
+                      
+      <% if (errorMessage) { %>
+        <div class="alert alert-error"><%= errorMessage %></div>
+        <br>
+      <% } %>
+
         <article class="apartment">
             <header><%= selectedApartment.title %></header>
             <div><img src="<%= selectedApartment.mainPhoto %>" alt="" />
@@ -28,7 +34,7 @@
             </div>
           <footer>
             <div>
-              <del style="color:grey"><%= selectedApartment.price %></del> <%= selectedApartment.price * 0.9 %> €/night
+              Price: <del style="color:grey"><%= selectedApartment.price %></del> <%= selectedApartment.price * 0.9 %> €/night
             </div>
             <div>
               City: <%= selectedApartment.city %>
@@ -80,10 +86,9 @@
           </footer>
         </article>
         <div>
-          Is the user admin? <%= isAdmin %><br>
-          Is the user the owner of the apartment? <%= isAdmin && selectedApartment.user == userData.id %>
+          <br>
           <% if (isAdmin && selectedApartment.user == userData.id) { %>
-            <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">Edit the apartment</a>
+            <a href="/admin/apartment/<%= selectedApartment._id %>/edit/"><button>Edit the apartment</button></a>
         <% } else if (isUser) { %>
         
             <form action="/apartment/new-reservation" method="POST">

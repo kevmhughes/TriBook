@@ -25,15 +25,17 @@ const postSignUpForm = async (req, res) => {
             /* loginMessage: true */
             message: "That user already exists, please log in with your username and password."
         });
-    } else if (isUsernameDuplicated) {
+    }
+    
+    if (isUsernameDuplicated) {
+        console.log("login issue - isUserNameDuplicated", isUsernameDuplicated)
         res.render('sign-up', {
             /* loginMessage: true */
             message: "That username has already been used, please choose another username."
         });
-    } else {
+    } 
         await User.create(req.body)
        res.redirect('/login');
-       }
     }
 
 const postLoginForm = async (req, res) => {

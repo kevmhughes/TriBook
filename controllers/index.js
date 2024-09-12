@@ -194,9 +194,8 @@ const postNewReservation = async (req, res) => {
 
     // Send error message if there are overlapping dates
     if (hasOverlap) {
-      return res
-        .status(400)
-        .json({ error: "The requested dates are not available." });
+      req.flash("error", "The requested dates are not available.");
+      return res.redirect(`/apartment/${req.body.id}`);
     }
 
     // Ensure the start date is before the end date
@@ -211,7 +210,8 @@ const postNewReservation = async (req, res) => {
 
       res.redirect("/reservation");
     } else {
-      res.status(400).json({ error: "Invalid date range." });
+      req.flash("error", "Invalid date range, please try again.")
+      res.status(400).redirect(`/apartment/${req.body.id}`)
     }
   } catch (error) {
     console.error("Error posting reservation:", error);
