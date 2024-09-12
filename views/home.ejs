@@ -54,7 +54,7 @@
 
       <article class="apartment">
         <header>
-          <%= ap.title %>
+          <h1><%= ap.title %></h1>
         </header>
         <a href="/apartment/<%= ap._id %>">
           <div><img src="<%= ap.mainPhoto %>" alt="" /></div>
@@ -75,22 +75,22 @@
         <footer>
           <div class="services">
             <div>
-              <%- ap.airConditioning ? '<img src="air-con.svg" alt="TV Icon" width="32" height="32"' : "" %>
+              <%- ap.airConditioning ? '<img src="icons/air-con.svg" alt="TV Icon" width="32" height="32"' : "" %>
             </div>
             <div>
-              <%- ap.centralHeating ? '<img src="heating.svg" alt="TV Icon" width="24" height="24"' : "" %>
+              <%- ap.centralHeating ? '<img src="icons/heating.svg" alt="TV Icon" width="24" height="24"' : "" %>
             </div>
             <div>
-              <%- ap.disabledAccess ? '<img src="wheelchair.svg" alt="Wheelchair Icon" width="24" height="24"' : "" %>
+              <%- ap.disabledAccess ? '<img src="icons/wheelchair.svg" alt="Wheelchair Icon" width="24" height="24"' : "" %>
             </div>
             <div>
-              <%- ap.tv ? '<img src="tv.svg" alt="TV Icon" width="24" height="24"' : "" %>
+              <%- ap.tv ? '<img src="icons/tv.svg" alt="TV Icon" width="24" height="24"' : "" %>
             </div>
             <div>
-              <%- ap.kitchen ? '<img src="kitchen.svg" alt="TV Icon" width="24" height="24"' : "" %>
+              <%- ap.kitchen ? '<img src="icons/kitchen.svg" alt="TV Icon" width="24" height="24"' : "" %>
             </div>
             <div>
-              <%- ap.wifi ? '<img src="wi-fi.svg" alt="TV Icon" width="24" height="24"' : "" %>
+              <%- ap.wifi ? '<img src="icons/wi-fi.svg" alt="TV Icon" width="24" height="24"' : "" %>
             </div>
           </div>
         </footer>

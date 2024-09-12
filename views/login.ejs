@@ -9,7 +9,7 @@
     <header class="container">
         <div id="header-container">
           <div>
-            <a href="/"><img src="/images/tribook.svg" alt="tribook-logo" id="logo"></a>
+            <a href="/"><img src="/icons/tribook.svg" alt="tribook-logo" id="logo"></a>
           </div>
           <nav>
             <div>
@@ -27,11 +27,13 @@
         <main class="container">
 
             <form method="POST" action="/login">
+                <label for="username">Username:</label>
                 <input type="text" name="username" placeholder="Username" required />
+                <label for="password">Password:</label>
                 <input type="password" name="password" placeholder="Password" required />
                 <button type="submit">Log In</button>
                 <% if (message) { %>
-                    <div id="alert-message">
+                    <div id="message">
                         <%= message %>
                     </div>
                     <% } else { %>

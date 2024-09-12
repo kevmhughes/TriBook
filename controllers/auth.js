@@ -14,16 +14,16 @@ const getSignUpForm = (req, res) => {
 
 const postSignUpForm = async (req, res) => {
 
-    const {password, username} = req.body
+    const {password, username, userType} = req.body
 
-    const isUserInDatabase = await User.find({password, username})
+    const isUserInDatabase = await User.find({password, username, userType})
 
     const isUsernameDuplicated = await User.find({username})
 
-    if (isUserInDatabase.length > 0) {
+    if (isUserInDatabase.length > 0 ) {
         res.render('login', {
             /* loginMessage: true */
-            message: "That user already exists, please proceed to log in with your username and password."
+            message: "That user already exists, please log in with your username and password."
         });
     } else if (isUsernameDuplicated) {
         res.render('sign-up', {
@@ -42,7 +42,7 @@ const postLoginForm = async (req, res) => {
 
     if (isUserInDatabase.length == 0) {
         res.render("sign-up", {
-            message: "That user does not exist, please sign up."
+            message: "That user does not exist, please sign up here."
         })
     } else if (isUserInDatabase && isUserInDatabase[0].userType == "admin") {
         console.log("after login: admin user")

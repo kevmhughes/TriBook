@@ -36,12 +36,6 @@
              <div>
               Province: <%= selectedApartment.province %>
              </div>
-             <div>
-              Latitude: <%= selectedApartment.latitude %>
-             </div>
-             <div></div>
-              Longitude: <%= selectedApartment.longitude %>
-             </div>
             <div>
              Description: <%= selectedApartment.description %>
             </div>
@@ -134,7 +128,6 @@ const reservedDates = <%- JSON.stringify(reservedDates.map(date => date.toISOStr
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // Ensure latitude and longitude are properly parsed
       var lat = parseFloat(<%= JSON.stringify(selectedApartment.latitude) %>);
       var lng = parseFloat(<%= JSON.stringify(selectedApartment.longitude) %>);
       

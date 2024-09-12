@@ -4,15 +4,10 @@
 <head>
   <%- include('partials/head', { title: 'New Apartment'}) %>
 
-  <!-- !!! testing ground -->
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <!-- Leaflet Control Geocoder CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-
-  <style>
-    #map { height: 300px; }
-  </style>
 
 </head>
 
@@ -31,11 +26,11 @@
       <input type="hidden" name="user" id="user" value="<%= userData.id %>">
 
       <label for="title">Title:</label>
-      <input type="text" name="title" id="title" maxlength="30" required value="<%= apartment.title %>" />
+      <input type="text" name="title" id="title" pattern="[A-Za-z\s\-]+" minLength="5" maxlength="50" title="The Title must be less than 50 characters, and can contain letters, spaces, and hyphens." value="<%= apartment.title %>" required/>
 
       <label for="description">Description:</label>
-      <textarea rows="5" name="description" id="description">
-<%= apartment.description %></textarea>
+      <textarea rows="5" name="description" id="description" maxlength="1000" title="Description must be less than 1000 characters."
+      required><%= apartment.description %></textarea>
 
       <label for="rules">Rules:</label>
       <textarea rows="5" name="rules" id="rules"><%= apartment.rules %></textarea>
@@ -43,41 +38,41 @@
       <fieldset class="grid">
         <div>
           <label for="price">Price/Night:</label>
-          <input type="number" name="price" id="price" min="0" required value="<%= apartment.price %>" />
+          <input type="number" name="price" id="price" min="0" max="10000" required value="<%= apartment.price %>" />
         </div>
         <div>
           <label for="size">M <sup>2</sup></label>
-          <input type="number" name="size" id="size" min="0" required value="<%= apartment.size %>" />
+          <input type="number" name="size" id="size" min="0" max="10000" required value="<%= apartment.size %>" />
         </div>
       </fieldset>
 
       <fieldset class="grid">
         <div>
+          <label for="maxNumberOfGuests">Max Guests:</label>
+          <input type="number" name="maxNumberOfGuests" id="maxNumberOfGuests" min="0" max="100" value="<%= apartment.maxNumberOfGuests %>" required/>
+        </div>
+        <div>
           <label for="bedrooms">Bedrooms:</label>
-          <input type="number" name="bedrooms" id="bedrooms" min="0" value="<%= apartment.bedrooms %>"/>
+          <input type="number" name="bedrooms" id="bedrooms" min="0" max="50" value="<%= apartment.bedrooms %>" required/>
         </div>
         <div>
           <label for="totalBeds">Total Beds:</label>
-          <input type="number" name="totalBeds" id="totalBeds" min="0" value="<%= apartment.totalBeds %>"/>
+          <input type="number" name="totalBeds" id="totalBeds" min="0" max="100" value="<%= apartment.totalBeds %>" required/>
         </div>
         <div>
           <label for="bathrooms">Bathrooms:</label>
-          <input type="number" name="bathrooms" id="bathrooms" min="0" value="<%= apartment.bathrooms %>"/>
-        </div>
-        <div>
-          <label for="maxNumberOfGuests">Max Guests:</label>
-          <input type="number" name="maxNumberOfGuests" id="maxNumberOfGuests" min="0" value="<%= apartment.maxNumberOfGuests %>"/>
+          <input type="number" name="bathrooms" id="bathrooms" min="0" max="50" value="<%= apartment.bathrooms %>" required/>
         </div>
       </fieldset>
 
       <fieldset class="grid">
         <div>
           <label for="mainPhoto">Main Photo URL:</label>
-          <input type="url" name="mainPhoto" id="mainPhoto" required value="<%= apartment.mainPhoto %>" />
+          <input type="url" name="mainPhoto" id="mainPhoto" value="<%= apartment.mainPhoto %>" required/>
         </div>
         <div>
           <label for="mainPhotoCaption">Main Photo Caption:</label>
-          <input type="string" name="mainPhotoCaption" id="mainPhotoCaption" value="<%= apartment.mainPhotoCaption %>"/>
+          <input type="string" name="mainPhotoCaption" id="mainPhotoCaption" pattern="[A-Za-z\s\-]+" title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens." maxlength="30" value="<%= apartment.mainPhotoCaption %>" required/>
         </div>
       </fieldset>
 
@@ -89,7 +84,7 @@
         </div>
         <div>
           <label for="photoTwoCaption">2nd Photo Caption:</label>
-          <input type="string" name="photoTwoCaption" id="photoTwoCaption" value="<%= apartment.photoTwoCaption %>"/>
+          <input type="string" name="photoTwoCaption" id="photoTwoCaption" pattern="[A-Za-z\s\-]+" title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens." maxlength="30" value="<%= apartment.photoTwoCaption %>"/>
         </div>
       </fieldset>
 
@@ -100,7 +95,7 @@
         </div>
         <div>
           <label for="photoThreeCaption">3rd Photo Caption:</label>
-          <input type="string" name="photoThreeCaption" id="photoThreeCaption" value="<%= apartment.photoThreeCaption %>"/>
+          <input type="string" name="photoThreeCaption" id="photoThreeCaption" pattern="[A-Za-z\s\-]+" title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens." maxlength="30" value="<%= apartment.photoThreeCaption %>"/>
         </div>
       </fieldset>
 
@@ -111,23 +106,31 @@
         </div>
         <div>
           <label for="photoFourCaption">4th Photo Caption:</label>
-          <input type="string" name="photoFourCaption" id="photoFourCaption" value="<%= apartment.photoFourCaption %>"/>
+          <input type="string" name="photoFourCaption" id="photoFourCaption" pattern="[A-Za-z\s\-]+" title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens." maxlength="30" value="<%= apartment.photoFourCaption %>"/>
         </div>
       </fieldset>
 
       <label for="services">Services:</label>
+      <div id="services-container">
+      <div>
       <label>
         <input type="checkbox" name="airConditioning" value="true" <%= apartment.airConditioning ? "checked" : "" %> /> Air Conditioning
       </label>
       <label>
         <input type="checkbox" name="centralHeating" value="true" <%= apartment.centralHeating ? "checked" : "" %> /> Central Heating
       </label>
+    </div>
+
+    <div>
       <label>
         <input type="checkbox" name="disabledAccess" value="true" <%= apartment.disabledAccess ? "checked" : "" %> /> Disabled Access
       </label>
       <label>
         <input type="checkbox" name="tv" value="true" <%= apartment.tv ? "checked" : "" %> /> TV
       </label>
+    </div>
+
+    <div>
       <label>
         <input type="checkbox" name="kitchen" value="true" <%= apartment.kitchen ? "checked" : "" %> /> Kitchen
       </label>
@@ -135,8 +138,8 @@
         <input type="checkbox" name="wifi" value="true" <%= apartment.wifi ? "checked" : "" %> /> Wi-Fi
       </label>
       <br>
-
-      <label for="listing"><input type="checkbox" name="listed" id="listed" value="true" <%= apartment.listed ? "checked" : "" %> > Do you want to list this property?</label>
+    </div>
+    </div>
       
       <!-- !!!testing ground -->
       <label for="location">Choose the location on the map:</label>
@@ -149,63 +152,62 @@
       <fieldset class="grid">
         <div>
           <label for="province">Province:</label>
-          <input type="string" name="province" id="province" value="<%= apartment.province %>"/>
+          <input type="string" name="province" id="province" pattern="[A-Za-z\s\-]+" title="Province names can contain letters, spaces, and hyphens" maxlength="30" value="<%= apartment.province %>" required/>
         </div>
         <div>
           <label for="city">City:</label>
-          <input type="string" name="city" id="city" value="<%= apartment.city %>"/>
+          <input type="string" name="city" id="city" pattern="[A-Za-z\s\-]+" title="City names can contain letters, spaces, and hyphens" maxlength="30" value="<%= apartment.city %>" required/>
         </div>
       </fieldset>
 
-
+      <label for="listing" style="float: right;">Do you want to list this property? <input type="checkbox" name="listed" id="listed" value="true" <%= apartment.listed ? "checked" : "" %> > </label>
 
       <input type="submit" value="<%= apartment._id ? " Edit Apartment" : "Add Apartment" %>" />
 
     </form>
   </main>
 
-
-  <!-- !!!testing ground -->
    <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  
   <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-  
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // Initialize the map
-      var map = L.map('map').setView([<%= apartment.latitude || 51.505 %>, <%= apartment.longitude || -0.09 %>], 13);
+  // Initialize the map
+  var map = L.map('map').setView([<%= apartment.latitude || 51.505 %>, <%= apartment.longitude || -0.09 %>], 13);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
 
-      var marker = L.marker([<%= apartment.latitude || 51.505 %>, <%= apartment.longitude || -0.09 %>]).addTo(map);
+  var marker = L.marker([<%= apartment.latitude || 51.505 %>, <%= apartment.longitude || -0.09 %>]).addTo(map);
 
-      // Add the search control to the map
-      var geocoder = L.Control.Geocoder.nominatim();
-      L.Control.geocoder({
-        geocoder: geocoder,
-        defaultMarkGeocode: false
-      }).on('markgeocode', function(e) {
-        var latlng = e.geocode.center;
-        marker.setLatLng(latlng);
-        map.setView(latlng, 13);
-        document.getElementById('latitude').value = latlng.lat;
-        document.getElementById('longitude').value = latlng.lng;
-      }).addTo(map);
+  // Add the search control to the map
+  var geocoder = L.Control.Geocoder.nominatim();
+  L.Control.geocoder({
+    geocoder: geocoder,
+    defaultMarkGeocode: false
+  }).on('markgeocode', function(e) {
+    var latlng = e.geocode.center;
+    marker.setLatLng(latlng);
+    map.setView(latlng, 13);
+    document.getElementById('latitude').value = latlng.lat;
+    document.getElementById('longitude').value = latlng.lng;
+  }).addTo(map);
 
-      // Update hidden fields when map is clicked
-      map.on('click', function(e) {
-        var lat = e.latlng.lat;
-        var lng = e.latlng.lng;
+  // Update hidden fields when map is clicked
+  map.on('click', function(e) {
+    var lat = e.latlng.lat;
+    var lng = e.latlng.lng;
 
-        marker.setLatLng([lat, lng]);
-        document.getElementById('latitude').value = lat;
-        document.getElementById('longitude').value = lng;
-      });
-    });
+    marker.setLatLng([lat, lng]);
+    document.getElementById('latitude').value = lat;
+    document.getElementById('longitude').value = lng;
+  });
+});
   </script>
+
+  <script src="/js/form-scripts.js"></script>
+
 </body>
 
 </html>

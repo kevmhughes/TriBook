@@ -1,12 +1,11 @@
 #logo {
-    height: 100px;
+    height: 50px;
 }
 
 #header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center
-}
+display: flex;
+justify-content: space-between;
+align-items: flex-start;}
 
 #login-button {
     color: white;
@@ -35,10 +34,26 @@
     display: flex;
   }
 
+#services-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
   .services div {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 4px;
     /* Adjust the spacing between icons as needed */
+  }
+
+  #map { 
+    height: 300px; 
+}
+
+/* new-apartment.ejs */
+
+.feedback {
+    color: red;
+    font-size: 0.9em;
   }
