@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Set up session middleware
 app.use(session({
-    secret: 'miSecretoSuperSecreto',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // secure: true en producción con HTTPS

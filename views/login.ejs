@@ -2,46 +2,47 @@
 <html lang="en" data-theme="light">
 
 <head>
-    <%- include('partials/head', { title: 'Log In' }) %>
+  <%- include('partials/head', { title: 'Log In' }) %>
 </head>
 
 <body>
-    <header class="container">
-        <div id="header-container">
-          <div>
-            <a href="/"><img src="/icons/tribook.svg" alt="tribook-logo" id="logo"></a>
-          </div>
-          <nav>
-            <div>
-              <% if (isAuthenticated) { %>
-                  <a id="login-button" href="/dashboard"><button>Dashboard</button></a>
-                  <a id="login-button" href="/logout"><button>Log Out</button></a>
-                <% } else { %>
-                  <a id="login-button" href="/sign-up"><button>Sign Up</button></a>
-                    <% } %>
-            </div>
-          </nav>
+  <header class="container">
+    <div id="header-container">
+      <div>
+        <a href="/"><img src="/icons/tribook.svg" alt="tribook-logo" id="logo"></a>
+      </div>
+      <nav>
+        <div>
+          <% if (isAuthenticated) { %>
+            <a id="login-button" href="/dashboard"><button>Dashboard</button></a>
+            <a id="login-button" href="/logout"><button>Log Out</button></a>
+            <% } else { %>
+              <a id="login-button" href="/sign-up"><button>Sign Up</button></a>
+              <% } %>
         </div>
-      </header>
+      </nav>
+    </div>
+  </header>
 
-        <main class="container">
+  <main class="container">
 
-            <form method="POST" action="/login">
-                <label for="username">Username:</label>
-                <input type="text" name="username" placeholder="Username" required />
-                <label for="password">Password:</label>
-                <input type="password" name="password" placeholder="Password" required />
-                <button type="submit">Log In</button>
-                <% if (message) { %>
-                    <div id="message">
-                        <%= message %>
-                    </div>
-                    <% } else { %>
-                        <p></p>
-                        <% } %>
-            </form>
-            
-        </main>
+    <form method="POST" action="/login">
+      <label for="username">Username:</label>
+      <input type="text" name="username" placeholder="Username" required />
+      <label for="password">Password:</label>
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Log In</button>
+
+        <% if ((errorMessage && errorMessage.length > 0)) { %>
+          <div class="alert alert-error"><%= errorMessage %></div>
+      <% } %>
+
+      <% if ((successMessage && successMessage.length > 0)) { %>
+        <div class="message"><%= successMessage %></div>
+    <% } %>
+
+    </form>
+  </main>
 </body>
 
 </html>

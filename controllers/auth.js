@@ -21,21 +21,19 @@ const postSignUpForm = async (req, res) => {
     const isUsernameDuplicated = await User.find({username})
 
     if (isUserInDatabase.length > 0 ) {
-        res.render('login', {
-            /* loginMessage: true */
-            message: "That user already exists, please log in with your username and password."
-        });
+        req.flash("error", "Those details were previously registered in our database, please proceed to log in.");
+
+        return res.redirect('/login');
     }
     
-    if (isUsernameDuplicated) {
-        console.log("login issue - isUserNameDuplicated", isUsernameDuplicated)
-        res.render('sign-up', {
-            /* loginMessage: true */
-            message: "That username has already been used, please choose another username."
-        });
+    if (isUsernameDuplicated.length > 0) {
+        req.flash("error", "That username has already been used, please choose another username.")
+
+        return res.redirect("/sign-up")
     } 
         await User.create(req.body)
-       res.redirect('/login');
+        req.flash("success", "You have signed up successfully, please proceed to log in.")
+        res.redirect("/login");
     }
 
 const postLoginForm = async (req, res) => {
@@ -43,31 +41,32 @@ const postLoginForm = async (req, res) => {
     const isUserInDatabase = await User.find(req.body)
 
     if (isUserInDatabase.length == 0) {
-        res.render("sign-up", {
-            message: "That user does not exist, please sign up here."
-        })
-    } else if (isUserInDatabase && isUserInDatabase[0].userType == "admin") {
-        console.log("after login: admin user")
+        req.flash("error", "That user does not exist, please sign up here.")
 
-        // !!! testing area
+        return res.redirect("/sign-up")
+
+    } else if (isUserInDatabase && isUserInDatabase[0].userType == "admin") {
+
         userData = isUserInDatabase[0]
 
         req.session.isAuthenticated = true;
         req.session.userType = "admin"
         res.locals.isAdmin = true;
         res.locals.isUser = false;
-        res.redirect('/');
-    } else if (isUserInDatabase && isUserInDatabase[0].userType == "standard") {
-        console.log("after login: standard user")
 
-         // !!! testing area
+        req.flash("success", "You have logged in as an admin user.")
+        return res.redirect('/');
+    } else if (isUserInDatabase && isUserInDatabase[0].userType == "standard") {
+
         userData = isUserInDatabase[0]
 
         req.session.isAuthenticated = true;
         req.session.userType = "standard"
         res.locals.isAdmin = false;
         res.locals.isUser = true;
-        res.redirect('/');
+
+        req.flash("success", "You have logged in as a standard user.")
+        return res.redirect('/');
     }
 }
 

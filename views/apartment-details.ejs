@@ -12,11 +12,6 @@
   <%- include('partials/header') %>
 
     <main class="container">
-                      
-      <% if (errorMessage) { %>
-        <div class="alert alert-error"><%= errorMessage %></div>
-        <br>
-      <% } %>
 
         <article class="apartment">
             <header><%= selectedApartment.title %></header>
@@ -34,45 +29,68 @@
             </div>
           <footer>
             <div>
-              Price: <del style="color:grey"><%= selectedApartment.price %></del> <%= selectedApartment.price * 0.9 %> €/night
+              <b>Price:</b> <del style="color:grey"><%= selectedApartment.price %></del> <%= (selectedApartment.price * 0.9).toFixed(2) %> €/night
             </div>
             <div>
-              City: <%= selectedApartment.city %>
+              <b>City:</b> <%= selectedApartment.city %>
              </div>
              <div>
-              Province: <%= selectedApartment.province %>
+              <b>Province:</b> <%= selectedApartment.province %>
              </div>
             <div>
-             Description: <%= selectedApartment.description %>
+             <b>Description:</b> <%= selectedApartment.description %>
             </div>
             <div>
-              Rules: <%= selectedApartment.rules %> 
+              <b>Rules:</b> <%= selectedApartment.rules %> 
             </div>
             <div>
-              Number of Bedrooms: <%= selectedApartment.bedrooms %> 
+              <b>Number of Bedrooms:</b> <%= selectedApartment.bedrooms %> 
             </div>
             <div>
-              Total Beds: <%= selectedApartment.totalBeds %> 
+              <b>Total Beds:</b> <%= selectedApartment.totalBeds %> 
             </div>
             <div>
-              Bathrooms: <%= selectedApartment.bathrooms %> 
+              <b>Bathrooms:</b> <%= selectedApartment.bathrooms %> 
             </div>
             <div>
-              Maximum Number Of Guests: <%= selectedApartment.maxNumberOfGuests %> 
+              <b>Maximum Number Of Guests:</b> <%= selectedApartment.maxNumberOfGuests %> 
             </div>
             <div>
-              Size: <%= selectedApartment.size %>  M <sup>2</sup>
+              <b>Size:</b> <%= selectedApartment.size %>  M <sup>2</sup>
             </div>
             <div>
-              Services: 
+              <b>Services: </b>
             </div>
             <div>
-              <%= selectedApartment.tv ? "tv" : "" %> <br>
-              <%= selectedApartment.airConditioning ? "air conditioning" : "" %> <br>
-              <%= selectedApartment.centralHeating ? "central heating" : "" %> <br>
-              <%= selectedApartment.wifi ? "wi-fi" : "" %> <br>
-              <%= selectedApartment.disabledAccess ? "disabled access" : "" %> <br>
-              <%= selectedApartment.kitchen ? "kitchen" : "" %> <br>
+              <% if (selectedApartment.tv) { %>
+                <img src="/icons/tv.svg" alt="TV Icon" width="32" height="32">
+                TV <br>
+              <% } %>
+              
+              <% if (selectedApartment.airConditioning) { %>
+                <img src="/icons/air-con.svg" alt="Air Conditioning Icon" width="32" height="32">
+                air conditioning <br>
+              <% } %>
+              
+              <% if (selectedApartment.centralHeating) { %>
+                <img src="/icons/heating.svg" alt="Heating Icon" width="24" height="24">
+                central heating <br>
+              <% } %>
+              
+              <% if (selectedApartment.wifi) { %>
+                <img src="/icons/wi-fi.svg" alt="Wi-Fi Icon" width="24" height="24">
+                wi-fi <br>
+              <% } %>
+              
+              <% if (selectedApartment.disabledAccess) { %>
+                <img src="/icons/wheelchair.svg" alt="Wheelchair Icon" width="24" height="24">
+                disabled access <br>
+              <% } %>
+              
+              <% if (selectedApartment.kitchen) { %>
+                <img src="/icons/kitchen.svg" alt="Kitchen Icon" width="24" height="24">
+                kitchen <br>
+              <% } %>
               <br>
             </div>
           </footer>

@@ -12,29 +12,20 @@ align-items: flex-start;}
     text-decoration: none;
 }
 
-#message {
+.message {
     background-color: green;
     padding: 18px;
     border-radius: 5px;
     color: white;
+    border: none;
 }
-
-/* #alert-message {
-    background-color: red;
-    padding: 18px;
-    border-radius: 5px;
-    color: white;
-} */
 
 .alert-error {
     background-color: red;
     padding: 18px;
     border-radius: 5px;
     color: white;
-}
-
-#alert {
-    background-color: red;
+    border: none;
 }
 
 .services {
@@ -51,11 +42,24 @@ align-items: flex-start;}
     align-items: center;
     justify-content: center;
     gap: 4px;
-    /* Adjust the spacing between icons as needed */
   }
 
   #map { 
     height: 300px; 
+}
+
+/* home.ejs */
+
+.search-form-date-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.search-form-values-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Four equal columns */
+    gap: 10px; /* Space between columns (optional) */
 }
 
 /* new-apartment.ejs */

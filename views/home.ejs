@@ -9,6 +9,13 @@
   <%- include('partials/header') %>
 
   <div class="container">
+
+
+  <% if ((successMessage && successMessage.length > 0)) { %>
+    <div class="message"><%= successMessage %></div>
+    <br>
+  <% } %>
+
     <% if (isAdmin) { %>
       <p><a href="/admin/apartment/new-apartment">Add a new apartment</a></p>
     <% } %>
@@ -20,16 +27,19 @@
   </div>
 
   <form action="/search" method="GET" class="container grid" style="display: flex;flex-direction: column;">
-    <div style="display: flex; gap: 10px;">
-      <input type="number" name="minPrice" id="minPrice" min="0" max="10000" placeholder="min price">
-      <input type="number" name="maxPrice" id="maxPrice" min="0" max="10000" placeholder="max price">
-      <input type="number" name="numberOfGuests" id="numberOfGuests" min="0" max="100" placeholder="number of guests">
-      <input type="text" name="location" id="location" placeholder="city">
+    <div class="search-form-values-container">
+      <label for="minPrice">Min price:<input type="number" name="minPrice" id="minPrice" min="0" max="10000" placeholder="Min Price"></label>
+
+      <label for="maxPrice">Max price: <input type="number" name="maxPrice" id="maxPrice" min="0" max="10000" placeholder="Max Price"></label>
+
+      <label for="numberOfGuests">No of Guests: <input type="number" name="numberOfGuests" id="numberOfGuests" min="0" max="100" placeholder="No of Guests"></label>
+
+      <label for="location">City:<input type="text" name="location" id="location" placeholder="City"></label>
     </div>
 
-    <div>
-      <label for="startDate">start date<input type="date" name="startDate" id="startDate"></label>
-      <label for="endDate">endDate<input type="date" name="endDate" id="endDate"></label>
+    <div class="search-form-date-container">
+      <label for="startDate">Start Date:<input type="date" name="startDate" id="startDate"></label>
+      <label for="endDate">End Date:<input type="date" name="endDate" id="endDate"></label>
     </div>
 
     <input type="submit" value="Search">
@@ -38,13 +48,13 @@
   <main class="container">
 
     <% if (zeroResultsMessage && apartments.length == 0) { %>
-      <div id="message">
+      <div class="alert-error">
           There are no properties to display. If you have an admin account, feel free to list an apartment. 
       </div>
   <% } %>
 
   <% if (zeroResultsMessage && apartments.length > 0) { %>
-    <div id="message">
+    <div class="alert-error">
         No results were found for your search. However, the following properties might be of interest to you.
     </div>
     <br>
@@ -75,22 +85,34 @@
         <footer>
           <div class="services">
             <div>
-              <%- ap.airConditioning ? '<img src="icons/air-con.svg" alt="TV Icon" width="32" height="32"' : "" %>
+              <% if (ap.airConditioning) { %>
+                <img src="icons/air-con.svg" alt="Air Conditioning Icon" width="32" height="32">
+              <% } %>
             </div>
             <div>
-              <%- ap.centralHeating ? '<img src="icons/heating.svg" alt="TV Icon" width="24" height="24"' : "" %>
+              <% if (ap.centralHeating) { %>
+                <img src="icons/heating.svg" alt="Heating Icon" width="24" height="24">
+              <% } %>
             </div>
             <div>
-              <%- ap.disabledAccess ? '<img src="icons/wheelchair.svg" alt="Wheelchair Icon" width="24" height="24"' : "" %>
+              <% if (ap.disabledAccess) { %>
+                <img src="icons/wheelchair.svg" alt="Wheelchair Icon" width="24" height="24">
+              <% } %>
             </div>
             <div>
-              <%- ap.tv ? '<img src="icons/tv.svg" alt="TV Icon" width="24" height="24"' : "" %>
+              <% if (ap.tv) { %>
+                <img src="icons/tv.svg" alt="TV Icon" width="24" height="24">
+              <% } %>
             </div>
             <div>
-              <%- ap.kitchen ? '<img src="icons/kitchen.svg" alt="TV Icon" width="24" height="24"' : "" %>
+              <% if (ap.kitchen) { %>
+                <img src="icons/kitchen.svg" alt="Kitchen Icon" width="24" height="24">
+              <% } %>
             </div>
             <div>
-              <%- ap.wifi ? '<img src="icons/wi-fi.svg" alt="TV Icon" width="24" height="24"' : "" %>
+              <% if (ap.wifi) { %>
+                <img src="icons/wi-fi.svg" alt="Wi-Fi Icon" width="24" height="24">
+              <% } %>
             </div>
           </div>
         </footer>

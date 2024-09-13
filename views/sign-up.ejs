@@ -1,80 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
-  <head>
-    <%- include('partials/head', { title: 'Sign Up' }) %>
-  </head>
 
-  <body>
-    <header class="container">
-      <div id="header-container">
+<head>
+  <%- include('partials/head', { title: 'Sign Up' }) %>
+</head>
+
+<body>
+  <header class="container">
+    <div id="header-container">
+      <div>
+        <a href="/"><img src="/icons/tribook.svg" alt="tribook-logo" id="logo" /></a>
+      </div>
+      <nav>
         <div>
-          <a href="/"
-            ><img src="/icons/tribook.svg" alt="tribook-logo" id="logo"
-          /></a>
-        </div>
-        <nav>
-          <div>
-            <% if (isAuthenticated) { %>
-            <a id="login-button" href="/dashboard"
-              ><button>Dashboard</button></a
-            >
+          <% if (isAuthenticated) { %>
+            <a id="login-button" href="/dashboard"><button>Dashboard</button></a>
             <a id="login-button" href="/logout"><button>Log Out</button></a>
             <% } else { %>
-            <a id="login-button" href="/login"><button>Log In</button></a>
-            <% } %>
-          </div>
-        </nav>
-      </div>
-    </header>
-    <main class="container">
-      <form method="POST" action="/sign-up">
-        <label for="username">Username:</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          placeholder="Username"
-          pattern="^[a-zA-Z0-9_-]{5,15}$"
-          title="Username must be between 5 and 15 characters, and can only contain letters, numbers, underscores (_), and hyphens (-)." 
-          minlength="5"
-          maxlength="15"
-          required
-        />
-        <label for="password">Password:</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Password"
-          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}"
-          title="Must contain at least 8 characters, including UPPER/lowercase, a number, and a special character (@#$%^&+=!)" 
-          required
-        />
-        <label for="email:">E-mail:</label>
-        <input
-          type="text"
-          name="email"
-          id="email"
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
-          title="Please enter a valid email address (e.g., user@example.com)." 
-          placeholder="E-mail"
-          required
-        />
+              <a id="login-button" href="/login"><button>Log In</button></a>
+              <% } %>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <form method="POST" action="/sign-up">
+      <label for="username">Username:</label>
+      <input type="text" name="username" id="username" placeholder="Username" pattern="^[a-zA-Z0-9_-]{5,15}$"
+        title="Username must be between 5 and 15 characters, and can only contain letters, numbers, underscores (_), and hyphens (-)."
+        minlength="5" maxlength="15" required />
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" placeholder="Password"
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}"
+        title="Must contain at least 8 characters, including UPPER/lowercase, a number, and a special character (@#$%^&+=!)"
+        required />
+      <label for="email:">E-mail:</label>
+      <input type="text" name="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        title="Please enter a valid email address (e.g., user@example.com)." placeholder="E-mail" required />
 
-        <label for="userType">Choose Your User Type:</label>
-        <select name="userType" id="userType">
-          <option value="standard">Standard</option>
-          <option value="admin">Admin</option>
-        </select>
+      <label for="userType">Choose Your User Type:</label>
+      <select name="userType" id="userType">
+        <option value="standard">Standard</option>
+        <option value="admin">Admin</option>
+      </select>
 
-        <button type="submit">Sign Up</button>
+      <button type="submit">Sign Up</button>
 
-        <% if (message) { %>
-        <div id="alert-message"><%= message %></div>
-        <% } else { %>
-        <p></p>
+      <% if (errorMessage && errorMessage.length > 0) { %>
+        <div class="alert alert-error">
+          <%= errorMessage %>
+        </div>
         <% } %>
-      </form>
-    </main>
-  </body>
+
+    </form>
+  </main>
+</body>
+
 </html>
