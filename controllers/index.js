@@ -60,7 +60,8 @@ const getReservation = async (req, res) => {
 const getApartments = async (req, res) => {
   try {
     // Find all apartments in the database that have been listed by their respective hosts (admin users)
-    const apartments = await Apartment.find({ listed: true });
+    const apartments = await Apartment.find({ listed: true }).sort({createdAt: -1});
+
     if (apartments.length == 0) {
       res.render("home", { apartments, zeroResultsMessage: true });
     } else {
@@ -100,7 +101,7 @@ const getApartmentById = async (req, res) => {
 
 // Search for properties based on filters
 const searchApartments = async (req, res) => {
-  let { maxPrice, minPrice, numberOfGuests, location, startDate, endDate } =
+  let { maxPrice, minPrice, numberOfGuests, location, startDate, endDate, sortBy } =
     req.query;
 
   // set default values if and when no value is given by the user in the input of the HTML form
@@ -121,13 +122,6 @@ const searchApartments = async (req, res) => {
 
   try {
     let reservedApartmentIds = [];
-
-    // !!! testing ground
-/*     if (endDate < startDate) {
-      return res.render("home", {
-        zeroResultsMessage: true,
-      });
-    } */
 
     // Check if startDate and endDate are provided
     if (startDate && endDate) {
@@ -156,11 +150,23 @@ const searchApartments = async (req, res) => {
       searchQuery._id = { $nin: reservedApartmentIds }; // Exclude reserved apartments
     }
 
+    let sortByInputValue
+
+    if (sortBy == "mostRecent") {
+      sortByInputValue = {createdAt: -1}
+    } else if (sortBy == "minPriceFirst") {
+      sortByInputValue = {price: 1}
+    } else if (sortBy == "maxPriceFirst") {
+      sortByInputValue = {price: -1}
+    }
+
+    console.log("this is the req.body.sortBy: ", sortBy)
+
     // Filter apartments based on search query
-    const apartments = await Apartment.find({ ...searchQuery, listed: true });
+    const apartments = await Apartment.find({ ...searchQuery, listed: true }).sort(sortByInputValue);
 
     if (apartments.length == 0) {
-      const defaultApartments = await Apartment.find({ listed: true }).limit(5); // Fetch 5 default properties if filter gives zero results
+      const defaultApartments = await Apartment.find({ listed: true }).limit(5).sort({createdAt: -1}); // Fetch 5 default properties if filter gives zero results
       console.log("I will send 5 default properties")
       return res.render("home", {
         apartments: defaultApartments,

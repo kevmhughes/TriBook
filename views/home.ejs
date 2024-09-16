@@ -42,6 +42,14 @@
       <label for="endDate">End Date:<input type="date" name="endDate" id="endDate"></label>
     </div>
 
+    <div>
+      <select name="sortBy" id="sortBy">
+        <option value="mostRecent">Most Recent First</option>
+        <option value="minPriceFirst">Min Price First</option>
+        <option value="maxPriceFirst">Max Price First</option>
+      </select>
+    </div>
+
     <input type="submit" value="Search">
   </form>
 
@@ -55,7 +63,7 @@
 
   <% if (zeroResultsMessage && apartments.length > 0) { %>
     <div class="alert-error">
-        No results were found for your search. However, the following properties might be of interest to you.
+        No results were found for your search. However, these uploaded properties might be of interest to you.
     </div>
     <br>
 <% } %>
