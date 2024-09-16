@@ -22,11 +22,12 @@
     <% if (isUser) { %>
       <div class="message">account type: standard user</div>
       <br>
+
+      <h1>Your confirmed bookings:</h1>
+
       <% for (const res of reservations) { %>
-        <br>
 
         <div>
-        <h1>Your confirmed bookings:</h1>
         <article class="apartment">
           <header>
             <%= res.apartment.title %>
@@ -76,10 +77,9 @@
       <div class="message"><%= successMessage %></div>
     <% } %>
 
+    <h1>Your apartments:</h1>
+
           <% for (const ap of apartments) { %>
-
-          <h1>Your apartments:</h1>
-
 
             <article class="apartment">
               <header>
@@ -108,9 +108,10 @@
 
             <% } %>
 
+            <h1>Your bookings: </h1>
+            
             <% for (const my of myApartmentsBooked) { %>
 
-              <h1>Your bookings: </h1>
               <article class="apartment">
                 <header>
                   <%= my.apartment.title %>

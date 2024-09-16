@@ -27,7 +27,7 @@ const getDashboard = async (req, res) => {
       );
 
       // Get list of all apartments owned by admin user using their user id
-      const apartments = await Apartment.find({ user: userData.id });
+      const apartments = await Apartment.find({ user: userData.id }).sort({createdAt: -1});
 
       res.render("dashboard", { reservations, apartments, myApartmentsBooked });
     } else {
@@ -128,7 +128,7 @@ const searchApartments = async (req, res) => {
       // Convert the startDate and endDate to JavaScript Date objects
       const start = new Date(startDate);
       const end = new Date(endDate);
-
+      
       // Find all reservations that overlap with the given date range
       const reservations = await Reservation.find({
         $or: [
@@ -160,14 +160,11 @@ const searchApartments = async (req, res) => {
       sortByInputValue = {price: -1}
     }
 
-    console.log("this is the req.body.sortBy: ", sortBy)
-
     // Filter apartments based on search query
     const apartments = await Apartment.find({ ...searchQuery, listed: true }).sort(sortByInputValue);
 
     if (apartments.length == 0) {
       const defaultApartments = await Apartment.find({ listed: true }).limit(5).sort({createdAt: -1}); // Fetch 5 default properties if filter gives zero results
-      console.log("I will send 5 default properties")
       return res.render("home", {
         apartments: defaultApartments,
         zeroResultsMessage: true,

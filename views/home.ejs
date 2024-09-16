@@ -10,7 +10,6 @@
 
   <div class="container">
 
-
   <% if ((successMessage && successMessage.length > 0)) { %>
     <div class="message"><%= successMessage %></div>
     <br>
@@ -25,8 +24,8 @@
       an admin account.</p>
     <% } %>
   </div>
-
-  <form action="/search" method="GET" class="container grid" style="display: flex;flex-direction: column;">
+  
+  <form id="searchForm" action="/search" method="GET" class="container grid" style="display: flex;flex-direction: column;">
     <div class="search-form-values-container">
       <label for="minPrice">Min price:<input type="number" name="minPrice" id="minPrice" min="0" max="10000" placeholder="Min Price"></label>
 
@@ -43,6 +42,7 @@
     </div>
 
     <div>
+      <label for="sortBy">Filter Results:</label>
       <select name="sortBy" id="sortBy">
         <option value="mostRecent">Most Recent First</option>
         <option value="minPriceFirst">Min Price First</option>
@@ -53,20 +53,25 @@
     <input type="submit" value="Search">
   </form>
 
-  <main class="container">
+<div class="container">
+  <div id="dateErrorMessage" class="alert-error-dates">
+    The start date cannot be later than the end date.
+  </div>
 
-    <% if (zeroResultsMessage && apartments.length == 0) { %>
-      <div class="alert-error">
-          There are no properties to display. If you have an admin account, feel free to list an apartment. 
-      </div>
-  <% } %>
-
-  <% if (zeroResultsMessage && apartments.length > 0) { %>
-    <div class="alert-error">
-        No results were found for your search. However, these uploaded properties might be of interest to you.
+  <% if (zeroResultsMessage && apartments.length == 0) { %>
+    <div class="alert-error" id="search-error">
+        There are no properties to display. If you have an admin account, feel free to list an apartment. 
     </div>
-    <br>
 <% } %>
+
+<% if (zeroResultsMessage && apartments.length > 0) { %>
+  <div class="alert-error" id="search-error">
+      No results were found with that search criteria. However, these recently uploaded properties might be of interest.
+  </div>
+<% } %>
+</div>
+
+  <main class="container">
 
     <% for (const ap of apartments) { %>
 
@@ -130,7 +135,28 @@
       <% } %>
   </main>
 
+  <!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+  // Initialize Flatpickr for the start date and block past dates
+  flatpickr("#startDate", {
+    minDate: "today", // Prevent past dates from being selected
+    dateFormat: "Y-m-d", // Set the date format
+  });
+
+  // Initialize Flatpickr for the end date and block past dates
+  flatpickr("#endDate", {
+    minDate: "today", // Prevent past dates from being selected
+    dateFormat: "Y-m-d", // Set the date format
+  });
+</script>
+
   <script src="/js/form-scripts.js"></script>
+
 </body>
 
 </html>
