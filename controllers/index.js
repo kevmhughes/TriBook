@@ -112,10 +112,18 @@ const searchApartments = async (req, res) => {
 
   if (location) {
     searchQuery.city = location;
+
   }
 
   try {
     let reservedApartmentIds = [];
+
+    // !!! testing ground
+/*     if (endDate < startDate) {
+      return res.render("home", {
+        zeroResultsMessage: true,
+      });
+    } */
 
     // Check if startDate and endDate are provided
     if (startDate && endDate) {
@@ -145,10 +153,11 @@ const searchApartments = async (req, res) => {
     }
 
     // Filter apartments based on search query
-    const apartments = await Apartment.find(searchQuery);
+    const apartments = await Apartment.find({ ...searchQuery, listed: true });
 
     if (apartments.length == 0) {
-      const defaultApartments = await Apartment.find().limit(5); // Fetch 5 default properties if filter gives zero results
+      const defaultApartments = await Apartment.find({ listed: true }).limit(5); // Fetch 5 default properties if filter gives zero results
+      console.log("I will send 5 default properties")
       return res.render("home", {
         apartments: defaultApartments,
         zeroResultsMessage: true,

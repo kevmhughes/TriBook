@@ -2,212 +2,268 @@
 <html lang="en" data-theme="light">
 
 <head>
-  <%- include('partials/head', { title: 'New Apartment'}) %>
+  <%- include('partials/head', { title: 'New Apartment' }) %>
 
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <!-- Leaflet Control Geocoder CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Leaflet Control Geocoder CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 
 </head>
 
 <body>
   <%- include('partials/header') %>
 
-  <main class="container">
-    
-    <h1>
-      <%= apartment._id ? "Edit" : "Add New" %> Apartment
-    </h1>
+    <main class="container">
 
-    <form action="/admin/apartment/new-apartment" method="POST">
-      <!-- hidden document id -->
-      <input type="hidden" name="id" id="id" value="<%= apartment._id %>" />
+      <h1>
+        <%= apartment._id ? "Edit" : "Add New" %> Apartment
+      </h1>
 
-      <input type="hidden" name="user" id="user" value="<%= userData.id %>">
+      <form action="/admin/apartment/new-apartment" method="POST">
+        <!-- hidden document id -->
+        <input type="hidden" name="id" id="id" value="<%= apartment._id %>" />
 
-      <label for="title">Title:</label>
-      <input type="text" name="title" id="title" pattern="[A-Za-z\s\-]+" minLength="5" maxlength="50" title="The Title must be less than 50 characters, and can contain letters, spaces, and hyphens." value="<%= apartment.title %>" required/>
+        <input type="hidden" name="user" id="user" value="<%= userData.id %>">
 
-      <label for="description">Description:</label>
-      <textarea rows="5" name="description" id="description" maxlength="1000" title="Description must be less than 1000 characters."
-      required><%= apartment.description %></textarea>
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" pattern="[A-Za-z\s\-]+" minLength="5" maxlength="50"
+          title="The Title must be less than 50 characters, and can contain letters, spaces, and hyphens."
+          value="<%= apartment.title %>" required />
 
-      <label for="rules">Rules:</label>
-      <textarea rows="5" name="rules" id="rules"><%= apartment.rules %></textarea>
+        <label for="description">Description:</label>
+        <textarea rows="5" name="description" id="description" maxlength="1000"
+          title="Description must be less than 1000 characters." required><%= apartment.description %></textarea>
 
-      <fieldset class="grid">
-        <div>
-          <label for="price">Price/Night:</label>
-          <input type="number" name="price" id="price" min="0" max="10000" required value="<%= apartment.price %>" />
+        <label for="rules">Rules:</label>
+        <textarea rows="5" name="rules" id="rules"><%= apartment.rules %></textarea>
+
+        <fieldset class="grid">
+          <div>
+            <label for="price">Price/Night:</label>
+            <input type="number" name="price" id="price" min="0" max="10000" required value="<%= apartment.price %>" />
+          </div>
+          <div>
+            <label for="size">M <sup>2</sup></label>
+            <input type="number" name="size" id="size" min="0" max="10000" required value="<%= apartment.size %>" />
+          </div>
+        </fieldset>
+
+        <fieldset class="grid">
+          <div>
+            <label for="maxNumberOfGuests">Max Guests:</label>
+            <input type="number" name="maxNumberOfGuests" id="maxNumberOfGuests" min="0" max="100"
+              value="<%= apartment.maxNumberOfGuests %>" required />
+          </div>
+          <div>
+            <label for="bedrooms">Bedrooms:</label>
+            <input type="number" name="bedrooms" id="bedrooms" min="0" max="50" value="<%= apartment.bedrooms %>"
+              required />
+          </div>
+          <div>
+            <label for="totalBeds">Total Beds:</label>
+            <input type="number" name="totalBeds" id="totalBeds" min="0" max="100" value="<%= apartment.totalBeds %>"
+              required />
+          </div>
+          <div>
+            <label for="bathrooms">Bathrooms:</label>
+            <input type="number" name="bathrooms" id="bathrooms" min="0" max="50" value="<%= apartment.bathrooms %>"
+              required />
+          </div>
+        </fieldset>
+
+        <fieldset class="grid">
+          <div>
+            <label for="mainPhoto">Main Photo URL:</label>
+            <input type="url" name="mainPhoto" id="mainPhoto" value="<%= apartment.mainPhoto %>" required />
+
+            <button id="upload_widget" class="cloudinary-button">Upload files</button>
+          </div>
+
+          <div>
+            <label for="mainPhotoCaption">Main Photo Caption:</label>
+            <input type="string" name="mainPhotoCaption" id="mainPhotoCaption" pattern="[A-Za-z\s\-]+"
+              title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens."
+              maxlength="30" value="<%= apartment.mainPhotoCaption %>" required />
+          </div>
+        </fieldset>
+
+
+        <fieldset class="grid">
+          <div>
+            <label for="photoTwo">2nd Photo URL:</label>
+            <input type="url" name="photoTwo" id="photoTwo" value="<%= apartment.photoTwo %>" />
+            <button id="upload_widget_two" class="cloudinary-button">Upload files</button>
+          </div>
+          <div>
+            <label for="photoTwoCaption">2nd Photo Caption:</label>
+            <input type="string" name="photoTwoCaption" id="photoTwoCaption" pattern="[A-Za-z\s\-]+"
+              title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens."
+              maxlength="30" value="<%= apartment.photoTwoCaption %>" />
+          </div>
+        </fieldset>
+
+        <fieldset class="grid">
+          <div>
+            <label for="photoThree">3rd Photo URL:</label>
+            <input type="url" name="photoThree" id="photoThree" value="<%= apartment.photoThree %>" />
+            <button id="upload_widget_three" class="cloudinary-button">Upload files</button>
+          </div>
+          <div>
+            <label for="photoThreeCaption">3rd Photo Caption:</label>
+            <input type="string" name="photoThreeCaption" id="photoThreeCaption" pattern="[A-Za-z\s\-]+"
+              title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens."
+              maxlength="30" value="<%= apartment.photoThreeCaption %>" />
+          </div>
+        </fieldset>
+
+        <fieldset class="grid">
+          <div>
+            <label for="photoFour">4th Photo URL:</label>
+            <input type="url" name="photoFour" id="photoFour" value="<%= apartment.photoFour %>" />
+            <button id="upload_widget_four" class="cloudinary-button">Upload files</button>
+          </div>
+          <div>
+            <label for="photoFourCaption">4th Photo Caption:</label>
+            <input type="string" name="photoFourCaption" id="photoFourCaption" pattern="[A-Za-z\s\-]+"
+              title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens."
+              maxlength="30" value="<%= apartment.photoFourCaption %>" />
+          </div>
+        </fieldset>
+
+        <label for="services">Services:</label>
+        <div id="services-container">
+          <div>
+            <label>
+              <input type="checkbox" name="airConditioning" value="true" <%=apartment.airConditioning ? "checked" : ""
+                %> /> Air Conditioning
+            </label>
+            <label>
+              <input type="checkbox" name="centralHeating" value="true" <%=apartment.centralHeating ? "checked" : "" %>
+              /> Central Heating
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <input type="checkbox" name="disabledAccess" value="true" <%=apartment.disabledAccess ? "checked" : "" %>
+              /> Disabled Access
+            </label>
+            <label>
+              <input type="checkbox" name="tv" value="true" <%=apartment.tv ? "checked" : "" %> /> TV
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <input type="checkbox" name="kitchen" value="true" <%=apartment.kitchen ? "checked" : "" %> /> Kitchen
+            </label>
+            <label>
+              <input type="checkbox" name="wifi" value="true" <%=apartment.wifi ? "checked" : "" %> /> Wi-Fi
+            </label>
+            <br>
+          </div>
         </div>
-        <div>
-          <label for="size">M <sup>2</sup></label>
-          <input type="number" name="size" id="size" min="0" max="10000" required value="<%= apartment.size %>" />
-        </div>
-      </fieldset>
 
-      <fieldset class="grid">
-        <div>
-          <label for="maxNumberOfGuests">Max Guests:</label>
-          <input type="number" name="maxNumberOfGuests" id="maxNumberOfGuests" min="0" max="100" value="<%= apartment.maxNumberOfGuests %>" required/>
-        </div>
-        <div>
-          <label for="bedrooms">Bedrooms:</label>
-          <input type="number" name="bedrooms" id="bedrooms" min="0" max="50" value="<%= apartment.bedrooms %>" required/>
-        </div>
-        <div>
-          <label for="totalBeds">Total Beds:</label>
-          <input type="number" name="totalBeds" id="totalBeds" min="0" max="100" value="<%= apartment.totalBeds %>" required/>
-        </div>
-        <div>
-          <label for="bathrooms">Bathrooms:</label>
-          <input type="number" name="bathrooms" id="bathrooms" min="0" max="50" value="<%= apartment.bathrooms %>" required/>
-        </div>
-      </fieldset>
+        <label for="location">Choose the location on the map:</label>
+        <div id="map"></div>
+        <input type="hidden" name="latitude" id="latitude" value="<%= apartment.latitude %>" />
+        <input type="hidden" name="longitude" id="longitude" value="<%= apartment.longitude %>" />
 
-      <fieldset class="grid">
-        <div>
-          <label for="mainPhoto">Main Photo URL:</label>
-          <input type="url" name="mainPhoto" id="mainPhoto" value="<%= apartment.mainPhoto %>" required/>
-        </div>
-        <div>
-          <label for="mainPhotoCaption">Main Photo Caption:</label>
-          <input type="string" name="mainPhotoCaption" id="mainPhotoCaption" pattern="[A-Za-z\s\-]+" title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens." maxlength="30" value="<%= apartment.mainPhotoCaption %>" required/>
-        </div>
-      </fieldset>
+        <br>
 
+        <fieldset class="grid">
+          <div>
+            <label for="province">Province:</label>
+            <input type="string" name="province" id="province" pattern="[A-Za-z\s\-]+"
+              title="Province names can contain letters, spaces, and hyphens" maxlength="30"
+              value="<%= apartment.province %>" required />
+          </div>
+          <div>
+            <label for="city">City:</label>
+            <input type="string" name="city" id="city" pattern="[A-Za-z\s\-]+"
+              title="City names can contain letters, spaces, and hyphens" maxlength="30" value="<%= apartment.city %>"
+              required />
+          </div>
+        </fieldset>
 
-      <fieldset class="grid">
-        <div>
-          <label for="photoTwo">2nd Photo URL:</label>
-          <input type="url" name="photoTwo" id="photoTwo" value="<%= apartment.photoTwo %>"/>
-        </div>
-        <div>
-          <label for="photoTwoCaption">2nd Photo Caption:</label>
-          <input type="string" name="photoTwoCaption" id="photoTwoCaption" pattern="[A-Za-z\s\-]+" title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens." maxlength="30" value="<%= apartment.photoTwoCaption %>"/>
-        </div>
-      </fieldset>
+        <label for="listing">Do you want to list this property? <input type="checkbox" name="listed" id="listed"
+            value="true" <%=apartment.listed ? "checked" : "" %> > </label>
 
-      <fieldset class="grid">
-        <div>
-          <label for="photoThree">3rd Photo URL:</label>
-          <input type="url" name="photoThree" id="photoThree" value="<%= apartment.photoThree %>"/>
-        </div>
-        <div>
-          <label for="photoThreeCaption">3rd Photo Caption:</label>
-          <input type="string" name="photoThreeCaption" id="photoThreeCaption" pattern="[A-Za-z\s\-]+" title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens." maxlength="30" value="<%= apartment.photoThreeCaption %>"/>
-        </div>
-      </fieldset>
+        <input type="submit" value="<%= apartment._id ? " Edit Apartment" : "Add Apartment" %>" />
 
-      <fieldset class="grid">
-        <div>
-          <label for="photoFour">4th Photo URL:</label>
-          <input type="url" name="photoFour" id="photoFour" value="<%= apartment.photoFour %>"/>
-        </div>
-        <div>
-          <label for="photoFourCaption">4th Photo Caption:</label>
-          <input type="string" name="photoFourCaption" id="photoFourCaption" pattern="[A-Za-z\s\-]+" title="Captions must be less than 30 characters, and can contain letters, spaces, and hyphens." maxlength="30" value="<%= apartment.photoFourCaption %>"/>
-        </div>
-      </fieldset>
+      </form>
+    </main>
 
-      <label for="services">Services:</label>
-      <div id="services-container">
-      <div>
-      <label>
-        <input type="checkbox" name="airConditioning" value="true" <%= apartment.airConditioning ? "checked" : "" %> /> Air Conditioning
-      </label>
-      <label>
-        <input type="checkbox" name="centralHeating" value="true" <%= apartment.centralHeating ? "checked" : "" %> /> Central Heating
-      </label>
-    </div>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize the map
+        var map = L.map('map').setView([<%= apartment.latitude || 51.505 %>, <%= apartment.longitude || -0.09 %>], 13);
 
-    <div>
-      <label>
-        <input type="checkbox" name="disabledAccess" value="true" <%= apartment.disabledAccess ? "checked" : "" %> /> Disabled Access
-      </label>
-      <label>
-        <input type="checkbox" name="tv" value="true" <%= apartment.tv ? "checked" : "" %> /> TV
-      </label>
-    </div>
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-    <div>
-      <label>
-        <input type="checkbox" name="kitchen" value="true" <%= apartment.kitchen ? "checked" : "" %> /> Kitchen
-      </label>
-      <label>
-        <input type="checkbox" name="wifi" value="true" <%= apartment.wifi ? "checked" : "" %> /> Wi-Fi
-      </label>
-      <br>
-    </div>
-    </div>
-      
-      <!-- !!!testing ground -->
-      <label for="location">Choose the location on the map:</label>
-      <div id="map"></div>
-      <input type="hidden" name="latitude" id="latitude" value="<%= apartment.latitude %>"/>
-      <input type="hidden" name="longitude" id="longitude" value="<%= apartment.longitude %>"/>
+        var marker = L.marker([<%= apartment.latitude || 51.505 %>, <%= apartment.longitude || -0.09 %>]).addTo(map);
 
-      <br>
+        // Add the search control to the map
+        var geocoder = L.Control.Geocoder.nominatim();
+        L.Control.geocoder({
+          geocoder: geocoder,
+          defaultMarkGeocode: false
+        }).on('markgeocode', function (e) {
+          var latlng = e.geocode.center;
+          marker.setLatLng(latlng);
+          map.setView(latlng, 13);
+          document.getElementById('latitude').value = latlng.lat;
+          document.getElementById('longitude').value = latlng.lng;
+        }).addTo(map);
 
-      <fieldset class="grid">
-        <div>
-          <label for="province">Province:</label>
-          <input type="string" name="province" id="province" pattern="[A-Za-z\s\-]+" title="Province names can contain letters, spaces, and hyphens" maxlength="30" value="<%= apartment.province %>" required/>
-        </div>
-        <div>
-          <label for="city">City:</label>
-          <input type="string" name="city" id="city" pattern="[A-Za-z\s\-]+" title="City names can contain letters, spaces, and hyphens" maxlength="30" value="<%= apartment.city %>" required/>
-        </div>
-      </fieldset>
+        // Update hidden fields when map is clicked
+        map.on('click', function (e) {
+          var lat = e.latlng.lat;
+          var lng = e.latlng.lng;
 
-      <label for="listing">Do you want to list this property? <input type="checkbox" name="listed" id="listed" value="true" <%= apartment.listed ? "checked" : "" %> > </label>
+          marker.setLatLng([lat, lng]);
+          document.getElementById('latitude').value = lat;
+          document.getElementById('longitude').value = lng;
+        });
+      });
+    </script>
 
-      <input type="submit" value="<%= apartment._id ? " Edit Apartment" : "Add Apartment" %>" />
+    <script src="/js/form-scripts.js"></script>
 
-    </form>
-  </main>
+    <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
 
-   <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-  // Initialize the map
-  var map = L.map('map').setView([<%= apartment.latitude || 51.505 %>, <%= apartment.longitude || -0.09 %>], 13);
+    <script type="text/javascript">
+      function initializeUploadWidget(buttonId, inputId) {
+        var widget = cloudinary.createUploadWidget({
+          cloudName: 'dsqhsfety',
+          uploadPreset: 'tribook_preset' // Configure this according to your settings
+        }, (error, result) => {
+          if (!error && result && result.event === "success") {
+            console.log('Done! Here is the image info: ', result.info);
+            console.log("the photo's url: ", result.info.url);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
+            document.getElementById(inputId).value = result.info.url;
+          }
+        });
 
-  var marker = L.marker([<%= apartment.latitude || 51.505 %>, <%= apartment.longitude || -0.09 %>]).addTo(map);
+        document.getElementById(buttonId).addEventListener("click", function () {
+          widget.open();
+        }, false);
+      }
 
-  // Add the search control to the map
-  var geocoder = L.Control.Geocoder.nominatim();
-  L.Control.geocoder({
-    geocoder: geocoder,
-    defaultMarkGeocode: false
-  }).on('markgeocode', function(e) {
-    var latlng = e.geocode.center;
-    marker.setLatLng(latlng);
-    map.setView(latlng, 13);
-    document.getElementById('latitude').value = latlng.lat;
-    document.getElementById('longitude').value = latlng.lng;
-  }).addTo(map);
-
-  // Update hidden fields when map is clicked
-  map.on('click', function(e) {
-    var lat = e.latlng.lat;
-    var lng = e.latlng.lng;
-
-    marker.setLatLng([lat, lng]);
-    document.getElementById('latitude').value = lat;
-    document.getElementById('longitude').value = lng;
-  });
-});
-  </script>
-
-  <script src="/js/form-scripts.js"></script>
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeUploadWidget("upload_widget", "mainPhoto");
+        initializeUploadWidget("upload_widget_two", "photoTwo");
+        initializeUploadWidget("upload_widget_three", "photoThree");
+        initializeUploadWidget("upload_widget_four", "photoFour");
+      });
+    </script>
 
 </body>
 
