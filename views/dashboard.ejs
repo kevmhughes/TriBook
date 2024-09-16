@@ -71,13 +71,15 @@
           <div class="message" style="background-color: blueviolet;">admin</div>
           <br>
 
+
+    <% if ((successMessage && successMessage.length > 0)) { %>
+      <div class="message"><%= successMessage %></div>
+    <% } %>
+
           <% for (const ap of apartments) { %>
 
           <h1>Your apartments:</h1>
 
-    <% if ((successMessage && successMessage.length > 0)) { %>
-      <div class="message""><%= successMessage %></div>
-    <% } %>
 
             <article class="apartment">
               <header>

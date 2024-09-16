@@ -77,7 +77,7 @@
             <label for="mainPhoto">Main Photo URL:</label>
             <input type="url" name="mainPhoto" id="mainPhoto" value="<%= apartment.mainPhoto %>" required />
 
-            <button id="upload_widget" class="cloudinary-button">Upload files</button>
+            <button type="button" id="upload_widget" class="cloudinary-button">Upload files</button>
           </div>
 
           <div>
@@ -93,7 +93,7 @@
           <div>
             <label for="photoTwo">2nd Photo URL:</label>
             <input type="url" name="photoTwo" id="photoTwo" value="<%= apartment.photoTwo %>" />
-            <button id="upload_widget_two" class="cloudinary-button">Upload files</button>
+            <button type="button"  id="upload_widget_two" class="cloudinary-button">Upload files</button>
           </div>
           <div>
             <label for="photoTwoCaption">2nd Photo Caption:</label>
@@ -107,7 +107,7 @@
           <div>
             <label for="photoThree">3rd Photo URL:</label>
             <input type="url" name="photoThree" id="photoThree" value="<%= apartment.photoThree %>" />
-            <button id="upload_widget_three" class="cloudinary-button">Upload files</button>
+            <button type="button"  id="upload_widget_three" class="cloudinary-button">Upload files</button>
           </div>
           <div>
             <label for="photoThreeCaption">3rd Photo Caption:</label>
@@ -121,7 +121,7 @@
           <div>
             <label for="photoFour">4th Photo URL:</label>
             <input type="url" name="photoFour" id="photoFour" value="<%= apartment.photoFour %>" />
-            <button id="upload_widget_four" class="cloudinary-button">Upload files</button>
+            <button type="button"  id="upload_widget_four" class="cloudinary-button">Upload files</button>
           </div>
           <div>
             <label for="photoFourCaption">4th Photo Caption:</label>
@@ -187,8 +187,7 @@
           </div>
         </fieldset>
 
-        <label for="listing">Do you want to list this property? <input type="checkbox" name="listed" id="listed"
-            value="true" <%=apartment.listed ? "checked" : "" %> > </label>
+        <label for="listing">Do you want to list this property?  <input type="checkbox" name="listed" id="listed" value="true" <%= apartment._id ? (apartment.listed ? "checked" : "") : "checked" %> >
 
         <input type="submit" value="<%= apartment._id ? " Edit Apartment" : "Add Apartment" %>" />
 
@@ -234,36 +233,13 @@
       });
     </script>
 
+    <!-- Form script -->
     <script src="/js/form-scripts.js"></script>
 
+    <!-- Cloudinary script -->
     <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
 
-    <script type="text/javascript">
-      function initializeUploadWidget(buttonId, inputId) {
-        var widget = cloudinary.createUploadWidget({
-          cloudName: 'dsqhsfety',
-          uploadPreset: 'tribook_preset' // Configure this according to your settings
-        }, (error, result) => {
-          if (!error && result && result.event === "success") {
-            console.log('Done! Here is the image info: ', result.info);
-            console.log("the photo's url: ", result.info.url);
-
-            document.getElementById(inputId).value = result.info.url;
-          }
-        });
-
-        document.getElementById(buttonId).addEventListener("click", function () {
-          widget.open();
-        }, false);
-      }
-
-      document.addEventListener("DOMContentLoaded", function () {
-        initializeUploadWidget("upload_widget", "mainPhoto");
-        initializeUploadWidget("upload_widget_two", "photoTwo");
-        initializeUploadWidget("upload_widget_three", "photoThree");
-        initializeUploadWidget("upload_widget_four", "photoFour");
-      });
-    </script>
+    <script type="text/javascript" src="/js/cloudinary-scripts.js"></script>
 
 </body>
 

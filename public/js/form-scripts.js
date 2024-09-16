@@ -31,7 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "photoThreeCaption",
     "photoFourCaption",
     "city",
-    "province"
+    "province",
+    "location"
   ];
 
   // Set up event listeners for all specified input fields

@@ -122,7 +122,7 @@ const apartmentSchema = new Schema({
         type: Boolean,
         default: true
          } 
-})
+}, { timestamps: true })
 
 const Apartment = model('Apartment', apartmentSchema);
 

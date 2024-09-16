@@ -32,7 +32,7 @@ const postSignUpForm = async (req, res) => {
         return res.redirect("/sign-up")
     } 
         await User.create(req.body)
-        req.flash("success", "You have signed up successfully, please proceed to log in.")
+        req.flash("success", "You have signed up successfully. Now, you can log in.")
         res.redirect("/login");
     }
 

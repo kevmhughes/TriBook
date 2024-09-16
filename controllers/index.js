@@ -61,7 +61,11 @@ const getApartments = async (req, res) => {
   try {
     // Find all apartments in the database that have been listed by their respective hosts (admin users)
     const apartments = await Apartment.find({ listed: true });
-    res.render("home", { apartments, zeroResultsMessage: false });
+    if (apartments.length == 0) {
+      res.render("home", { apartments, zeroResultsMessage: true });
+    } else {
+      res.render("home", { apartments, zeroResultsMessage: false });
+    }
   } catch (error) {
     console.error("Error fetching properties:", error);
     res.status(500).json({ error: "Failed to fetch apartments" });

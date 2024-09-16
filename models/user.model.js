@@ -30,7 +30,7 @@ const userSchema = new Schema({
         enum: ["standard", "admin"],
         default: "standard"
     }
-})
+}, { timestamps: true })
 
 const User = model('User', userSchema);
 
