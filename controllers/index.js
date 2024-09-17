@@ -1,10 +1,21 @@
 const Apartment = require("../models/apartment.model.js");
 const Reservation = require("../models/reservation.model.js");
-const { getDateRange } = require("../utils/dateUtils.js")
+const { getDateRange } = require("../utils/dateUtils.js");
 
+// Render dashboard and get reservations made by standard user, and get apartments owned by host as well of bookings of said apartments
 const getDashboard = async (req, res) => {
   try {
     if (res.locals.isAuthenticated) {
+
+      // Helper function to format dates
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+      }
+      
       // Get list of all reservations - made by specific standard user
       const reservations = await Reservation.find({ user: userData.id })
         .populate({
@@ -14,20 +25,84 @@ const getDashboard = async (req, res) => {
             select: "name email", // Select which fields to include from the user schema
           },
         })
+        .sort({ startDate: -1 }) // Sort by startDate in descending order
         .exec();
+
+      // Format dates of reservations
+      reservations.forEach((reservation) => {
+        reservation.startDateFormatted = formatDate(reservation.startDate);
+        reservation.endDateFormatted = formatDate(reservation.endDate);
+      });
+
+      const sortByValue = req.query.sortByBookings
+
+      let sortByQuery 
+      if (sortByValue == "startDate"){
+        sortByQuery = {startDate: 1}
+      } else if (sortByValue === "endDate") {
+        sortByQuery = {endDate: 1}
+      } else if (sortByValue === "startDateLast"){
+        sortByQuery = {startDate: -1}
+      } else if (sortByValue === "endDateLast") {
+        sortByQuery = {endDate: -1}
+      } else if (sortByValue === "usernameAz") {
+        sortByQuery = {user: 1}
+      } else if (sortByValue === "usernameZa") {
+        sortByQuery = {user: -1}
+      } else if (sortByValue === "titleAz") {
+        sortByQuery = {apartment: 1}
+      } else if (sortByValue === "titleZa") {
+        sortByQuery = {apartment: -1}
+      }
 
       // Get list of all reservations and populate the user object
       const allApartmentsBooked = await Reservation.find()
         .populate("apartment")
-        .populate("user");
+        .populate("user")
+        .sort(sortByQuery)
+        .exec();
 
       // Filter reservations by admin user id so that an admin only sees their apartment reservations
       const myApartmentsBooked = allApartmentsBooked.filter(
         (ap) => ap.apartment.user._id.toString() === userData.id
       );
 
+      // Format dates of apartments booked
+      myApartmentsBooked.forEach((reservation) => {
+        reservation.startDateFormatted = formatDate(reservation.startDate);
+        reservation.endDateFormatted = formatDate(reservation.endDate);
+      });
+
+      const sortByValueApartments = req.query.sortByApartments
+      console.log(sortByValueApartments)
+
+
+      let sortByQueryApartments 
+      if (sortByValueApartments == "newest"){
+        sortByQueryApartments = {createdAt: 1}
+      } else if (sortByValueApartments == "oldest"){
+        sortByQueryApartments = {createdAt: -1}
+      } else if (sortByValueApartments == "listed"){
+        sortByQueryApartments = {listed: -1}
+      } else if (sortByValueApartments == "delisted"){
+        sortByQueryApartments = {listed: 1}
+      } else if (sortByValueApartments == "titleAzApartments"){
+        sortByQueryApartments = {title: 1}
+      } else if (sortByValueApartments == "titleZaApartments"){
+        sortByQueryApartments = {title: -1}
+      } else if (sortByValueApartments == "priceHigh"){
+        sortByQueryApartments = {price: -1}
+      } else if (sortByValueApartments == "priceLow"){
+        sortByQueryApartments = {price: 1}
+      }
+
+
       // Get list of all apartments owned by admin user using their user id
-      const apartments = await Apartment.find({ user: userData.id }).sort({createdAt: -1});
+      const apartments = await Apartment.find({ user: userData.id }).sort(
+        sortByQueryApartments 
+      );
+
+      console.log("apartments: ", apartments[0])
 
       res.render("dashboard", { reservations, apartments, myApartmentsBooked });
     } else {
@@ -35,7 +110,8 @@ const getDashboard = async (req, res) => {
         .status(404)
         .render("404", { message: "You must log in to see your dashboard." });
     }
-  } catch (error) {}
+  } catch (error) {
+  }
 };
 
 // Render reservation.ejs with success message and further call to action buttons
@@ -44,11 +120,9 @@ const getReservation = async (req, res) => {
     if (res.locals.isAuthenticated && res.locals.isUser) {
       res.render("reservation");
     } else {
-      res
-        .status(404)
-        .render("404", {
-          message: "You must log in before making a reservation.",
-        });
+      res.status(404).render("404", {
+        message: "You must log in before making a reservation.",
+      });
     }
   } catch (error) {
     console.error("Error fetching reservation confirmation:", error);
@@ -60,7 +134,9 @@ const getReservation = async (req, res) => {
 const getApartments = async (req, res) => {
   try {
     // Find all apartments in the database that have been listed by their respective hosts (admin users)
-    const apartments = await Apartment.find({ listed: true }).sort({createdAt: -1});
+    const apartments = await Apartment.find({ listed: true }).sort({
+      createdAt: -1,
+    });
 
     if (apartments.length == 0) {
       res.render("home", { apartments, zeroResultsMessage: true });
@@ -78,7 +154,7 @@ const getApartmentById = async (req, res) => {
   try {
     const { idApartment } = req.params;
     // Find the apartment
-    const selectedApartment = await Apartment.findById(idApartment);
+    const selectedApartment = await Apartment.findById(idApartment).populate("user");
     // Find all reservations of that apartment
     const reservations = await Reservation.find({ apartment: idApartment });
 
@@ -88,6 +164,8 @@ const getApartmentById = async (req, res) => {
       const range = getDateRange(new Date(startDate), new Date(endDate));
       return acc.concat(range);
     }, []);
+
+    console.log(selectedApartment.user.username)
 
     res.render("apartment-details", {
       selectedApartment,
@@ -101,8 +179,15 @@ const getApartmentById = async (req, res) => {
 
 // Search for properties based on filters
 const searchApartments = async (req, res) => {
-  let { maxPrice, minPrice, numberOfGuests, location, startDate, endDate, sortBy } =
-    req.query;
+  let {
+    maxPrice,
+    minPrice,
+    numberOfGuests,
+    location,
+    startDate,
+    endDate,
+    sortBy,
+  } = req.query;
 
   // set default values if and when no value is given by the user in the input of the HTML form
   const searchQuery = {
@@ -117,7 +202,6 @@ const searchApartments = async (req, res) => {
 
   if (location) {
     searchQuery.city = location;
-
   }
 
   try {
@@ -128,7 +212,7 @@ const searchApartments = async (req, res) => {
       // Convert the startDate and endDate to JavaScript Date objects
       const start = new Date(startDate);
       const end = new Date(endDate);
-      
+
       // Find all reservations that overlap with the given date range
       const reservations = await Reservation.find({
         $or: [
@@ -150,21 +234,26 @@ const searchApartments = async (req, res) => {
       searchQuery._id = { $nin: reservedApartmentIds }; // Exclude reserved apartments
     }
 
-    let sortByInputValue
+    let sortByInputValue;
 
     if (sortBy == "mostRecent") {
-      sortByInputValue = {createdAt: -1}
+      sortByInputValue = { createdAt: -1 };
     } else if (sortBy == "minPriceFirst") {
-      sortByInputValue = {price: 1}
+      sortByInputValue = { price: 1 };
     } else if (sortBy == "maxPriceFirst") {
-      sortByInputValue = {price: -1}
+      sortByInputValue = { price: -1 };
     }
 
     // Filter apartments based on search query
-    const apartments = await Apartment.find({ ...searchQuery, listed: true }).sort(sortByInputValue);
+    const apartments = await Apartment.find({
+      ...searchQuery,
+      listed: true,
+    }).sort(sortByInputValue);
 
     if (apartments.length == 0) {
-      const defaultApartments = await Apartment.find({ listed: true }).limit(5).sort({createdAt: -1}); // Fetch 5 default properties if filter gives zero results
+      const defaultApartments = await Apartment.find({ listed: true })
+        .limit(5)
+        .sort({ createdAt: -1 }); // Fetch 5 default properties if filter gives zero results
       return res.render("home", {
         apartments: defaultApartments,
         zeroResultsMessage: true,
@@ -226,8 +315,8 @@ const postNewReservation = async (req, res) => {
 
       res.redirect("/reservation");
     } else {
-      req.flash("error", "Invalid date range, please try again.")
-      res.status(400).redirect(`/apartment/${req.body.id}`)
+      req.flash("error", "Invalid date range, please try again.");
+      res.status(400).redirect(`/apartment/${req.body.id}`);
     }
   } catch (error) {
     console.error("Error posting reservation:", error);

@@ -20,10 +20,10 @@
   </header>
   <div class="container">
     <% if (isUser) { %>
-      <div class="message">account type: standard user</div>
+      <div class="message">Account Type: Standard User</div>
       <br>
 
-      <h1>Your confirmed bookings:</h1>
+      <h1>Your Confirmed Bookings</h1>
 
       <% for (const res of reservations) { %>
 
@@ -37,10 +37,10 @@
           </a>
           <footer>
             <div>
-              checking-in date: <%= res.startDate %>
+              Check-in Date: <%= res.startDateFormatted %>
             </div>
             <div>
-              checking-out date: <%= res.endDate %>
+              Check-out Date: <%= res.endDateFormatted %>
             </div>
             <div>
               <%= res.apartment.price %>€/night
@@ -49,7 +49,7 @@
               <%= res.apartment.size %> M <sup>2</sup>
             </div>
             <div>
-              contact e-mail: <%= res.apartment.user.email %>
+              Contact e-mail: <%= res.apartment.user.email %>
             </div>
             <div style="display: flex; justify-content: space-between;">
               <a href="/apartment/<%= res.apartment._id %>">
@@ -69,7 +69,9 @@
       <% } %>
 
         <% if (isAdmin) { %>
-          <div class="message" style="background-color: blueviolet;">admin</div>
+
+            <div class="message" style="background-color: blueviolet; inline-size: fit-content;">admin
+            </div>
           <br>
 
 
@@ -77,7 +79,73 @@
       <div class="message"><%= successMessage %></div>
     <% } %>
 
-    <h1>Your apartments:</h1>
+    <h1>Your Bookings</h1>
+
+    <form action="/dashboard" method="GET">
+
+      <div>
+        <label for="sortByBookings">Order Results:</label>
+        <select name="sortByBookings" id="sortByBookings">
+          <option value="startDate">Check-in Date: Earliest</option>
+          <option value="endDate">Check-out Date: Earliest</option>
+          <option value="startDateLast">Check-in Date: Latest</option>
+          <option value="endDateLast">Check-out Date: Latest</option>
+          <option value="usernameAz">User: A-Z</option>
+          <option value="usernameZa">User: Z-A</option>
+          <option value="titleAz">Title: A-Z</option>
+          <option value="titleZa">Title: Z-A</option>
+        </select>
+      </div>
+  
+      <input type="submit" value="Search">
+    </form>
+    
+    <main>
+      <% for (const my of myApartmentsBooked) { %>
+
+        <article class="apartment">
+          <header>
+            <%= my.apartment.title %>
+          </header>
+            <div class="bookings-made-container">
+              <div>
+                <p><b>Check-in Date: </b><%= my.startDateFormatted %></p>
+                <p><b>Check-out Date:</b> <%= my.endDateFormatted %></p>
+              </div>
+              <div>
+                <p><b>User:</b> <%= my.user.username %></p>
+                <p><b>Contact e-mail:</b> <%= my.user.email %></p>
+              </div>
+            </div>
+          <footer>
+            <button>Contact Guest</button>
+          </footer>
+        </article>
+  
+        <% } %> 
+    </main>
+
+
+    <h1>Your Apartments</h1>
+
+    <form action="/dashboard" method="GET">
+
+      <div>
+        <label for="sortByApartments">Order Results:</label>
+        <select name="sortByApartments" id="sortByApartments">
+          <option value="newest">Newest Listing</option>
+          <option value="oldest">Oldest Listing</option>
+          <option value="listed">Listed</option>
+          <option value="delisted">Delisted</option>
+          <option value="titleAzApartments">Title: A-Z</option>
+          <option value="titleZaApartments">Title: Z-A</option>
+          <option value="priceHigh">Price: Highest</option>
+          <option value="priceLow">Price: Lowest</option>
+        </select>
+      </div>
+  
+      <input type="submit" value="Search">
+    </form>
 
           <% for (const ap of apartments) { %>
 
@@ -90,15 +158,15 @@
               </a>
               <footer>
                 <div>
-                  <%= ap.price %>€/night
+                  <b>Price: </b><%= ap.price %>€/night
                 </div>
-                <%= ap.size %> M <sup>2</sup>
+                <b>Size:</b> <%= ap.size %> M <sup>2</sup>
               </footer>
               <footer>
                 <div>
                     <div style="display: flex; justify-content: space-between;">
-                      <a href="/apartment/<%= ap._id %>">
-                        <button>Details</button>
+                      <a href="/admin/apartment/<%= ap._id %>/edit">
+                        <button>Edit</button>
                       </a>
                       <%- ap.listed ? '<button class="message">Listed</button>' : '<button class="alert-error">Delisted</button>' %>
                     </div>
@@ -108,27 +176,10 @@
 
             <% } %>
 
-            <h1>Your bookings: </h1>
-            
-            <% for (const my of myApartmentsBooked) { %>
-
-              <article class="apartment">
-                <header>
-                  <%= my.apartment.title %>
-                </header>
-                  <p>checking-in date: <%= my.startDate %></p>
-                  <p>checking-out date: <%= my.endDate %></p>
-                  <p>user: <%= my.user.username %></p>
-                  <p>contact e-mail: <%= my.user.email %></p>
-                <footer>
-                  <button>Contact Guest</button>
-                </footer>
-              </article>
-  
-              <% } %>
           <% } %>
 
   </div>
+  <script src="/js/form-scripts-dashboard.js"></script>
 </body>
 
 </html>

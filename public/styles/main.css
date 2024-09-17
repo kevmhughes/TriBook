@@ -76,3 +76,11 @@ align-items: flex-start;}
     color: red;
     font-size: 0.9em;
   }
+
+/*   dashboard.ejs */
+
+.bookings-made-container {
+    display: grid;
+    grid-column: auto;
+    grid-template-columns: 1fr 1fr;
+}

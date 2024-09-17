@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /* set/get local storage filter value */
 window.onload = () => {
-  const defaultValue = localStorage.getItem("sortByValue") || "mostRecent";
+  const defaultValue = localStorage.getItem("sortByValue") || "mostRecent"
 
   // Set the initial value of the select element
   const sortByElement = document.getElementById('sortBy');
@@ -57,6 +57,7 @@ window.onload = () => {
       localStorage.setItem("sortByValue", sortByValue);
   });
 };
+
 
 // Send error message when search start date is later than end date
 document.getElementById('searchForm').addEventListener('submit', function(event) {
