@@ -20,7 +20,7 @@
   </header>
   <div class="container">
     <% if (isUser) { %>
-      <div class="message" style="inline-size: fit-content;">Standard User</div>
+      <div class="message" style="background-color: blueviolet; inline-size: fit-content;">Standard User</div>
       <br>
 
       <h1>Your Confirmed Bookings</h1>
@@ -37,20 +37,21 @@
           </a>
           <footer>
             <div>
-              Check-in Date: <%= res.startDateFormatted %>
+              <b>Check-in Date:</b> <%= res.startDateFormatted %>
             </div>
             <div>
-              Check-out Date: <%= res.endDateFormatted %>
+              <b>Check-out Date:</b> <%= res.endDateFormatted %>
             </div>
             <div>
-              <%= res.apartment.price %>€/night
+              <b>Price:</b> <%= res.apartment.price %> £ per night
             </div>
             <div>
-              <%= res.apartment.size %> M <sup>2</sup>
+             <b>Size:</b> <%= res.apartment.size %> M <sup>2</sup>
             </div>
             <div>
-              Contact e-mail: <%= res.apartment.user.email %>
+              <b>Contact e-mail:</b> <%= res.apartment.user.email %>
             </div>
+            <br>
             <div style="display: flex; justify-content: space-between;">
               <a href="/apartment/<%= res.apartment._id %>">
                 <button>Details</button>
@@ -88,10 +89,10 @@
           <div>
             <label for="sortByBookings">Order Results:</label>
             <select name="sortByBookings" id="sortByBookings">
-              <option value="startDate">Check-in Date: earliest</option>
-              <option value="endDate">Check-out Date: earliest</option>
-              <option value="startDateLast">Check-in Date: latest</option>
-              <option value="endDateLast">Check-out Date: latest</option>
+              <option value="startDate">Check-in: Ascending</option>
+              <option value="endDate">Check-out: Ascending</option>
+              <option value="startDateLast">Check-in: Descending</option>
+              <option value="endDateLast">Check-out: Descending</option>
               <option value="usernameAz">User: A-Z</option>
               <option value="usernameZa">User: Z-A</option>
               <option value="titleAz">Title: A-Z</option>

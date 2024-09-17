@@ -34,6 +34,8 @@ const getDashboardBookings = async (req, res) => {
 
       const sortByValue = req.query.sortByBookings;
 
+
+      // fix issue with nested sorts: user.username and apartment.title
       let sortByQuery;
       if (sortByValue == "startDate"){
         sortByQuery = {startDate: 1};
@@ -44,9 +46,9 @@ const getDashboardBookings = async (req, res) => {
       } else if (sortByValue === "endDateLast") {
         sortByQuery = {endDate: -1};
       } else if (sortByValue === "usernameAz") {
-        sortByQuery = {user: 1};
+        sortByQuery = {"user.username": 1};
       } else if (sortByValue === "usernameZa") {
-        sortByQuery = {user: -1};
+        sortByQuery = {"user.username": -1};
       } else if (sortByValue === "titleAz") {
         sortByQuery = {"apartment.title": 1};
       } else if (sortByValue === "titleZa") {
@@ -59,6 +61,11 @@ const getDashboardBookings = async (req, res) => {
         .populate("user")
         .sort(sortByQuery)
         .exec();
+
+
+      console.log("first apartment title: ", allApartmentsBooked[0].user.username)
+      console.log(sortByValue)
+      console.log(sortByQuery)
 
       // Filter reservations by admin user id so that an admin only sees their apartment reservations
       const myApartmentsBooked = allApartmentsBooked.filter(
@@ -74,15 +81,12 @@ const getDashboardBookings = async (req, res) => {
       // Get list of all apartments owned by admin user using their user id
       const apartments = await Apartment.find({ user: userData.id });
 
-       console.log("My apartments", apartments)
-
       res.render("dashboard-bookings", { reservations, myApartmentsBooked, apartments });
     } else {
       res.status(404).render("404", { message: "You must log in to see your dashboard." });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).render("error", { message: "An error occurred while processing your request." });
+
   }
 };
 
@@ -120,8 +124,6 @@ const getDashboardApartments = async (req, res) => {
       const updatedApartment = await Apartment.find({ user: userData.id }).sort(
         {updatedAt: -1}
       );
-
-      console.log("updated apartment:", updatedApartment[0].title)
 
       res.render("dashboard-apartments", { apartments, updatedApartment });
     } else {

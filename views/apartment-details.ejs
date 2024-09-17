@@ -1,170 +1,273 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
-  <%- include('partials/head', { title: 'Apartment Details'}) %>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <%- include('partials/head', { title: 'Apartment Details' }) %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <style>
-  #map { height: 300px; }
+  #map {
+    height: 300px;
+  }
 </style>
+
 <body>
   <%- include('partials/header') %>
 
     <main class="container">
 
-        <article class="apartment">
-            <header><%= selectedApartment.title %></header>
-            <div><img src="<%= selectedApartment.mainPhoto %>" alt="" />
-              <caption><%= selectedApartment.mainPhotoCaption %></caption>
-            </div>
-            <div><img src="<%= selectedApartment.photoTwo %>" alt="" />
-              <caption><%= selectedApartment.photoTwoCaption %></caption>
-            </div>
-            <div><img src="<%= selectedApartment.photoThree %>" alt="" />
-              <caption><%= selectedApartment.photoThreeCaption %></caption>
-            </div>
-            <div><img src="<%= selectedApartment.photoFour %>" alt="" />
-              <caption><%= selectedApartment.photoFourCaption %></caption>
-            </div>
-          <footer>
-            <div>
-              <b>Price:</b> <del style="color:grey"><%= selectedApartment.price %></del> <%= (selectedApartment.price * 0.9).toFixed(2) %> €/night
-            </div>
-            <div>
-              <b>City:</b> <%= selectedApartment.city %>
-             </div>
-             <div>
-              <b>Province:</b> <%= selectedApartment.province %>
-             </div>
-            <div>
-             <b>Description:</b> <%= selectedApartment.description %>
-            </div>
-            <div>
-              <b>Rules:</b> <%= selectedApartment.rules %> 
-            </div>
-            <div>
-              <b>Number of Bedrooms:</b> <%= selectedApartment.bedrooms %> 
-            </div>
-            <div>
-              <b>Total Beds:</b> <%= selectedApartment.totalBeds %> 
-            </div>
-            <div>
-              <b>Bathrooms:</b> <%= selectedApartment.bathrooms %> 
-            </div>
-            <div>
-              <b>Maximum Number Of Guests:</b> <%= selectedApartment.maxNumberOfGuests %> 
-            </div>
-            <div>
-              <b>Size:</b> <%= selectedApartment.size %>  M <sup>2</sup>
-            </div>
-            <div>
-              <b>Services: </b>
-            </div>
-            <div>
-              <% if (selectedApartment.tv) { %>
-                <img src="/icons/tv.svg" alt="TV Icon" width="32" height="32">
-                TV <br>
-              <% } %>
-              
-              <% if (selectedApartment.airConditioning) { %>
-                <img src="/icons/air-con.svg" alt="Air Conditioning Icon" width="32" height="32">
-                air conditioning <br>
-              <% } %>
-              
-              <% if (selectedApartment.centralHeating) { %>
-                <img src="/icons/heating.svg" alt="Heating Icon" width="24" height="24">
-                central heating <br>
-              <% } %>
-              
-              <% if (selectedApartment.wifi) { %>
-                <img src="/icons/wi-fi.svg" alt="Wi-Fi Icon" width="24" height="24">
-                wi-fi <br>
-              <% } %>
-              
-              <% if (selectedApartment.disabledAccess) { %>
-                <img src="/icons/wheelchair.svg" alt="Wheelchair Icon" width="24" height="24">
-                disabled access <br>
-              <% } %>
-              
-              <% if (selectedApartment.kitchen) { %>
-                <img src="/icons/kitchen.svg" alt="Kitchen Icon" width="24" height="24">
-                kitchen <br>
-              <% } %>
-              <br>
-            </div>
-          </footer>
-          <footer>
-            <% if (isUser) { %>
-              <div><b>Host: </b><%= selectedApartment.user.username %></div>
-              <button>Contact Host</button>
-            <% } %>
-          </footer>
-          <footer>
-            <div style="box-sizing: unset;" id="map"></div>
-          </footer>
-        </article>
-        <div>
-          <br>
-          <% if (isAdmin && selectedApartment.user == userData.id) { %>
-            <a href="/admin/apartment/<%= selectedApartment._id %>/edit/"><button>Edit the apartment</button></a>
-        <% } else if (isUser) { %>
-        
-            <form action="/apartment/new-reservation" method="POST">
-                <label for="id"></label>
-                <input type="hidden" name="id" value="<%= selectedApartment._id %>">  
-                <input type="hidden" name="email" id="email" placeholder="e-mail" value="<%= userData.email%>" required>
-                <input type="text" id="datepicker" name="startDate" id="startDate=" placeholder="start date">
-                <input type="text" id="datepicker" name="endDate" id="endDate=" placeholder="end date">
 
-                <input type="submit" value="Reserve">
-            </form>
-        
-        <% } else if (!isAuthenticated) { %> 
-              <p><a href="/login">Log in</a> or <a href="/sign-up">sign up</a> as a standard user here if you want to make a reservation</p>
-        <% } %>
-        
+      <article class="apartment">
+        <header>
+          <%= selectedApartment.title %>
+        </header>
+
+        <div class="apartment-details-container" style="display: grid; grid-template-columns: 3fr 2fr; gap: 20px;">
+
+          <!-- images -->
+          <div class="image-containers">
+            <div id="main-image" class="image-main">
+              <img src="<%= selectedApartment.mainPhoto %>" alt="" />
+              <div class="caption"><%= selectedApartment.mainPhotoCaption %></div>
+            </div>
+            <div class="image-rest">
+              <% if (selectedApartment.photoTwo) { %>
+                <div class="image-item">
+                  <img src="<%= selectedApartment.photoTwo %>" alt="" />
+                  <div class="caption-item"><%= selectedApartment.photoTwoCaption %></div>
+                </div>
+              <% } %>
+              <% if (selectedApartment.photoThree) { %>
+                <div class="image-item">
+                  <img src="<%= selectedApartment.photoThree %>" alt="" />
+                  <div class="caption-item"><%= selectedApartment.photoThreeCaption %></div>
+                </div>
+              <% } %>
+              <% if (selectedApartment.photoFour) { %>
+                <div class="image-item">
+                  <img src="<%= selectedApartment.photoFour %>" alt="" />
+                  <div class="caption-item"><%= selectedApartment.photoFourCaption %></div>
+                </div>
+              <% } %>
+            </div>
+          </div>
+
+          <!--  details -->
+          <div class="details-text-container">
+
+            <footer>
+              <% if (isUser) { %>
+
+                <form action="/apartment/new-reservation" method="POST">
+                  <label for="id"></label>
+                  <input type="hidden" name="id" value="<%= selectedApartment._id %>">
+                  <input type="hidden" name="email" id="email" placeholder="e-mail" value="<%= userData.email%>" required>
+                  <label for="startDate"><i class="fa fa-fw fa-calendar-check-o"></i>Check In:</label>
+                  <input type="text" id="datepicker" name="startDate" id="startDate=" placeholder="YYYY-MM-DD">
+                  <label for="endDate"><i class="fa fa-fw fa-calendar-check-o"></i>Check Out:</label>
+                  <input type="text" id="datepicker" name="endDate" id="endDate=" placeholder="YYYY-MM-DD">
+    
+                  <input type="submit" value="Reserve">
+                </form>
+                
+                <% } %>
+                
+              <div>
+              <div class="details-item">
+                <i class="fa fa-fw fa-gbp"></i>
+                <del style="color:grey">
+                  <%= selectedApartment.price %>
+                </del>&nbsp;£<%= (selectedApartment.price * 0.9).toFixed(2) %> per night
+              </div>
+              <div class="details-item">
+                <i class="fa fa-fw fa-map-marker
+                "></i>
+                City:
+                <%= selectedApartment.city %>
+              </div>
+              <div class="details-item">
+                <i class="fa fa-fw fa-map-marker"></i>
+                Province:
+                <%= selectedApartment.province %>
+              </div>
+              <div class="details-item">
+                <i class="fa fa-fw fa-home"></i>
+                Bedrooms:
+                <%= selectedApartment.bedrooms %>
+              </div>
+              <div class="details-item">
+                <i class="fa fa-fw fa-bed"></i>
+                Beds:
+                <%= selectedApartment.totalBeds %>
+              </div>
+              <div class="details-item">
+                <i class="fa fa-fw fa-bath"></i>
+                Bathrooms:
+                <%= selectedApartment.bathrooms %>
+              </div>
+              <div class="details-item">
+                <i class="fa fa-fw fa-male"></i>
+                Max people:
+                <%= selectedApartment.maxNumberOfGuests %>
+              </div>
+              <div class="details-item">
+                <i class="fa fa-fw fa-arrows-alt"></i>
+                Size:
+                <%= selectedApartment.size %> M <sup>2</sup>
+              </div>
+               </div>
+
+              <div class="details-item">
+                Services:
+              </div>
+              <div class="details-item">
+                <% if (selectedApartment.tv) { %>
+                  <i class="fa fa-fw fa-tv"></i>
+                  TV <br>
+                  <% } %>
+
+                    <% if (selectedApartment.airConditioning) { %>
+                      <i class="fa fa-snowflake-o"></i>
+                      Air Conditioning <br>
+                      <% } %>
+
+                        <% if (selectedApartment.centralHeating) { %>
+                          <i class="fa fa-fw fa-thermometer"></i>
+                          Central Heating <br>
+                          <% } %>
+
+                            <% if (selectedApartment.wifi) { %>
+                              <i class="fa fa-fw fa-wifi"></i>
+                              Wi-Fi <br>
+                              <% } %>
+
+                                <% if (selectedApartment.disabledAccess) { %>
+                                  <i class="fa fa-fw fa-wheelchair"></i>
+                                  Disabled Access <br>
+                                  <% } %>
+
+                                    <% if (selectedApartment.kitchen) { %>
+                                      <i class="fa fa-cutlery fa-fw"></i>
+                                      Kitchen
+                                      <br>
+                                      <br>
+                                      <% } %>
+
+              </div>
+            </footer>
+
+            <div class="apartment-details-contact">
+              <% if (isUser) { %>
+                <div><div><b>Host:</b></div>
+                  <div><%= selectedApartment.user.username %></div>
+                </div>
+                <button>Contact</button>
+                <% } %>
+            </div>
+          </div>
+
+          <div>
+            <div class="details-item">
+              <b>Description:</b>
+              <%= selectedApartment.description %>
+            </div>
+            <div class="details-item">
+              <b>Rules:</b>
+              <%= selectedApartment.rules %>
+            </div>
+          </div>
+
+            <div id="map" style=" width: 100%; height: 100%;"></div>
+
         </div>
-      </main>
 
-<!-- Include Flatpickr JS from CDN -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+      </article>
 
-<script>
-  
+      <div>
+        <br>
+        <% if (isAdmin && selectedApartment.user == userData.id) { %>
+          <!-- Admin check: Show the edit button -->
+          <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">
+            <button>Edit the apartment</button>
+          </a>
+        
+        <% } %>
+
+        <% if (!isAuthenticated) { %>
+          <!-- Unauthenticated check: Show login/signup prompt -->
+          <p>
+            <a href="/login">Log in</a> or 
+            <a href="/sign-up">sign up</a> as a standard user here if you want to make a reservation
+          </p>
+        
+        <% } %>
+
+      </div>
+
+    </main>
+
+    <!-- Include Flatpickr JS from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
 const reservedDates = <%- JSON.stringify(reservedDates.map(date => date.toISOString().split('T')[0])) %>;
 
-    document.addEventListener("DOMContentLoaded", function () {
-        flatpickr("#datepicker", {
-            enableTime: false,
-            dateFormat: "Y-m-d",
-            minDate: "today",
-            disable: reservedDates 
-        });
+document.addEventListener("DOMContentLoaded", function () {
+    flatpickr("#datepicker", {
+        enableTime: false,
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        disable: reservedDates 
     });
+});
+    </script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var lat = parseFloat(<%= JSON.stringify(selectedApartment.latitude) %>);
+        var lng = parseFloat(<%= JSON.stringify(selectedApartment.longitude) %>);
+
+        // Check for valid coordinates
+        if (!isNaN(lat) && !isNaN(lng)) {
+          var map = L.map('map').setView([lat, lng], 13);
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          }).addTo(map);
+
+          L.marker([lat, lng]).addTo(map);
+        } else {
+          console.error("Invalid latitude or longitude values.");
+        }
+      });
+    </script>
+
+<!-- manage main image script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Select all image-item divs
+    const imageItems = document.querySelectorAll('.image-rest .image-item img');
+    const mainImage = document.querySelector('#main-image img');
+    const mainCaption = document.querySelector('#main-image .caption');
+
+    imageItems.forEach(item => {
+      item.addEventListener('click', function() {
+        // Get the clicked image src and caption text
+        const newSrc = this.src;
+        const newCaption = this.nextElementSibling.innerText;
+
+        // Update the main image and caption
+        mainImage.src = newSrc;
+        mainCaption.innerText = newCaption;
+      });
+    });
+  });
 </script>
-
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      var lat = parseFloat(<%= JSON.stringify(selectedApartment.latitude) %>);
-      var lng = parseFloat(<%= JSON.stringify(selectedApartment.longitude) %>);
-      
-      // Check for valid coordinates
-      if (!isNaN(lat) && !isNaN(lng)) {
-        var map = L.map('map').setView([lat, lng], 13);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        L.marker([lat, lng]).addTo(map);
-      } else {
-        console.error("Invalid latitude or longitude values.");
-      }
-    });
-  </script>
 </body>
+
 </html>

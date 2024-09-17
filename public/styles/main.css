@@ -2,6 +2,10 @@
     height: 50px;
 }
 
+.container {
+    border-radius: 5px;
+}
+
 #header-container {
 display: flex;
 justify-content: space-between;
@@ -57,8 +61,94 @@ align-items: flex-start;}
     height: 300px; 
 }
 
-/* home.ejs */
+/*  apartment-details */
+.details-item {
+    margin-bottom: 10px
+}
 
+.image-containers {
+    display: grid;
+    grid-template-rows: auto 1fr; /* Main image row and rest image row */
+    gap: 10px; /* Space between rows */
+  }
+  
+  .image-main {
+    position: relative;
+    border-style: none;
+  }
+  
+  .image-main::before {
+    content: "";
+    display: block;
+    padding-top: 100%; /* Aspect ratio: 1:1 for square */
+  }
+  
+  .image-main img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the container while maintaining aspect ratio */
+    border-radius: 5px;
+  }
+
+  .caption {
+    position: relative;
+    top: -10px;
+    font-size: 15px;
+    float: right;
+    margin-right: 10px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .image-rest {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .image-rest .image-item {
+    position: relative;
+    padding-top: 100%; /* Aspect ratio: 1:1 for square */
+    overflow: hidden; /* Hide overflow from the image */
+    height: 100px;
+    border-radius: 5px;
+  }
+  
+  .image-rest img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the container while maintaining aspect ratio */
+  }
+  
+  .image-rest caption {
+    margin-top: 5px;
+    text-align: center; /* Center caption text */
+  }
+
+  .caption-item {
+    display: none; 
+  }
+
+  .apartment-details-contact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .details-text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+/* home.ejs */
 .search-form-date-container {
     display: grid;
     grid-template-columns: 1fr 1fr;

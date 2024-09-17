@@ -13,5 +13,7 @@ window.onload = () => {
       // Store the new value in local storage
       localStorage.setItem("sortByValueThree", sortByValueThree);
     });
+
+    console.log(localStorage.getItem("sortByValueThree"));
   };
   

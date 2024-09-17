@@ -3,6 +3,7 @@
 
 <head>
   <%- include('partials/head', { title: 'Home' }) %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -84,7 +85,7 @@
         </a>
         <footer>
           <div>
-            <%= ap.price %>€/night
+            <%= ap.price %>£ per night
           </div>
           <div>
             <%= ap.size %> M <sup>2</sup>
@@ -99,32 +100,32 @@
           <div class="services">
             <div>
               <% if (ap.airConditioning) { %>
-                <img src="icons/air-con.svg" alt="Air Conditioning Icon" width="32" height="32">
+                <i class="fa fa-snowflake-o"></i>
               <% } %>
             </div>
             <div>
               <% if (ap.centralHeating) { %>
-                <img src="icons/heating.svg" alt="Heating Icon" width="24" height="24">
+                <i class="fa fa-fw fa-thermometer"></i>
               <% } %>
             </div>
             <div>
               <% if (ap.disabledAccess) { %>
-                <img src="icons/wheelchair.svg" alt="Wheelchair Icon" width="24" height="24">
+                <i class="fa fa-fw fa-wheelchair"></i>
               <% } %>
             </div>
             <div>
               <% if (ap.tv) { %>
-                <img src="icons/tv.svg" alt="TV Icon" width="24" height="24">
+                <i class="fa fa-fw fa-tv"></i>
               <% } %>
             </div>
             <div>
               <% if (ap.kitchen) { %>
-                <img src="icons/kitchen.svg" alt="Kitchen Icon" width="24" height="24">
+                <i class="fa fa-cutlery fa-fw"></i>
               <% } %>
             </div>
             <div>
               <% if (ap.wifi) { %>
-                <img src="icons/wi-fi.svg" alt="Wi-Fi Icon" width="24" height="24">
+                <i class="fa fa-fw fa-wifi"></i>
               <% } %>
             </div>
           </div>
