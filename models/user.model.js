@@ -7,7 +7,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
         minlength: 5,
-        maxlength: 15,
+        maxlength: 20,
         match: /^[a-zA-Z0-9_-]+$/,
     },
     password: {

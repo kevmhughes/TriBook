@@ -2,11 +2,9 @@ const Apartment = require("../models/apartment.model.js");
 const Reservation = require("../models/reservation.model.js");
 const { getDateRange } = require("../utils/dateUtils.js");
 
-// Render dashboard and get reservations made by standard user, and get apartments owned by host as well of bookings of said apartments
-const getDashboard = async (req, res) => {
+const getDashboardBookings = async (req, res) => {
   try {
     if (res.locals.isAuthenticated) {
-
       // Helper function to format dates
       function formatDate(dateString) {
         const date = new Date(dateString);
@@ -15,7 +13,7 @@ const getDashboard = async (req, res) => {
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
       }
-      
+
       // Get list of all reservations - made by specific standard user
       const reservations = await Reservation.find({ user: userData.id })
         .populate({
@@ -34,25 +32,25 @@ const getDashboard = async (req, res) => {
         reservation.endDateFormatted = formatDate(reservation.endDate);
       });
 
-      const sortByValue = req.query.sortByBookings
+      const sortByValue = req.query.sortByBookings;
 
-      let sortByQuery 
+      let sortByQuery;
       if (sortByValue == "startDate"){
-        sortByQuery = {startDate: 1}
+        sortByQuery = {startDate: 1};
       } else if (sortByValue === "endDate") {
-        sortByQuery = {endDate: 1}
+        sortByQuery = {endDate: 1};
       } else if (sortByValue === "startDateLast"){
-        sortByQuery = {startDate: -1}
+        sortByQuery = {startDate: -1};
       } else if (sortByValue === "endDateLast") {
-        sortByQuery = {endDate: -1}
+        sortByQuery = {endDate: -1};
       } else if (sortByValue === "usernameAz") {
-        sortByQuery = {user: 1}
+        sortByQuery = {user: 1};
       } else if (sortByValue === "usernameZa") {
-        sortByQuery = {user: -1}
+        sortByQuery = {user: -1};
       } else if (sortByValue === "titleAz") {
-        sortByQuery = {apartment: 1}
+        sortByQuery = {"apartment.title": 1};
       } else if (sortByValue === "titleZa") {
-        sortByQuery = {apartment: -1}
+        sortByQuery = {"apartment.title": -1};
       }
 
       // Get list of all reservations and populate the user object
@@ -73,9 +71,26 @@ const getDashboard = async (req, res) => {
         reservation.endDateFormatted = formatDate(reservation.endDate);
       });
 
-      const sortByValueApartments = req.query.sortByApartments
-      console.log(sortByValueApartments)
+      // Get list of all apartments owned by admin user using their user id
+      const apartments = await Apartment.find({ user: userData.id });
 
+       console.log("My apartments", apartments)
+
+      res.render("dashboard-bookings", { reservations, myApartmentsBooked, apartments });
+    } else {
+      res.status(404).render("404", { message: "You must log in to see your dashboard." });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).render("error", { message: "An error occurred while processing your request." });
+  }
+};
+
+const getDashboardApartments = async (req, res) => {
+  try {
+    if (res.locals.isAuthenticated) {
+
+      const sortByValueApartments = req.query.sortByApartments
 
       let sortByQueryApartments 
       if (sortByValueApartments == "newest"){
@@ -102,9 +117,13 @@ const getDashboard = async (req, res) => {
         sortByQueryApartments 
       );
 
-      console.log("apartments: ", apartments[0])
+      const updatedApartment = await Apartment.find({ user: userData.id }).sort(
+        {updatedAt: -1}
+      );
 
-      res.render("dashboard", { reservations, apartments, myApartmentsBooked });
+      console.log("updated apartment:", updatedApartment[0].title)
+
+      res.render("dashboard-apartments", { apartments, updatedApartment });
     } else {
       res
         .status(404)
@@ -325,7 +344,8 @@ const postNewReservation = async (req, res) => {
 };
 
 module.exports = {
-  getDashboard,
+  getDashboardBookings,
+  getDashboardApartments,
   getReservation,
   getApartments,
   getApartmentById,

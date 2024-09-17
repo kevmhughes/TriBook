@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <%- include('partials/head', { title: 'Dashboard' }) %>
+</head>
+
+<body>
+  <header class="container">
+    <div id="header-container">
+      <div>
+        <a href="/"><img src="/icons/tribook.svg" alt="tribook-logo" id="logo"></a>
+      </div>
+      <nav>
+          <a id="login-button" href="/"><button style="margin-right: 5px;">Home</button></a>
+          <a id="login-button" href="/logout"><button>Log Out</button></a>
+      </nav>
+    </div>
+
+  </header>
+  <div class="container">
+    <% if (isUser) { %>
+      <div class="message" style="inline-size: fit-content;">Standard User</div>
+      <br>
+
+      <h1>Your Confirmed Bookings</h1>
+
+      <% for (const res of reservations) { %>
+
+        <div>
+        <article class="apartment">
+          <header>
+            <%= res.apartment.title %>
+          </header>
+          <a href="/apartment/<%= res.apartment._id %>">
+            <div><img src="<%= res.apartment.mainPhoto %>" alt="" /></div>
+          </a>
+          <footer>
+            <div>
+              Check-in Date: <%= res.startDateFormatted %>
+            </div>
+            <div>
+              Check-out Date: <%= res.endDateFormatted %>
+            </div>
+            <div>
+              <%= res.apartment.price %>€/night
+            </div>
+            <div>
+              <%= res.apartment.size %> M <sup>2</sup>
+            </div>
+            <div>
+              Contact e-mail: <%= res.apartment.user.email %>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <a href="/apartment/<%= res.apartment._id %>">
+                <button>Details</button>
+              </a>
+              <a href="mailto:<%= res.apartment.user.email %>">
+                <button>Contact Host</button>
+              </a>
+            </div>
+          </footer>
+        </article>        
+      </div>
+
+  
+        <% } %>
+
+      <% } %>
+
+        <% if (isAdmin) { %>
+
+            <div class="message" style="background-color: blueviolet; inline-size: fit-content;">admin
+            </div>
+          <br>
+
+
+    <div class="bookings-view" id="bookings-view">
+      <h1>Your Bookings</h1>
+      
+      <% if (apartments.length > 0) { %>
+        <a href="/dashboard/apartments">View or edit your apartments</a>
+      <% } %> 
+      
+
+      <% if (myApartmentsBooked.length > 0) { %>
+        <form action="/dashboard/bookings" method="GET">
+          <div>
+            <label for="sortByBookings">Order Results:</label>
+            <select name="sortByBookings" id="sortByBookings">
+              <option value="startDate">Check-in Date: earliest</option>
+              <option value="endDate">Check-out Date: earliest</option>
+              <option value="startDateLast">Check-in Date: latest</option>
+              <option value="endDateLast">Check-out Date: latest</option>
+              <option value="usernameAz">User: A-Z</option>
+              <option value="usernameZa">User: Z-A</option>
+              <option value="titleAz">Title: A-Z</option>
+              <option value="titleZa">Title: Z-A</option>
+            </select>
+          </div>
+          <input type="submit" value="Search">
+        </form>
+      <% } else { %>
+        <div class="alert-error">You do not have any bookings at present.</div>
+      <% } %>
+      
+      
+      <main>
+        <% for (const my of myApartmentsBooked) { %>
+  
+          <article class="apartment">
+            <header>
+              <%= my.apartment.title %>
+            </header>
+              <div class="bookings-made-container">
+                <div>
+                  <p><b>Check-in Date: </b><%= my.startDateFormatted %></p>
+                  <p><b>Check-out Date:</b> <%= my.endDateFormatted %></p>
+                </div>
+                <div>
+                  <p><b>User:</b> <%= my.user.username %></p>
+                  <p><b>Contact e-mail:</b> <%= my.user.email %></p>
+                </div>
+              </div>
+            <footer>
+              <button>Contact Guest</button>
+            </footer>
+          </article>
+    
+          <% } %> 
+      </main>
+  
+    </div>
+
+
+  
+            <% } %>
+    </div>
+
+
+  </div>
+  <script src="/js/form-scripts-dashboard-bookings.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <%- include('partials/head', { title: 'Dashboard' }) %>
+</head>
+
+<body>
+  <header class="container">
+    <div id="header-container">
+      <div>
+        <a href="/"><img src="/icons/tribook.svg" alt="tribook-logo" id="logo"></a>
+      </div>
+      <nav>
+          <a id="login-button" href="/"><button style="margin-right: 5px;">Home</button></a>
+          <a id="login-button" href="/logout"><button>Log Out</button></a>
+      </nav>
+    </div>
+
+  </header>
+  <div class="container">
+
+        <% if (isAdmin) { %>
+
+    <div class="apartments-view" id="apartments-view">
+      <h1>Your Apartments</h1>
+
+    <% if ((successMessage && successMessage.length > 0)) { %>
+      <div class="message"><%= updatedApartment[0].title %><%= successMessage %></div>
+    <% } %>
+
+
+      <a href="/dashboard/bookings">View your bookings</a>
+
+      <form action="/dashboard/apartments" method="GET">
+  
+        <div>
+          <label for="sortByApartments">Order Results:</label>
+          <select name="sortByApartments" id="sortByApartments">
+            <option value="newest">Newest Listing</option>
+            <option value="oldest">Oldest Listing</option>
+            <option value="listed">Listed</option>
+            <option value="delisted">Delisted</option>
+            <option value="titleAzApartments">Title: A-Z</option>
+            <option value="titleZaApartments">Title: Z-A</option>
+            <option value="priceHigh">Price: highest</option>
+            <option value="priceLow">Price: lowest</option>
+          </select>
+        </div>
+    
+        <input type="submit" value="Search">
+      </form>
+  
+            <% for (const ap of apartments) { %>
+  
+              <article class="apartment">
+                <header>
+                  <%= ap.title %>
+                </header>
+                <a href="/apartment/<%= ap._id %>">
+                  <div><img src="<%= ap.mainPhoto %>" alt="" /></div>
+                </a>
+                <footer>
+                  <div>
+                    <b>Price: </b><%= ap.price %>€/night
+                  </div>
+                  <b>Size:</b> <%= ap.size %> M <sup>2</sup>
+                </footer>
+                <footer>
+                  <div>
+                      <div style="display: flex; justify-content: space-between;">
+                        <a href="/admin/apartment/<%= ap._id %>/edit">
+                          <button>Edit</button>
+                        </a>
+                        <%- ap.listed ? '<button class="message">Listed</button>' : '<button class="alert-error">Delisted</button>' %>
+                      </div>
+                  </div>
+                </footer>
+              </article>
+  
+              <% } %>
+  
+            <% } %>
+    </div>
+
+
+  </div>
+  <script src="/js/form-scripts-dashboard-apartments.js"></script>
+</body>
+
+</html>

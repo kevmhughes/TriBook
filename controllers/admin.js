@@ -66,15 +66,15 @@ const postNewApartment = async (req, res) => {
     if (id) {
       // Update existing apartment if ID is provided
       await Apartment.findByIdAndUpdate(id, { listed: isListed, ...req.body });
-      req.flash("success", "Apartment successfully updated.")
+      req.flash("success", " has successfully been updated.")
 
-      return res.redirect("/dashboard")
+      return res.redirect("/dashboard/apartments")
     } else {
       // Create a new apartment if no ID is provided
       await Apartment.create({ listed: isListed, ...req.body });
-      req.flash("success", "Apartment successfully added to the database.")
+      req.flash("success", " has successfully been added to the database.")
 
-      return res.redirect("/dashboard")
+      return res.redirect("/dashboard/apartments")
     }
   } catch (error) {
     console.error("Error processing apartment request:", error);

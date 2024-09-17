@@ -26,9 +26,9 @@
   <main class="container">
     <form method="POST" action="/sign-up">
       <label for="username">Username:</label>
-      <input type="text" name="username" id="username" placeholder="Username" pattern="^[a-zA-Z0-9_-]{5,15}$"
-        title="Username must be between 5 and 15 characters, and can only contain letters, numbers, underscores (_), and hyphens (-)."
-        minlength="5" maxlength="15" required />
+      <input type="text" name="username" id="username" placeholder="Username" pattern="^[a-zA-Z0-9_-]{5,20}$"
+        title="Username must be between 5 and 20 characters, and can only contain letters, numbers, underscores (_), and hyphens (-)."
+        minlength="5" maxlength="20" required />
       <label for="password">Password:</label>
       <input type="password" name="password" id="password" placeholder="Password"
         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}"

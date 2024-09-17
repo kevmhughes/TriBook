@@ -8,7 +8,9 @@ router.get("/", indexControllers.getApartments)
 
 router.get("/search", indexControllers.searchApartments)
 
-router.get("/dashboard", indexControllers.getDashboard)
+router.get("/dashboard/bookings", indexControllers.getDashboardBookings)
+
+router.get("/dashboard/apartments", indexControllers.getDashboardApartments)
 
 router.get("/reservation", indexControllers.getReservation)
 
