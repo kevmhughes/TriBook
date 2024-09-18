@@ -19,7 +19,7 @@
           <%= selectedApartment.title %>
         </header>
 
-        <div class="apartment-details-container" style="display: grid; grid-template-columns: 3fr 2fr; gap: 20px;">
+        <div class="apartment-details-container">
 
           <!-- images -->
           <div class="image-containers">
@@ -116,7 +116,7 @@
 
                <br>
               <div class="details-item">
-                Services:
+                <b>Amenities:</b>
               </div>
               <div class="details-item">
                 <% if (selectedApartment.tv) { %>
@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
           var map = L.map('map').setView([lat, lng], 13);
 
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+         /*    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' */
           }).addTo(map);
 
           L.marker([lat, lng]).addTo(map);
@@ -244,6 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
     </script>
 
 <!-- manage main image script -->
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Select all image-item divs
@@ -253,17 +254,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     imageItems.forEach(item => {
       item.addEventListener('click', function() {
-        // Get the clicked image src and caption text
-        const newSrc = this.src;
-        const newCaption = this.nextElementSibling.innerText;
+        // Store the clicked image src and caption text
+        const clickedImageSrc = this.src;
+        const clickedImageCaption = this.closest('.image-item').querySelector('.caption-item').innerText;
 
-        // Update the main image and caption
-        mainImage.src = newSrc;
-        mainCaption.innerText = newCaption;
+        // Store the main image src and caption temporarily
+        const mainImageSrc = mainImage.src;
+        const mainImageCaption = mainCaption.innerText;
+
+        // Swap the images: update main image with the clicked image's src
+        mainImage.src = clickedImageSrc;
+        mainCaption.innerText = clickedImageCaption;
+
+        // Update the clicked image to become the previous main image
+        this.src = mainImageSrc;
+        this.closest('.image-item').querySelector('.caption-item').innerText = mainImageCaption;
       });
     });
   });
 </script>
+
 </body>
 
 </html>
