@@ -17,6 +17,7 @@ const apartmentSchema = new Schema({
     },
     rules: {
         type: String,
+        maxlength: 1000 
     },
     bedrooms: {
         type: Number,

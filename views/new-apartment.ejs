@@ -36,7 +36,8 @@
           title="Description must be less than 1000 characters." required><%= apartment.description %></textarea>
 
         <label for="rules">Rules:</label>
-        <textarea rows="5" name="rules" id="rules"><%= apartment.rules %></textarea>
+        <textarea rows="5" name="rules" id="rules" maxlength="1000"
+        title="The rules section must be less than 1000 characters."><%= apartment.rules %></textarea>
 
         <fieldset class="grid">
           <div>
