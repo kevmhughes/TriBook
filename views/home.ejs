@@ -26,11 +26,11 @@
     <% } %>
   </div>
   
-  <form id="searchForm" action="/search" method="GET" class="container grid" style="display: flex;flex-direction: column;">
+  <form id="searchForm" action="/search" method="GET" class="container grid" style="display: flex;flex-direction: column; grid-row-gap: 0;">
     <div class="search-form-values-container">
-      <label for="minPrice">Min price:<input type="number" name="minPrice" id="minPrice" min="0" max="10000" placeholder="Min Price"></label>
+      <label for="minPrice">Min Price:<input type="number" name="minPrice" id="minPrice" min="0" max="10000" placeholder="Min Price"></label>
 
-      <label for="maxPrice">Max price: <input type="number" name="maxPrice" id="maxPrice" min="0" max="10000" placeholder="Max Price"></label>
+      <label for="maxPrice">Max Price: <input type="number" name="maxPrice" id="maxPrice" min="0" max="10000" placeholder="Max Price"></label>
 
       <label for="numberOfGuests">Guests: <input type="number" name="numberOfGuests" id="numberOfGuests" min="0" max="100" placeholder="No of Guests"></label>
 
@@ -41,17 +41,17 @@
       
     </div>
     <div class="search-form-date-container">
-      <label for="startDate">Start Date:<input type="date" name="startDate" id="startDate"></label>
-      <label for="endDate">End Date:<input type="date" name="endDate" id="endDate"></label>
+      <label for="startDate">Check In:<input type="date" name="startDate" id="startDate"></label>
+      <label for="endDate">Check Out:<input type="date" name="endDate" id="endDate"></label>
     </div>
 
     <div>
     <div>
       <label for="sortBy">Order Results:</label>
       <select name="sortBy" id="sortBy">
-        <option value="mostRecent">Most Recent First</option>
-        <option value="minPriceFirst">Min Price First</option>
-        <option value="maxPriceFirst">Max Price First</option>
+        <option value="mostRecent">Latest Listings</option>
+        <option value="minPriceFirst">Price: Ascending</option>
+        <option value="maxPriceFirst">Price: Descending</option>
       </select>
     </div>
 
@@ -61,7 +61,7 @@
 
 <div class="container">
   <div id="dateErrorMessage" class="alert-error-dates">
-    The start date cannot be later than the end date.
+    The check-in date cannot be later than the check-out date, please try again.
   </div>
 
   <% if (zeroResultsMessage && apartments.length == 0) { %>
@@ -77,23 +77,29 @@
 <% } %>
 </div>
 
-  <main class="container">
+  <main class="container main-apartments-container">
 
     <% for (const ap of apartments) { %>
 
       <article class="apartment">
         <header>
-          <p><%= ap.title %></p>
-        </header>
-        <a href="/apartment/<%= ap._id %>">
-          <div><img src="<%= ap.mainPhoto %>" alt="" /></div>
-        </a>
-        <footer>
-          <div>
-            <%= ap.price %>£ per night
+          <div class="home-apartment-title">
+            <%= ap.title %>
           </div>
-          <div>
-            <%= ap.size %> M <sup>2</sup>
+        </header>
+          <a href="/apartment/<%= ap._id %>">
+            <div class="home-main-image-container"><img src="<%= ap.mainPhoto %>" alt="<%= ap.title %>" class="home-main-image"/></div>
+          </a>
+        <footer>
+          <div class="home-apartment-basic-details-container">
+            <div>
+              <div>
+                <i class="fa fa-fw fa-gbp"></i>£<%= ap.price %> per night
+              </div>
+              <div>
+              <i class="fa fa-fw fa-arrows-alt"></i><%= ap.size %> M <sup>2</sup>
+            </div>
+            </div>
               <div>
                 <a href="/apartment/<%= ap._id %>">
                   <button>Details</button>
@@ -105,32 +111,38 @@
           <div class="services">
             <div>
               <% if (ap.airConditioning) { %>
-                <i class="fa fa-snowflake-o"></i>
+                <!-- <i class="fa fa-snowflake-o"></i> -->
+                <img src="/icons/snowflake-solid.svg" alt="snowflake icon" style="width: 20px; height: 20px;">
               <% } %>
             </div>
             <div>
               <% if (ap.centralHeating) { %>
-                <i class="fa fa-fw fa-thermometer"></i>
+                <!-- <i class="fa fa-fw fa-thermometer"></i> -->
+                <img src="/icons/temperature-three-quarters-solid.svg" alt="thermometer icon" style="width: 20px; height: 20px;">
               <% } %>
             </div>
             <div>
               <% if (ap.disabledAccess) { %>
-                <i class="fa fa-fw fa-wheelchair"></i>
+                <!-- <i class="fa fa-fw fa-wheelchair"></i> -->
+                <img src="/icons/wheelchair-solid.svg" alt="wheelchair icon" style="width: 20px; height: 20px;">
               <% } %>
             </div>
             <div>
               <% if (ap.tv) { %>
-                <i class="fa fa-fw fa-tv"></i>
+                <!-- <i class="fa fa-fw fa-tv"></i> -->
+                <img src="/icons/tv-solid.svg" alt="TV icon" style="width: 20px; height: 20px;">
               <% } %>
             </div>
             <div>
               <% if (ap.kitchen) { %>
-                <i class="fa fa-cutlery fa-fw"></i>
+                <!-- <i class="fa fa-cutlery fa-fw"></i> -->
+                <img src="/icons/utensils-solid.svg" alt="utensils icon" style="width: 20px; height: 20px;">
               <% } %>
             </div>
             <div>
               <% if (ap.wifi) { %>
-                <i class="fa fa-fw fa-wifi"></i>
+                <!-- <i class="fa fa-fw fa-wifi"></i>  -->
+                <img src="/icons/wifi-solid.svg" alt=" Wi-Fi icon" style="width: 20px; height: 20px;">
               <% } %>
             </div>
           </div>

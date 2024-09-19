@@ -23,28 +23,33 @@
         <% if (isAdmin) { %>
 
     <div class="apartments-view" id="apartments-view">
+      
+      <div class="message" style="background-color: blueviolet; inline-size: fit-content;">Admin</div>
+      <br>
+
       <h1>Your Apartments</h1>
 
     <% if ((successMessage && successMessage.length > 0)) { %>
       <div class="message"><%= updatedApartment[0].title %><%= successMessage %></div>
     <% } %>
 
-
-      <a href="/dashboard/bookings">View your bookings</a>
+      <div class="change-view-option">
+        <a href="/dashboard/bookings">View your bookings</a>
+      </div>
 
       <form action="/dashboard/apartments" method="GET">
   
         <div>
           <label for="sortByApartments">Order Results:</label>
           <select name="sortByApartments" id="sortByApartments">
-            <option value="newest">Newest Listing</option>
-            <option value="oldest">Oldest Listing</option>
+            <option value="newest">Latest Listings</option>
+            <option value="oldest">Oldest Listings</option>
             <option value="listed">Listed</option>
             <option value="delisted">Delisted</option>
             <option value="titleAzApartments">Title: A-Z</option>
             <option value="titleZaApartments">Title: Z-A</option>
-            <option value="priceHigh">Price: highest</option>
-            <option value="priceLow">Price: lowest</option>
+            <option value="priceHigh">Price: Ascending</option>
+            <option value="priceLow">Price: Descending</option>
           </select>
         </div>
     

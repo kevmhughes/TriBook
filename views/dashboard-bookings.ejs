@@ -3,6 +3,7 @@
 
 <head>
   <%- include('partials/head', { title: 'Dashboard' }) %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -12,135 +13,138 @@
         <a href="/"><img src="/icons/tribook.svg" alt="tribook-logo" id="logo"></a>
       </div>
       <nav>
-          <a id="login-button" href="/"><button style="margin-right: 5px;">Home</button></a>
-          <a id="login-button" href="/logout"><button>Log Out</button></a>
+        <a id="login-button" href="/"><button style="margin-right: 5px;">Home</button></a>
+        <a id="login-button" href="/logout"><button>Log Out</button></a>
       </nav>
     </div>
-
   </header>
+
   <div class="container">
     <% if (isUser) { %>
       <div class="message" style="background-color: blueviolet; inline-size: fit-content;">Standard User</div>
       <br>
-
       <h1>Your Confirmed Bookings</h1>
 
-      <% for (const res of reservations) { %>
-
+      <form action="/dashboard/bookings" method="GET">
         <div>
-        <article class="apartment">
-          <header>
-            <%= res.apartment.title %>
-          </header>
-          <a href="/apartment/<%= res.apartment._id %>">
-            <div><img src="<%= res.apartment.mainPhoto %>" alt="" /></div>
-          </a>
-          <footer>
-            <div>
-              <b>Check-in Date:</b> <%= res.startDateFormatted %>
-            </div>
-            <div>
-              <b>Check-out Date:</b> <%= res.endDateFormatted %>
-            </div>
-            <div>
-              <b>Price:</b> <%= res.apartment.price %> £ per night
-            </div>
-            <div>
-             <b>Size:</b> <%= res.apartment.size %> M <sup>2</sup>
-            </div>
-            <div>
-              <b>Contact e-mail:</b> <%= res.apartment.user.email %>
-            </div>
-            <br>
-            <div style="display: flex; justify-content: space-between;">
-              <a href="/apartment/<%= res.apartment._id %>">
-                <button>Details</button>
-              </a>
-              <a href="mailto:<%= res.apartment.user.email %>">
-                <button>Contact Host</button>
-              </a>
-            </div>
-          </footer>
-        </article>        
-      </div>
+          <label for="sortByBookingsUser">Order Results:</label>
+          <select name="sortByBookingsUser" id="sortByBookingsUser">
+            <option value="startDateUserBookings">Check-in: Ascending</option>
+            <option value="endDateUserBookings">Check-out: Ascending</option>
+            <option value="startDateLastUserBookings">Check-in: Descending</option>
+            <option value="endDateLastUserBookings">Check-out: Descending</option>
+            <option value="cityAscUserBookings">City: A-Z</option>
+            <option value="cityDescUserBookings">City: Z-A</option>
+          </select>
+        </div>
+        <input type="submit" value="Search">
+      </form>
 
-  
-        <% } %>
-
-      <% } %>
-
-        <% if (isAdmin) { %>
-
-            <div class="message" style="background-color: blueviolet; inline-size: fit-content;">admin
-            </div>
-          <br>
-
-
-    <div class="bookings-view" id="bookings-view">
-      <h1>Your Bookings</h1>
-      
-      <% if (apartments.length > 0) { %>
-        <a href="/dashboard/apartments">View or edit your apartments</a>
-      <% } %> 
-      
-
-      <% if (myApartmentsBooked.length > 0) { %>
-        <form action="/dashboard/bookings" method="GET">
-          <div>
-            <label for="sortByBookings">Order Results:</label>
-            <select name="sortByBookings" id="sortByBookings">
-              <option value="startDate">Check-in: Ascending</option>
-              <option value="endDate">Check-out: Ascending</option>
-              <option value="startDateLast">Check-in: Descending</option>
-              <option value="endDateLast">Check-out: Descending</option>
-              <option value="usernameAz">User: A-Z</option>
-              <option value="usernameZa">User: Z-A</option>
-              <option value="titleAz">Title: A-Z</option>
-              <option value="titleZa">Title: Z-A</option>
-            </select>
-          </div>
-          <input type="submit" value="Search">
-        </form>
-      <% } else { %>
-        <div class="alert-error">You do not have any bookings at present.</div>
-      <% } %>
-      
-      
-      <main>
-        <% for (const my of myApartmentsBooked) { %>
-  
+      <main class="container main-apartments-container">
+        <% for (const res of reservations) { %>
           <article class="apartment">
             <header>
-              <%= my.apartment.title %>
+              <div class="home-apartment-title"><%= res.apartment.title %></div>
             </header>
-              <div class="bookings-made-container">
-                <div>
-                  <p><b>Check-in Date: </b><%= my.startDateFormatted %></p>
-                  <p><b>Check-out Date:</b> <%= my.endDateFormatted %></p>
-                </div>
-                <div>
-                  <p><b>User:</b> <%= my.user.username %></p>
-                  <p><b>Contact e-mail:</b> <%= my.user.email %></p>
-                </div>
-              </div>
+            <a href="/apartment/<%= res.apartment._id %>">
+              <div class="home-main-image-container"><img src="<%= res.apartment.mainPhoto %>" alt="<%= res.apartment.title %>" class="dashboard-img"/></div>
+            </a>
             <footer>
-              <button>Contact Guest</button>
+              <div>
+                <i class="fa fa-fw fa-calendar-check-o"></i>
+                <b>Check-in:</b> <%= res.startDateFormatted %>
+              </div>
+              <div>
+                <i class="fa fa-fw fa-calendar-check-o"></i>
+                <b>Check-out:</b> <%= res.endDateFormatted %>
+              </div>
+              <div>
+                <i class="fa fa-fw fa-gbp"></i>
+                £<%= res.apartment.price %> per night
+              </div>
+              <div>
+                <i class="fa fa-fw fa-map-marker"></i>
+                <%= res.apartment.city %>
+              </div>
+              <div style="display: none;">
+                <b>Contact</b> <%= res.apartment.user.email %>
+              </div>
+              <br>
+              <div class="dashboard-bookings-buttons-container">
+                <a href="/apartment/<%= res.apartment._id %>">
+                  <button>Details</button>
+                </a>
+                <a href="mailto:<%= res.apartment.user.email %>">
+                  <button>Contact Host</button>
+                </a>
+              </div>
             </footer>
           </article>
-    
-          <% } %> 
+        <% } %>
       </main>
-  
-    </div>
+    <% } %>
 
-
-  
-            <% } %>
-    </div>
-
-
+    <% if (isAdmin) { %>
+      <div class="bookings-view container" id="bookings-view">
+        <div class="message" style="background-color: blueviolet; inline-size: fit-content;">Admin</div>
+        <br>
+        <h1>Your Bookings</h1>
+        <% if (apartments.length > 0) { %>
+          <div class="change-view-option"><a href="/dashboard/apartments">View or edit your apartments</a></div>
+        <% } %> 
+        <% if (myApartmentsBooked.length > 0) { %>
+          <form action="/dashboard/bookings" method="GET">
+            <div>
+              <label for="sortByBookings">Order Results:</label>
+              <select name="sortByBookings" id="sortByBookings">
+                <option value="startDate">Check-in: Ascending</option>
+                <option value="endDate">Check-out: Ascending</option>
+                <option value="startDateLast">Check-in: Descending</option>
+                <option value="endDateLast">Check-out: Descending</option>
+                <option value="usernameAz">Guest: A-Z</option>
+                <option value="usernameZa">Guest: Z-A</option>
+                <option value="titleAz">Title: A-Z</option>
+                <option value="titleZa">Title: Z-A</option>
+              </select>
+            </div>
+            <input type="submit" value="Search">
+          </form>
+        <% } else { %>
+          <div class="alert-error">You do not have any bookings at present.</div>
+        <% } %>
+        <main class="apartments-booked-main-container">
+          <% for (const my of myApartmentsBooked) { %>
+            <article class="apartments-booked-container">
+              <header>
+                <div class="bookings-made-title">
+                  <%= my.apartment.title %>
+                </div>
+              </header>
+              <div class="bookings-made-container">
+                <div>
+                  <p><i class="fa fa-fw fa-calendar"></i><b>Check-in: </b><%= my.startDateFormatted %></p>
+                  <p><i class="fa fa-fw fa-calendar"></i><b>Check-out: </b><%= my.endDateFormatted %></p>
+                </div>
+                <div>
+                  <p><i class="fa fa-fw fa-user"></i><b>Guest:</b> <%= my.user.username %></p>
+                  <p class="apartments-booked-email "><i class="fa fa-fw fa-envelope"></i><b>Contact: </b><%= my.user.email %></p>
+                </div>
+              </div>
+              <footer>
+                <div class="apartments-booked-buttons-container">
+                  <button>Contact Guest</button>
+                  <a href="/apartment/<%= my.apartment.id %>"><button>Details</button></a>
+                </div>
+              </footer>
+            </article>
+          <% } %>
+        </main>
+      </div>
+    <% } %>
   </div>
+
   <script src="/js/form-scripts-dashboard-bookings.js"></script>
+
 </body>
 
 </html>

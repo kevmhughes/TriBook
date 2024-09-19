@@ -13,6 +13,15 @@
 
     <main class="container">
 
+        <% if (!isAuthenticated) { %>
+          <!-- Unauthenticated check: Show login/signup prompt -->
+          <p style="margin-left: 20px;
+}">
+            <a href="/login">Log in</a> or 
+            <a href="/sign-up">sign up</a> as a standard user here if you want to make a reservation.
+          </p>
+        
+        <% } %>
 
       <article class="apartment">
         <header>
@@ -83,7 +92,7 @@
                 <%= selectedApartment.city %>
               </div>
               <div class="details-item">
-                <i class="fa fa-fw fa-map-marker"></i>
+                <i class="fa fa-fw fa-location-arrow"></i>
                 Province:
                 <%= selectedApartment.province %>
               </div>
@@ -188,15 +197,6 @@
           <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">
             <button>Edit the apartment</button>
           </a>
-        
-        <% } %>
-
-        <% if (!isAuthenticated) { %>
-          <!-- Unauthenticated check: Show login/signup prompt -->
-          <p>
-            <a href="/login">Log in</a> or 
-            <a href="/sign-up">sign up</a> as a standard user here if you want to make a reservation
-          </p>
         
         <% } %>
 

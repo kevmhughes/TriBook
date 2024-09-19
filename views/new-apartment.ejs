@@ -204,7 +204,7 @@
         var map = L.map('map').setView([<%= apartment.latitude || 51.505 %>, <%= apartment.longitude || -0.09 %>], 13);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          /* attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' */
         }).addTo(map);
 
         var marker = L.marker([<%= apartment.latitude || 51.505 %>, <%= apartment.longitude || -0.09 %>]).addTo(map);
