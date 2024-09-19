@@ -3,7 +3,6 @@
 
 <head>
   <%- include('partials/head', { title: 'Home' }) %>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -28,26 +27,26 @@
   
   <form id="searchForm" action="/search" method="GET" class="container grid" style="display: flex;flex-direction: column; grid-row-gap: 0;">
     <div class="search-form-values-container">
-      <label for="minPrice">Min Price:<input type="number" name="minPrice" id="minPrice" min="0" max="10000" placeholder="Min Price"></label>
+      <label for="minPrice"><div class="flexify"><img src="/icons/sterling-sign-solid.svg" alt="pound sterling icon" class="font-awesome-icons">Min Price:</div><input type="number" name="minPrice" id="minPrice" min="0" max="10000" placeholder="Min Price"></label>
 
-      <label for="maxPrice">Max Price: <input type="number" name="maxPrice" id="maxPrice" min="0" max="10000" placeholder="Max Price"></label>
+      <label for="maxPrice"><div class="flexify"><img src="/icons/sterling-sign-solid.svg" alt="pound sterling icon" class="font-awesome-icons">Max Price:</div><input type="number" name="maxPrice" id="maxPrice" min="0" max="10000" placeholder="Max Price"></label>
 
-      <label for="numberOfGuests">Guests: <input type="number" name="numberOfGuests" id="numberOfGuests" min="0" max="100" placeholder="No of Guests"></label>
+      <label for="numberOfGuests"><div class="flexify"><img src="/icons/person-solid.svg" alt="person icon" class="font-awesome-icons">Guests:</div><input type="number" name="numberOfGuests" id="numberOfGuests" min="0" max="100" placeholder="No of Guests"></label>
 
-      <label for="location">City:<input type="text" name="location" id="location" placeholder="City"></label>
+      <label for="location"><div class="flexify"><img src="/icons/location-dot-solid.svg" alt="location icon" class="font-awesome-icons">City:</div><input type="text" name="location" id="location" placeholder="City"></label>
     </div>
 
     <div>
       
     </div>
     <div class="search-form-date-container">
-      <label for="startDate">Check In:<input type="date" name="startDate" id="startDate"></label>
-      <label for="endDate">Check Out:<input type="date" name="endDate" id="endDate"></label>
+      <label for="startDate"><div class="flexify"><img src="/icons/calendar-check-regular.svg" alt="calendar icon" class="font-awesome-calendar">Check In:</div><input type="date" name="startDate" id="startDate"></label>
+      <label for="endDate"><div class="flexify"><img src="/icons/calendar-check-regular.svg" alt="calendar icon" class="font-awesome-calendar">Check Out:</div><input type="date" name="endDate" id="endDate"></label>
     </div>
 
     <div>
     <div>
-      <label for="sortBy">Order Results:</label>
+      <label for="sortBy"><div class="flexify"><img src="/icons/sort-solid.svg" alt="sort icon" class="font-awesome-icons">Order Results:</div></label>
       <select name="sortBy" id="sortBy">
         <option value="mostRecent">Latest Listings</option>
         <option value="minPriceFirst">Price: Ascending</option>
@@ -109,42 +108,24 @@
         </footer>
         <footer>
           <div class="services">
-            <div>
               <% if (ap.airConditioning) { %>
-                <!-- <i class="fa fa-snowflake-o"></i> -->
                 <img src="/icons/snowflake-solid.svg" alt="snowflake icon" style="width: 20px; height: 20px;">
               <% } %>
-            </div>
-            <div>
               <% if (ap.centralHeating) { %>
-                <!-- <i class="fa fa-fw fa-thermometer"></i> -->
                 <img src="/icons/temperature-three-quarters-solid.svg" alt="thermometer icon" style="width: 20px; height: 20px;">
               <% } %>
-            </div>
-            <div>
               <% if (ap.disabledAccess) { %>
-                <!-- <i class="fa fa-fw fa-wheelchair"></i> -->
                 <img src="/icons/wheelchair-solid.svg" alt="wheelchair icon" style="width: 20px; height: 20px;">
               <% } %>
-            </div>
-            <div>
-              <% if (ap.tv) { %>
-                <!-- <i class="fa fa-fw fa-tv"></i> -->
-                <img src="/icons/tv-solid.svg" alt="TV icon" style="width: 20px; height: 20px;">
-              <% } %>
-            </div>
-            <div>
               <% if (ap.kitchen) { %>
-                <!-- <i class="fa fa-cutlery fa-fw"></i> -->
                 <img src="/icons/utensils-solid.svg" alt="utensils icon" style="width: 20px; height: 20px;">
               <% } %>
-            </div>
-            <div>
               <% if (ap.wifi) { %>
-                <!-- <i class="fa fa-fw fa-wifi"></i>  -->
                 <img src="/icons/wifi-solid.svg" alt=" Wi-Fi icon" style="width: 20px; height: 20px;">
               <% } %>
-            </div>
+              <% if (ap.tv) { %>
+                <img src="/icons/tv-solid.svg" alt="TV icon" style="width: 20px; height: 20px;">
+              <% } %>
           </div>
         </footer>
 
