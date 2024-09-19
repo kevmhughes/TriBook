@@ -14,17 +14,37 @@ const getDashboardBookings = async (req, res) => {
         return `${day}-${month}-${year}`;
       }
 
-      // Get list of all reservations - made by specific standard user
+      const sortByValueUserBookings = req.query.sortByBookingsUser;
+
+      let sortByQueryUserBookings;
+      if (sortByValueUserBookings == "startDateUserBookings"){
+        sortByQueryUserBookings = {startDate: 1};
+      } else if (sortByValueUserBookings === "endDateUserBookings") {
+        sortByQueryUserBookings = {endDate: 1};
+      } else if (sortByValueUserBookings === "startDateLastUserBookings"){
+        sortByQueryUserBookings = {startDate: -1};
+      } else if (sortByValueUserBookings === "endDateLastUserBookings") {
+        sortByQueryUserBookings = {endDate: -1};
+      } 
+
+      // Get list of all reservations - made by (the logged in) standard user
       const reservations = await Reservation.find({ user: userData.id })
         .populate({
           path: "apartment",
           populate: {
-            path: "user", // Populate the user field inside the apartment
-            select: "name email", // Select which fields to include from the user schema
+            path: "user", 
+            select: "name email", 
           },
         })
-        .sort({ startDate: -1 }) // Sort by startDate in descending order
+        .sort(sortByQueryUserBookings) 
         .exec();
+
+        // JavaScript "helper" to overcome sort issue of nested fields in MongoDB
+        if (sortByValueUserBookings === "cityAscUserBookings") {
+          reservations.sort((a, b) => a.apartment.city.localeCompare(b.apartment.city));
+        } else if (sortByValueUserBookings === "cityDescUserBookings") {
+          reservations.sort((a, b) => b.apartment.city.localeCompare(a.apartment.city));
+        }
 
       // Format dates of reservations
       reservations.forEach((reservation) => {
@@ -34,8 +54,7 @@ const getDashboardBookings = async (req, res) => {
 
       const sortByValue = req.query.sortByBookings;
 
-
-      // fix issue with nested sorts: user.username and apartment.title
+      // Sort bookings of admin user's apartments
       let sortByQuery;
       if (sortByValue == "startDate"){
         sortByQuery = {startDate: 1};
@@ -45,15 +64,7 @@ const getDashboardBookings = async (req, res) => {
         sortByQuery = {startDate: -1};
       } else if (sortByValue === "endDateLast") {
         sortByQuery = {endDate: -1};
-      } else if (sortByValue === "usernameAz") {
-        sortByQuery = {"user.username": 1};
-      } else if (sortByValue === "usernameZa") {
-        sortByQuery = {"user.username": -1};
-      } else if (sortByValue === "titleAz") {
-        sortByQuery = {"apartment.title": 1};
-      } else if (sortByValue === "titleZa") {
-        sortByQuery = {"apartment.title": -1};
-      }
+      } 
 
       // Get list of all reservations and populate the user object
       const allApartmentsBooked = await Reservation.find()
@@ -62,10 +73,16 @@ const getDashboardBookings = async (req, res) => {
         .sort(sortByQuery)
         .exec();
 
-
-      console.log("first apartment title: ", allApartmentsBooked[0].user.username)
-      console.log(sortByValue)
-      console.log(sortByQuery)
+      // JavaScript "helper" to overcome sort issue of nested fields in MongoDB
+        if (sortByValue === "titleAz") {
+          allApartmentsBooked.sort((a, b) => a.apartment.title.localeCompare(b.apartment.title));
+        } else if (sortByValue === "titleZa") {
+          allApartmentsBooked.sort((a, b) => b.apartment.title.localeCompare(a.apartment.title));
+        } else if (sortByValue === "usernameAz") {
+          allApartmentsBooked.sort((a, b) => a.user.username.localeCompare(b.user.username));
+        } else if (sortByValue === "usernameZa") {
+          allApartmentsBooked.sort((a, b) => b.user.username.localeCompare(a.user.username));
+        }
 
       // Filter reservations by admin user id so that an admin only sees their apartment reservations
       const myApartmentsBooked = allApartmentsBooked.filter(
@@ -110,11 +127,10 @@ const getDashboardApartments = async (req, res) => {
       } else if (sortByValueApartments == "titleZaApartments"){
         sortByQueryApartments = {title: -1}
       } else if (sortByValueApartments == "priceHigh"){
-        sortByQueryApartments = {price: -1}
-      } else if (sortByValueApartments == "priceLow"){
         sortByQueryApartments = {price: 1}
+      } else if (sortByValueApartments == "priceLow"){
+        sortByQueryApartments = {price: -1}
       }
-
 
       // Get list of all apartments owned by admin user using their user id
       const apartments = await Apartment.find({ user: userData.id }).sort(
@@ -185,8 +201,6 @@ const getApartmentById = async (req, res) => {
       const range = getDateRange(new Date(startDate), new Date(endDate));
       return acc.concat(range);
     }, []);
-
-    console.log(selectedApartment.user.username)
 
     res.render("apartment-details", {
       selectedApartment,

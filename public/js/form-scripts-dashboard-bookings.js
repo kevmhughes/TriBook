@@ -1,17 +1,27 @@
-/* Set/get local storage filter value */
 window.onload = () => {
-    const defaultValue = localStorage.getItem("sortByValueTwo") || "startDate";
+  // First part: Admin user's bookings
+  const defaultValueTwo = localStorage.getItem("sortByValueTwo") || "startDate";
   
-    // Set the initial value of the select element
-    const sortByElement = document.getElementById("sortByBookings");
-    sortByElement.value = defaultValue;
+  const sortByElementAdmin = document.getElementById("sortByBookings");
+  if (sortByElementAdmin) {
+    sortByElementAdmin.value = defaultValueTwo;
   
-    // Add event listener for change event
-    sortByElement.addEventListener("change", function () {
+    sortByElementAdmin.addEventListener("change", function () {
       const sortByValueTwo = this.value;
-  
-      // Store the new value in local storage
       localStorage.setItem("sortByValueTwo", sortByValueTwo);
     });
-  };
+  }
+
+  // Second part: Standard user's bookings
+  const defaultValueFour = localStorage.getItem("sortByValueFour") || "startDateUserBookings";
   
+  const sortByElementUser = document.getElementById("sortByBookingsUser");
+  if (sortByElementUser) {
+    sortByElementUser.value = defaultValueFour;
+  
+    sortByElementUser.addEventListener("change", function () {
+      const sortByValueFour = this.value;
+      localStorage.setItem("sortByValueFour", sortByValueFour);
+    });
+  }
+};
