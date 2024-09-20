@@ -16,7 +16,7 @@
   <% } %>
 
     <% if (isAdmin) { %>
-      <p><a href="/admin/apartment/new-apartment">Add a new apartment</a></p>
+      <p><a href="/admin/apartment/new-apartment">Add new apartment</a></p>
     <% } %>
   
     <% if (isUser) { %>
@@ -92,11 +92,11 @@
         <footer>
           <div class="home-apartment-basic-details-container">
             <div>
-              <div>
-                <i class="fa fa-fw fa-gbp"></i>£<%= ap.price %> per night
+              <div class="flexify">
+                <img src="/icons/sterling-sign-solid.svg" alt="pound sterling icon" class="font-awesome-icons">£<%= ap.price %> per night
               </div>
-              <div>
-              <i class="fa fa-fw fa-arrows-alt"></i><%= ap.size %> M <sup>2</sup>
+              <div class="flexify">
+                <img src="/icons/maximize-solid.svg" alt="size icon" class="font-awesome-icons icons-adjust icons-size-adjust"><%= ap.size %> M <sup>2</sup>
             </div>
             </div>
               <div>
