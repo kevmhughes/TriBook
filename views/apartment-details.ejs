@@ -5,7 +5,6 @@
   <%- include('partials/head', { title: 'Apartment Details' }) %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -15,8 +14,7 @@
 
         <% if (!isAuthenticated) { %>
           <!-- Unauthenticated check: Show login/signup prompt -->
-          <p style="margin-left: 20px;
-}">
+          <p style="margin-left: 20px;">
             <a href="/login">Log in</a> or 
             <a href="/sign-up">sign up</a> as a standard user here if you want to make a reservation.
           </p>
@@ -68,9 +66,9 @@
                   <label for="id"></label>
                   <input type="hidden" name="id" value="<%= selectedApartment._id %>">
                   <input type="hidden" name="email" id="email" placeholder="e-mail" value="<%= userData.email%>" required>
-                  <label for="startDate"><i class="fa fa-fw fa-calendar-check-o"></i>Check In:</label>
+                  <label for="startDate"><div class="flexify"><img src="/icons/calendar-check-regular.svg" alt="calendar icon" class="font-awesome-calendar">Check In:</div></label>
                   <input type="text" id="datepicker" name="startDate" id="startDate=" placeholder="YYYY-MM-DD">
-                  <label for="endDate"><i class="fa fa-fw fa-calendar-check-o"></i>Check Out:</label>
+                  <label for="endDate"><div class="flexify"><img src="/icons/calendar-check-regular.svg" alt="calendar icon" class="font-awesome-calendar">Check Out:</div></label>
                   <input type="text" id="datepicker" name="endDate" id="endDate=" placeholder="YYYY-MM-DD">
     
                   <input type="submit" value="Reserve">
@@ -79,45 +77,44 @@
                 <% } %>
                 
               <div>
-              <div class="details-item">
-                <i class="fa fa-fw fa-gbp"></i>
+              <div class="details-item flexify">
+                <img src="/icons/sterling-sign-solid.svg" alt="pound sterling icon" class="font-awesome-icons-details-view icons-adjust">
                 <del style="color:grey">
                   <%= selectedApartment.price %>
                 </del>&nbsp;£<%= (selectedApartment.price * 0.9).toFixed(2) %> per night
               </div>
-              <div class="details-item">
-                <i class="fa fa-fw fa-map-marker
-                "></i>
+              <div class="details-item flexify">
+                <img src="/icons/location-dot-solid.svg" alt="location icon" class="font-awesome-icons-details-view icons-adjust">
                 City:
                 <%= selectedApartment.city %>
               </div>
-              <div class="details-item">
-                <i class="fa fa-fw fa-location-arrow"></i>
+              <div class="details-item flexify">
+                <img src="/icons/location-arrow-solid.svg" alt="location arrow icon" class="font-awesome-icons icons-adjust icons-size-adjust">
                 Province:
                 <%= selectedApartment.province %>
               </div>
-              <div class="details-item">
-                <i class="fa fa-fw fa-home"></i>
+              <div class="details-item flexify">
+                <img src="/icons/house-solid.svg" alt="house icon" class="font-awesome-icons icons-adjust icons-size-adjust">
                 Bedrooms:
                 <%= selectedApartment.bedrooms %>
               </div>
-              <div class="details-item">
-                <i class="fa fa-fw fa-bed"></i>
+              <div class="details-item flexify">
+                <img src="/icons/bed-solid.svg" alt="bed icon" class="font-awesome-icons icons-adjust icons-size-adjust">
                 Beds:
                 <%= selectedApartment.totalBeds %>
               </div>
-              <div class="details-item">
-                <i class="fa fa-fw fa-bath"></i>
+              <div class="details-item flexify">
+                <img src="/icons/bath-solid.svg" alt="bath icon" class="font-awesome-icons icons-adjust icons-size-adjust">
                 Bathrooms:
                 <%= selectedApartment.bathrooms %>
               </div>
-              <div class="details-item">
-                <i class="fa fa-fw fa-male"></i>
+              <div class="details-item flexify">
+                <img src="/icons/person-solid.svg" alt="person icon" class="font-awesome-icons icons-adjust" style="width: 0.625em; top: -4px;">
                 Max people:
                 <%= selectedApartment.maxNumberOfGuests %>
               </div>
-              <div class="details-item">
-                <i class="fa fa-fw fa-arrows-alt"></i>
+              <div class="details-item flexify">
+                <img src="/icons/maximize-solid.svg" alt="size icon" class="font-awesome-icons icons-adjust icons-size-adjust">
                 Size:
                 <%= selectedApartment.size %> M <sup>2</sup>
               </div>
@@ -129,34 +126,46 @@
               </div>
               <div class="details-item">
                 <% if (selectedApartment.tv) { %>
-                  <i class="fa fa-fw fa-tv"></i>
-                  TV <br>
+                  <div class="flexify" style="gap: 10px;">
+                    <img src="/icons/tv-solid.svg" alt="TV icon" style="width: 20px; height: 20px; gap: 10px;">
+                    TV <br>
+                  </div>
                   <% } %>
 
                     <% if (selectedApartment.airConditioning) { %>
-                      <i class="fa fa-snowflake-o"></i>
-                      Air Conditioning <br>
+                      <div class="flexify" style="gap: 10px;">
+                        <img src="/icons/snowflake-solid.svg" alt="snowflake icon" style="width: 20px; height: 20px;">
+                        Air Conditioning <br>
+                      </div>
                       <% } %>
 
                         <% if (selectedApartment.centralHeating) { %>
-                          <i class="fa fa-fw fa-thermometer"></i>
-                          Central Heating <br>
+                          <div class="flexify" style="gap: 10px;">
+                            <img src="/icons/temperature-three-quarters-solid.svg" alt="thermometer icon" style="width: 20px; height: 20px;">
+                            Central Heating <br>
+                          </div>
                           <% } %>
 
                             <% if (selectedApartment.wifi) { %>
-                              <i class="fa fa-fw fa-wifi"></i>
-                              Wi-Fi <br>
+                              <div class="flexify" style="gap: 10px;">
+                                <img src="/icons/wifi-solid.svg" alt=" Wi-Fi icon" style="width: 20px; height: 20px; ">
+                                Wi-Fi <br>
+                              </div>
                               <% } %>
 
                                 <% if (selectedApartment.disabledAccess) { %>
-                                  <i class="fa fa-fw fa-wheelchair"></i>
-                                  Disabled Access <br>
+                                  <div class="flexify" style="gap: 10px;"">
+                                    <img src="/icons/wheelchair-solid.svg" alt="wheelchair icon" style="width: 20px; height: 20px;">
+                                    Disabled Access <br>
+                                  </div>
                                   <% } %>
 
                                     <% if (selectedApartment.kitchen) { %>
-                                      <i class="fa fa-cutlery fa-fw"></i>
-                                      Kitchen
-                                      <br>
+                                      <div class="flexify" style="gap: 10px;"">
+                                        <img src="/icons/utensils-solid.svg" alt="utensils icon" style="width: 20px; height: 20px;">
+                                        Kitchen
+                                        <br>
+                                      </div>
                                       <br>
                                       <% } %>
 
@@ -171,6 +180,16 @@
                 <button>Contact</button>
                 <% } %>
             </div>
+
+            <div>
+              <% if (isAdmin && selectedApartment.user.id == userData.id) { %>
+                <!-- Admin check: Show the edit button -->
+                <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">
+                  <button style="float: right;">Edit the apartment</button>
+                </a>
+              
+              <% } %>
+            </div>
           </div>
 
           <div>
@@ -184,23 +203,11 @@
             </div>
           </div>
 
-            <div id="map" style=" width: 100%; height: 100%;"></div>
+            <div id="map"></div>
 
         </div>
 
       </article>
-
-      <div>
-        <br>
-        <% if (isAdmin && selectedApartment.user == userData.id) { %>
-          <!-- Admin check: Show the edit button -->
-          <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">
-            <button>Edit the apartment</button>
-          </a>
-        
-        <% } %>
-
-      </div>
 
     </main>
 

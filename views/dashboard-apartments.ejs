@@ -3,6 +3,7 @@
 
 <head>
   <%- include('partials/head', { title: 'Dashboard' }) %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -40,7 +41,7 @@
       <form action="/dashboard/apartments" method="GET">
   
         <div>
-          <label for="sortByApartments">Order Results:</label>
+          <label for="sortByApartments"><i class="fa fa-fw fa-sort"></i>Order Results:</label>
           <select name="sortByApartments" id="sortByApartments">
             <option value="newest">Latest Listings</option>
             <option value="oldest">Oldest Listings</option>
@@ -56,14 +57,17 @@
         <input type="submit" value="Search">
       </form>
   
+      <main class="container  main-apartments-container">
             <% for (const ap of apartments) { %>
   
               <article class="apartment">
                 <header>
-                  <%= ap.title %>
+                  <div class="home-apartment-title">
+                    <%= ap.title %>
+                  </div>
                 </header>
                 <a href="/apartment/<%= ap._id %>">
-                  <div><img src="<%= ap.mainPhoto %>" alt="" /></div>
+                  <div class="home-main-image-container"><img src="<%= ap.mainPhoto %>" alt="<%= ap.title%>" class="home-main-image" /></div>
                 </a>
                 <footer>
                   <div>
@@ -82,10 +86,11 @@
                   </div>
                 </footer>
               </article>
-  
+
               <% } %>
   
             <% } %>
+          </main>
     </div>
 
 

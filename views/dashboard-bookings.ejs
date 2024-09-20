@@ -3,7 +3,6 @@
 
 <head>
   <%- include('partials/head', { title: 'Dashboard' }) %>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -27,7 +26,7 @@
 
       <form action="/dashboard/bookings" method="GET">
         <div>
-          <label for="sortByBookingsUser">Order Results:</label>
+          <label for="sortByBookingsUser"><i class="fa fa-fw fa-sort"></i>Order Results:</label>
           <select name="sortByBookingsUser" id="sortByBookingsUser">
             <option value="startDateUserBookings">Check-in: Ascending</option>
             <option value="endDateUserBookings">Check-out: Ascending</option>
@@ -89,13 +88,18 @@
         <div class="message" style="background-color: blueviolet; inline-size: fit-content;">Admin</div>
         <br>
         <h1>Your Bookings</h1>
+        <!-- testing ground -->
+        <% if ((successMessage && successMessage.length > 0)) { %>
+          <div class="message"><%= successMessage %></div>
+          
+        <% } %>
         <% if (apartments.length > 0) { %>
           <div class="change-view-option"><a href="/dashboard/apartments">View or edit your apartments</a></div>
         <% } %> 
         <% if (myApartmentsBooked.length > 0) { %>
           <form action="/dashboard/bookings" method="GET">
             <div>
-              <label for="sortByBookings">Order Results:</label>
+              <label for="sortByBookings"><div class="flexify"><img src="/icons/sort-solid.svg" alt="sort icon" class="font-awesome-icons">Order Results:</div></label>
               <select name="sortByBookings" id="sortByBookings">
                 <option value="startDate">Check-in: Ascending</option>
                 <option value="endDate">Check-out: Ascending</option>
@@ -122,17 +126,19 @@
               </header>
               <div class="bookings-made-container">
                 <div>
-                  <p><i class="fa fa-fw fa-calendar"></i><b>Check-in: </b><%= my.startDateFormatted %></p>
-                  <p><i class="fa fa-fw fa-calendar"></i><b>Check-out: </b><%= my.endDateFormatted %></p>
-                </div>
-                <div>
-                  <p><i class="fa fa-fw fa-user"></i><b>Guest:</b> <%= my.user.username %></p>
-                  <p class="apartments-booked-email "><i class="fa fa-fw fa-envelope"></i><b>Contact: </b><%= my.user.email %></p>
-                </div>
+                  <div class="flexify"><img src="/icons/calendar-check-regular.svg" alt="calendar icon" class="font-awesome-calendar"><b>Check In: </b><%= my.startDateFormatted %></div>
+                  <div class="flexify"><img src="/icons/calendar-check-regular.svg" alt="calendar icon" class="font-awesome-calendar"><b>Check Out: </b><%= my.endDateFormatted %></div>
+  
+                  <div class="flexify"><img src="/icons/person-solid.svg" alt="person icon" class="font-awesome-icons" style="margin-left: 3px; margin-right:
+                  6px; width: 0.65em;"><b>Guest:</b> <%= my.user.username %></div>
+
+                  <div class="flexify"><img src="/icons/envelope-regular.svg" alt="envelope icon" class="font-awesome-icons" style="width: 0.85em;"><b>Contact: </b><%= my.user.email %></div>
+                  
+                  <br>
               </div>
               <footer>
                 <div class="apartments-booked-buttons-container">
-                  <button>Contact Guest</button>
+                  <a href="/dashboard/bookings/cancel/<%= my.id %>"><button style="background-color: red;">Cancel</button></a>
                   <a href="/apartment/<%= my.apartment.id %>"><button>Details</button></a>
                 </div>
               </footer>
