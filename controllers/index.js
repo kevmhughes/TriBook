@@ -107,6 +107,43 @@ const getDashboardBookings = async (req, res) => {
   }
 };
 
+const getDashboardBookingsCancel = async (req, res) => {
+  try {
+    const { idReservation } = req.params;
+    // testing ground
+    /* const reservationToDelete = await Reservation.findByIdAndDelete(idReservation) */
+    const reservationToDelete = await Reservation.findById(idReservation).populate("user").populate("apartment")
+    const email = reservationToDelete.email
+    console.log(email)
+
+    console.log(userData)
+
+
+    if (!reservationToDelete) {
+      console.log(`No reservation found with ID: ${idReservation}`);
+      return res.status(404).render("404", { message: "Reservation not found." });
+    }
+
+    console.log("Deleted reservation:", reservationToDelete);
+    return res.render("email", {  
+      email: reservationToDelete.email,
+      user: reservationToDelete.user.username, 
+      subject: "Unfortunately, we have to cancel your reservation.",
+      body: `We are very sorry, but we regret to inform you that we have no alternative but to cancel your reservation at ${reservationToDelete.apartment.title} between ${reservationToDelete.startDate} and ${reservationToDelete.endDate}. \n\nDespite the unfortunate circumstances, we hope that you will continue to use our services in the near future.\n\nBest regards, \n\n${(userData.username).replace(/([a-z])([A-Z])/g, '$1 $2')}.`
+    });
+    
+  } catch (error) {
+    console.error("Error deleting reservation:", error);
+    return res.status(500).render("500", {message: "Error deleting reservation."});
+  }
+};
+
+const postSendEmail = async (req, res) => {
+  const { idUser } = req.params
+  req.flash("success", `A cancellation email has been sent to ${idUser}.`)
+  return res.redirect("/dashboard/bookings")
+}
+
 const getDashboardApartments = async (req, res) => {
   try {
     if (res.locals.isAuthenticated) {
@@ -188,6 +225,7 @@ const getApartments = async (req, res) => {
 
 // Get a specific property by ID, and get its reserved dates
 const getApartmentById = async (req, res) => {
+
   try {
     const { idApartment } = req.params;
     // Find the apartment
@@ -361,6 +399,8 @@ const postNewReservation = async (req, res) => {
 
 module.exports = {
   getDashboardBookings,
+  getDashboardBookingsCancel,
+  postSendEmail,
   getDashboardApartments,
   getReservation,
   getApartments,

@@ -10,6 +10,10 @@ router.get("/search", indexControllers.searchApartments)
 
 router.get("/dashboard/bookings", indexControllers.getDashboardBookings)
 
+router.get("/dashboard/bookings/cancel/:idReservation", indexControllers.getDashboardBookingsCancel)
+
+router.post("/send-email/:idUser", indexControllers.postSendEmail)
+
 router.get("/dashboard/apartments", indexControllers.getDashboardApartments)
 
 router.get("/reservation", indexControllers.getReservation)
