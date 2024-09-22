@@ -129,7 +129,7 @@ const getDashboardBookingsCancel = async (req, res) => {
       email: reservationToDelete.email,
       user: reservationToDelete.user.username, 
       subject: "Unfortunately, we have to cancel your reservation.",
-      body: `We are very sorry, but we regret to inform you that we have no alternative but to cancel your reservation at ${reservationToDelete.apartment.title} between ${reservationToDelete.startDate} and ${reservationToDelete.endDate}. \n\nDespite the unfortunate circumstances, we hope that you will continue to use our services in the near future.\n\nBest regards, \n\n${(userData.username).replace(/([a-z])([A-Z])/g, '$1 $2')}.`
+      body: `We are very sorry, but we regret to inform you that we have no alternative but to cancel your reservation at ${reservationToDelete.apartment.title} between ${reservationToDelete.startDate} and ${reservationToDelete.endDate}. \n\nDespite the unfortunate circumstances, we hope that you will continue to use our services in the near future.\n\nBest regards, \n\n${(userData.username)}.`
     });
     
   } catch (error) {
@@ -192,15 +192,15 @@ const getDashboardApartments = async (req, res) => {
 const getReservation = async (req, res) => {
   try {
     if (res.locals.isAuthenticated && res.locals.isUser) {
-      res.render("reservation");
+      return res.render("reservation");
     } else {
-      res.status(404).render("404", {
+      return res.status(404).render("404", {
         message: "You must log in before making a reservation.",
       });
     }
   } catch (error) {
     console.error("Error fetching reservation confirmation:", error);
-    res.status(500).json({ error: "Failed to fetch reservation confirmation" });
+    return res.status(500).json({ error: "Failed to fetch reservation confirmation" });
   }
 };
 
@@ -346,7 +346,13 @@ const postNewReservation = async (req, res) => {
   const endDate = new Date(req.body.endDate);
 
   if (isNaN(startDate) || isNaN(endDate)) {
-    return res.status(400).json({ error: "Invalid dates provided." });
+    req.flash("error", "Valid check-in and check-out dates have not been provided.");
+    return res.status(400).redirect(`/apartment/${req.body.id}`);;
+  }
+
+  if (startDate > endDate) {
+    req.flash("error", "The check-in date cannot be later than the check-out date." );
+    return res.status(400).redirect(`/apartment/${req.body.id}`);;
   }
 
   try {
@@ -373,7 +379,7 @@ const postNewReservation = async (req, res) => {
     // Send error message if there are overlapping dates
     if (hasOverlap) {
       req.flash("error", "The requested dates are not available.");
-      return res.redirect(`/apartment/${req.body.id}`);
+      return res.status(400).redirect(`/apartment/${req.body.id}`);
     }
 
     // Ensure the start date is before the end date
@@ -389,11 +395,11 @@ const postNewReservation = async (req, res) => {
       res.redirect("/reservation");
     } else {
       req.flash("error", "Invalid date range, please try again.");
-      res.status(400).redirect(`/apartment/${req.body.id}`);
+      return res.status(400).redirect(`/apartment/${req.body.id}`);
     }
   } catch (error) {
     console.error("Error posting reservation:", error);
-    res.status(500).json({ error: "Failed to create reservation" });
+    return res.status(500).json({ error: "Failed to create reservation" });
   }
 };
 
