@@ -3,14 +3,13 @@
 
 <head>
   <%- include('partials/head', { title: 'Dashboard' }) %>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
   <header class="container">
     <div id="header-container">
       <div>
-        <a href="/"><img src="/icons/tribook.svg" alt="tribook-logo" id="logo"></a>
+        <a href="/"><img src="/icons/logo/tribook.svg" alt="tribook-logo" id="logo"></a>
       </div>
       <nav>
           <a id="login-button" href="/"><button style="margin-right: 5px;">Home</button></a>
@@ -25,7 +24,7 @@
 
     <div class="apartments-view" id="apartments-view">
       
-      <div class="message" style="background-color: blueviolet; inline-size: fit-content;">Admin</div>
+      <div class="user-type">Admin</div>
       <br>
 
       <h1>Your Apartments</h1>
@@ -41,7 +40,7 @@
       <form action="/dashboard/apartments" method="GET">
   
         <div>
-          <label for="sortByApartments"><i class="fa fa-fw fa-sort"></i>Order Results:</label>
+          <label for="sortByApartments"><div class="flexify"><img src="/icons/sort-solid.svg" alt="sort icon" class="font-awesome-icons">Sort By:</div></label>
           <select name="sortByApartments" id="sortByApartments">
             <option value="newest">Latest Listings</option>
             <option value="oldest">Oldest Listings</option>
@@ -70,10 +69,13 @@
                   <div class="home-main-image-container"><img src="<%= ap.mainPhoto %>" alt="<%= ap.title%>" class="home-main-image" /></div>
                 </a>
                 <footer>
-                  <div>
-                    <b>Price: </b><%= ap.price %> £ per night
+                  <div class="flexify">
+                    <img src="/icons/sterling-sign-solid.svg" alt="pound sterling icon" class="font-awesome-icons"><b>Price: </b><%= ap.price %> £ per night
                   </div>
-                  <b>Size:</b> <%= ap.size %> M <sup>2</sup>
+                  <div class="flexify">
+                    <img src="/icons/maximize-solid.svg" alt="size icon" class="font-awesome-icons icons-adjust icons-size-adjust" style="position: relative; top: 1px;"><b>Size: </b><%= ap.size %> M <sup>2</sup>
+                  </div>
+                  <%- ap.listed ? '<div class="flexify" style="justify-content: flex-end"><div class="listed">Listed</div></div>' : '<div class="flexify" style="justify-content: flex-end"><div class="delisted">Delisted</div></div>' %>
                 </footer>
                 <footer>
                   <div>
@@ -81,7 +83,6 @@
                         <a href="/admin/apartment/<%= ap._id %>/edit">
                           <button>Edit</button>
                         </a>
-                        <%- ap.listed ? '<button class="message">Listed</button>' : '<button class="alert-error">Delisted</button>' %>
                       </div>
                   </div>
                 </footer>

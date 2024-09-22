@@ -9,7 +9,7 @@
   <header class="container">
     <div id="header-container">
       <div>
-        <a href="/"><img src="/icons/tribook.svg" alt="tribook-logo" id="logo"></a>
+        <a href="/"><img src="/icons/logo/tribook.svg" alt="tribook-logo" id="logo"></a>
       </div>
       <nav>
         <a id="login-button" href="/"><button style="margin-right: 5px;">Home</button></a>
@@ -20,13 +20,13 @@
 
   <div class="container">
     <% if (isUser) { %>
-      <div class="message" style="background-color: blueviolet; inline-size: fit-content;">Standard User</div>
+      <div class="user-type">Standard User</div>
       <br>
       <h1>Your Confirmed Bookings</h1>
 
       <form action="/dashboard/bookings" method="GET">
         <div>
-          <label for="sortByBookingsUser"><i class="fa fa-fw fa-sort"></i>Order Results:</label>
+          <label for="sortByBookingsUser"><i class="fa fa-fw fa-sort"></i>Sort By:</label>
           <select name="sortByBookingsUser" id="sortByBookingsUser">
             <option value="startDateUserBookings">Check-in: Ascending</option>
             <option value="endDateUserBookings">Check-out: Ascending</option>
@@ -73,9 +73,8 @@
                 <a href="/apartment/<%= res.apartment._id %>">
                   <button>Details</button>
                 </a>
-                <a href="mailto:<%= res.apartment.user.email %>">
+                <!-- testing ground !! -->
                   <button>Contact Host</button>
-                </a>
               </div>
             </footer>
           </article>
@@ -85,7 +84,7 @@
 
     <% if (isAdmin) { %>
       <div class="bookings-view container" id="bookings-view">
-        <div class="message" style="background-color: blueviolet; inline-size: fit-content;">Admin</div>
+        <div class="user-type">Admin</div>
         <br>
         <h1>Your Bookings</h1>
         <!-- testing ground -->
@@ -99,7 +98,7 @@
         <% if (myApartmentsBooked.length > 0) { %>
           <form action="/dashboard/bookings" method="GET">
             <div>
-              <label for="sortByBookings"><div class="flexify"><img src="/icons/sort-solid.svg" alt="sort icon" class="font-awesome-icons">Order Results:</div></label>
+              <label for="sortByBookings"><div class="flexify"><img src="/icons/sort-solid.svg" alt="sort icon" class="font-awesome-icons">Sort By:</div></label>
               <select name="sortByBookings" id="sortByBookings">
                 <option value="startDate">Check-in: Ascending</option>
                 <option value="endDate">Check-out: Ascending</option>
