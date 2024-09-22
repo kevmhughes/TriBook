@@ -21,6 +21,22 @@
         
         <% } %>
 
+
+        <div>
+          <% if (isAdmin && selectedApartment.user.id == userData.id) { %>
+            <!-- Admin check: Show the edit button -->
+            <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">
+              <p>Edit your apartment</p>
+            </a>
+          <% } %>
+        </div>
+
+        <% if ((errorMessage && errorMessage.length > 0)) { %>
+          <div class="alert-error"><%= errorMessage %></div>
+          <br>
+        <% } %>
+
+
       <article class="apartment">
         <header>
           <%= selectedApartment.title %>
@@ -179,16 +195,6 @@
                 </div>
                 <button>Contact</button>
                 <% } %>
-            </div>
-
-            <div>
-              <% if (isAdmin && selectedApartment.user.id == userData.id) { %>
-                <!-- Admin check: Show the edit button -->
-                <a href="/admin/apartment/<%= selectedApartment._id %>/edit/">
-                  <button style="float: right;">Edit the apartment</button>
-                </a>
-              
-              <% } %>
             </div>
           </div>
 
