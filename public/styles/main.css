@@ -1,7 +1,21 @@
 /* global */
 
 #logo {
-  height: 50px;
+  height: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+  #logo  {
+  height: 10px
+  }
+}
+
+.user-type {
+  background-color: blueviolet;
+  inline-size: fit-content;
+  padding: 5px 10px 5px 10px;
+  color: white;
+  border-radius: 5px;
 }
 
 .font-awesome-icons {
@@ -302,7 +316,8 @@
 #map {
   min-height: 300px;
   width: 100%; 
-  height: 100%
+  height: 100%;
+  border-radius: 5px;
 }
 
 @media only screen and (max-width: 767px) {
@@ -414,6 +429,21 @@
 .hidden {
   display: none
     /* hides one view when the other is displayed */
+}
+.listed {
+  background-color: green;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+  width: fit-content;
+}
+
+.delisted {
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px 5px 10px;
+  width: fit-content;
 }
 
 .leaflet-control-zoom-in,
