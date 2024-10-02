@@ -1,13 +1,13 @@
 const User = require("../models/user.model.js");
 
 const getLoginForm = (req, res) => {
-    res.render("login", {
+    return res.render("login", {
         message: ""
     })
 }
 
 const getSignUpForm = (req, res) => {
-    res.render("sign-up", {
+    return res.render("sign-up", {
         message: ""
     })
 }
