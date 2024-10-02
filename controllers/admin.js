@@ -1,15 +1,15 @@
 const Apartment = require("../models/apartment.model.js");
 
-// get form to add new property
+// get form to add new property to database
 const getNewApartmentForm = (req, res) => {
   try {
-    res.render("new-apartment", {
+    return res.render("new-apartment", {
       // send empty apartment object
       apartment: {},
     });
   } catch (error) {
-    console.error("Error rendering new apartment form:", error);
-    res.status(500).render("500", { message: "Failed to load the new apartment form"})
+    console.error("Error rendering new apartment form:", error.stack);
+    return res.status(500).render("500", { message: "Failed to load the new apartment form"})
   }
 };
 
@@ -25,12 +25,12 @@ const getEditApartmentForm = async (req, res) => {
       });
     }
 
-    res.render("new-apartment", {
+    return res.render("new-apartment", {
       apartment, // Pass existing apartment data for form population
     });
   } catch (error) {
-    console.error("Error fetching apartment:", error);
-    res.status(500).render("500", {
+    console.error("Error fetching apartment:", error.stack);
+    return res.status(500).render("500", {
       message: "Server error while fetching apartment. Please try again later.",
     });
   }
@@ -77,8 +77,8 @@ const postNewApartment = async (req, res) => {
       return res.redirect("/dashboard/apartments")
     }
   } catch (error) {
-    console.error("Error processing apartment request:", error);
-    res.status(500).render("500", { message: "Failed to process the request"})
+    console.error("Error processing apartment request:", error.stack);
+    return res.status(500).render("500", { message: "Failed to process the request"})
   }
 };
 
