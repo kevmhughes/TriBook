@@ -17,6 +17,7 @@ const adminRoutes = require('./routes/admin.js');
 // rutas de autentificación
 const authRoutes = require('./routes/auth.js');
 
+// rutas del api
 const apiRoutes = require('./routes/api.js')
 
 // creamos una instancia del servidor Express

@@ -1,6 +1,7 @@
 const Apartment = require("../models/apartment.model.js");
 
 const getApartments = async (req, res) => {
+
   let limit = parseInt(req.query.limit) || 100000 ;
 
   if (limit) {
@@ -12,6 +13,7 @@ const getApartments = async (req, res) => {
   }
 
   const apartments = await Apartment.find().limit(limit);
+  
   res.status(200).json({
     message: "Query executed successfully",
     results: apartments,

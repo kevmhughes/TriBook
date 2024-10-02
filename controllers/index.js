@@ -346,7 +346,7 @@ const postNewReservation = async (req, res) => {
   const endDate = new Date(req.body.endDate);
 
   if (isNaN(startDate) || isNaN(endDate)) {
-    req.flash("error", "Valid check-in and check-out dates have not been provided.");
+    req.flash("error", "Please use valid check-in and check-out dates.");
     return res.status(400).redirect(`/apartment/${req.body.id}`);;
   }
 
