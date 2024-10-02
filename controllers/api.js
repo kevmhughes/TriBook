@@ -14,7 +14,7 @@ const getApartments = async (req, res) => {
 
   const apartments = await Apartment.find().limit(limit);
   
-  res.status(200).json({
+  return res.status(200).json({
     message: "Query executed successfully",
     results: apartments,
   });
