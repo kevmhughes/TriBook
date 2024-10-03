@@ -40,8 +40,8 @@
       
     </div>
     <div class="search-form-date-container">
-      <label for="startDate"><div class="flexify"><img src="/icons/calendar-check-regular.svg" alt="calendar icon" class="font-awesome-calendar">Check In:</div><input type="date" name="startDate" id="startDate" placeholder="YYYY-MM-DD"></label>
-      <label for="endDate"><div class="flexify"><img src="/icons/calendar-check-regular.svg" alt="calendar icon" class="font-awesome-calendar">Check Out:</div><input type="date" name="endDate" id="endDate" placeholder="YYYY-MM-DD"></label>
+      <label for="startDate"><div class="flexify"><img src="/icons/calendar-check-regular.svg" alt="calendar icon" class="font-awesome-calendar">Check In:</div><input type="date" name="startDate" id="startDate" placeholder="Check-in date"></label>
+      <label for="endDate"><div class="flexify"><img src="/icons/calendar-check-regular.svg" alt="calendar icon" class="font-awesome-calendar">Check Out:</div><input type="date" name="endDate" id="endDate" placeholder="Check-out date"></label>
     </div>
 
     <div>
@@ -145,12 +145,16 @@
   flatpickr("#startDate", {
     minDate: "today", // Prevent past dates from being selected
     dateFormat: "Y-m-d", // Set the date format
+    altInput: true,      // Enable alternative input field display
+    altFormat: "F j, Y"
   });
 
   // Initialize Flatpickr for the end date and block past dates
   flatpickr("#endDate", {
     minDate: "today", // Prevent past dates from being selected
     dateFormat: "Y-m-d", // Set the date format
+    altInput: true,      // Enable alternative input field display
+    altFormat: "F j, Y"
   });
 </script>
 
