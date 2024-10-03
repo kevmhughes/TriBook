@@ -2,10 +2,11 @@ const Apartment = require("../models/apartment.model.js");
 const Reservation = require("../models/reservation.model.js");
 const { getDateRange } = require("../utils/dateUtils.js");
 
+// "RESERVATIONS" VIEW - STANDARD USER
 const getDashboardBookings = async (req, res) => {
   try {
     if (res.locals.isAuthenticated) {
-      // Helper function to format dates
+      // Helper function to format dates in DD-MM-YYYY format
       function formatDate(dateString) {
         const date = new Date(dateString);
         const day = String(date.getDate()).padStart(2, "0");
@@ -16,6 +17,7 @@ const getDashboardBookings = async (req, res) => {
 
       const sortByValueUserBookings = req.query.sortByBookingsUser;
 
+      // Set sorting criteria for user bookings based on query
       let sortByQueryUserBookings;
       if (sortByValueUserBookings == "startDateUserBookings"){
         sortByQueryUserBookings = {startDate: 1};
@@ -27,7 +29,7 @@ const getDashboardBookings = async (req, res) => {
         sortByQueryUserBookings = {endDate: -1};
       } 
 
-      // Get list of all reservations - made by (the logged in) standard user
+      // Get list of all reservations - made by authenticated standard user
       const reservations = await Reservation.find({ user: userData.id })
         .populate({
           path: "apartment",
@@ -39,14 +41,14 @@ const getDashboardBookings = async (req, res) => {
         .sort(sortByQueryUserBookings) 
         .exec();
 
-        // JavaScript "helper" to overcome sort issue of nested fields in MongoDB
+        // Sort reservations by city name since Mongoose does not support sorting by nested fields directly
         if (sortByValueUserBookings === "cityAscUserBookings") {
           reservations.sort((a, b) => a.apartment.city.localeCompare(b.apartment.city));
         } else if (sortByValueUserBookings === "cityDescUserBookings") {
           reservations.sort((a, b) => b.apartment.city.localeCompare(a.apartment.city));
         }
 
-      // Format dates of reservations
+      // Format dates of reservations to display in UI "reservation card"
       reservations.forEach((reservation) => {
         reservation.startDateFormatted = formatDate(reservation.startDate);
         reservation.endDateFormatted = formatDate(reservation.endDate);
@@ -73,7 +75,7 @@ const getDashboardBookings = async (req, res) => {
         .sort(sortByQuery)
         .exec();
 
-      // JavaScript "helper" to overcome sort issue of nested fields in MongoDB
+      // Manually sort booked apartments by nested fields, as Mongoose does not sort by these directly
         if (sortByValue === "titleAz") {
           allApartmentsBooked.sort((a, b) => a.apartment.title.localeCompare(b.apartment.title));
         } else if (sortByValue === "titleZa") {
@@ -84,33 +86,34 @@ const getDashboardBookings = async (req, res) => {
           allApartmentsBooked.sort((a, b) => b.user.username.localeCompare(a.user.username));
         }
 
-      // Filter reservations by admin user id so that an admin only sees their apartment reservations
+      // Filter reservations by admin user id - so that an admin only sees their apartment reservations
       const myApartmentsBooked = allApartmentsBooked.filter(
         (ap) => ap.apartment.user._id.toString() === userData.id
       );
 
-      // Format dates of apartments booked
+      // Format dates of apartments booked to display in UI "booking card"
       myApartmentsBooked.forEach((reservation) => {
         reservation.startDateFormatted = formatDate(reservation.startDate);
         reservation.endDateFormatted = formatDate(reservation.endDate);
       });
 
-      // Get list of all apartments owned by admin user using their user id
+      // Get list of all apartments owned by admin user - based on their user id
       const apartments = await Apartment.find({ user: userData.id });
 
-      res.render("dashboard-bookings", { reservations, myApartmentsBooked, apartments });
+      // Render the dashboard view with the relevant data
+      return res.render("dashboard-bookings", { reservations, myApartmentsBooked, apartments });
     } else {
-      res.status(404).render("404", { message: "You must log in to see your dashboard." });
+      return res.status(404).render("404", { message: "You must log in to see your dashboard." });
     }
   } catch (error) {
 
   }
 };
 
+// !!! testing ground !!!
 const getDashboardBookingsCancel = async (req, res) => {
   try {
     const { idReservation } = req.params;
-    // testing ground
     /* const reservationToDelete = await Reservation.findByIdAndDelete(idReservation) */
     const reservationToDelete = await Reservation.findById(idReservation).populate("user").populate("apartment")
     const email = reservationToDelete.email
@@ -138,12 +141,15 @@ const getDashboardBookingsCancel = async (req, res) => {
   }
 };
 
+// !!! testing ground !!!
 const postSendEmail = async (req, res) => {
   const { idUser } = req.params
   req.flash("success", `A cancellation email has been sent to ${idUser}.`)
   return res.redirect("/dashboard/bookings")
 }
 
+// "VIEW OR EDIT APARTMENTS" VIEW - ADMIN USER
+// Controller to get the apartments for authenticated admin users to be seen on the dashboard
 const getDashboardApartments = async (req, res) => {
   try {
     if (res.locals.isAuthenticated) {
@@ -169,16 +175,18 @@ const getDashboardApartments = async (req, res) => {
         sortByQueryApartments = {price: -1}
       }
 
-      // Get list of all apartments owned by admin user using their user id
+      // Get list of all apartments owned by admin user based on user id
       const apartments = await Apartment.find({ user: userData.id }).sort(
         sortByQueryApartments 
       );
 
+      // sort all apartments by most recently updated
       const updatedApartment = await Apartment.find({ user: userData.id }).sort(
         {updatedAt: -1}
       );
 
-      res.render("dashboard-apartments", { apartments, updatedApartment });
+      // Render the apartments on the dashboard view
+      return res.render("dashboard-apartments", { apartments, updatedApartment });
     } else {
       res
         .status(404)
@@ -188,7 +196,7 @@ const getDashboardApartments = async (req, res) => {
   }
 };
 
-// Render reservation.ejs with success message and further call to action buttons
+// Render reservation page for authenticated standard user
 const getReservation = async (req, res) => {
   try {
     if (res.locals.isAuthenticated && res.locals.isUser) {
@@ -204,7 +212,7 @@ const getReservation = async (req, res) => {
   }
 };
 
-// Get all listed properties to show on opening home page
+// Get all listed properties to show on home page
 const getApartments = async (req, res) => {
   try {
     // Find all apartments in the database that have been listed by their respective hosts (admin users)
@@ -213,13 +221,13 @@ const getApartments = async (req, res) => {
     });
 
     if (apartments.length == 0) {
-      res.render("home", { apartments, zeroResultsMessage: true });
+      return res.render("home", { apartments, zeroResultsMessage: true });
     } else {
-      res.render("home", { apartments, zeroResultsMessage: false });
+      return res.render("home", { apartments, zeroResultsMessage: false });
     }
   } catch (error) {
     console.error("Error fetching properties:", error);
-    res.status(500).json({ error: "Failed to fetch apartments" });
+    return res.status(500).json({ error: "Failed to fetch apartments" });
   }
 };
 
@@ -240,13 +248,13 @@ const getApartmentById = async (req, res) => {
       return acc.concat(range);
     }, []);
 
-    res.render("apartment-details", {
+    return res.render("apartment-details", {
       selectedApartment,
       reservedDates,
     });
   } catch (error) {
     console.error("Error fetching apartment details:", error);
-    res.status(500).json({ error: "Failed to fetch apartment details" });
+    return res.status(500).json({ error: "Failed to fetch apartment details" });
   }
 };
 
@@ -333,10 +341,10 @@ const searchApartments = async (req, res) => {
       });
     }
 
-    res.render("home", { apartments, zeroResultsMessage: false });
+    return res.render("home", { apartments, zeroResultsMessage: false });
   } catch (error) {
     console.error("Error during property search:", error);
-    res.status(500).json({ error: "Failed to search for properties" });
+    return res.status(500).json({ error: "Failed to search for properties" });
   }
 };
 
@@ -345,6 +353,7 @@ const postNewReservation = async (req, res) => {
   const startDate = new Date(req.body.startDate);
   const endDate = new Date(req.body.endDate);
 
+  // Validate check-in and check-out dates
   if (isNaN(startDate) || isNaN(endDate)) {
     req.flash("error", "Please use valid check-in and check-out dates.");
     return res.status(400).redirect(`/apartment/${req.body.id}`);;
@@ -356,7 +365,7 @@ const postNewReservation = async (req, res) => {
   }
 
   try {
-    // Get all reservations for the specific apartment using the apartment's id
+    // Get all reservations for the specific apartment 
     const reservations = await Reservation.find({ apartment: req.body.id });
 
     // Create an array of all reserved dates
@@ -382,7 +391,7 @@ const postNewReservation = async (req, res) => {
       return res.status(400).redirect(`/apartment/${req.body.id}`);
     }
 
-    // Ensure the start date is before the end date
+    // Create the reservation if dates are valid - the start date is before the end date
     if (startDate < endDate) {
       await Reservation.create({
         email: req.body.email,
