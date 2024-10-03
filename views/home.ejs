@@ -141,9 +141,19 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
+
+  // Get today's date
+  const today = new Date();
+
+  // Calculate max date (1 year from today)
+  const maxDate = new Date();
+  maxDate.setFullYear(today.getFullYear() + 1); // Set max date to one year from today
+
+
   // Initialize Flatpickr for the start date and block past dates
   flatpickr("#startDate", {
     minDate: "today", // Prevent past dates from being selected
+    maxDate: maxDate.toISOString().split('T')[0], // Convert to YYYY-MM-DD format
     dateFormat: "Y-m-d", // Set the date format
     altInput: true,      // Enable alternative input field display
     altFormat: "F j, Y"
@@ -152,6 +162,7 @@
   // Initialize Flatpickr for the end date and block past dates
   flatpickr("#endDate", {
     minDate: "today", // Prevent past dates from being selected
+    maxDate: maxDate.toISOString().split('T')[0], // Convert to YYYY-MM-DD format
     dateFormat: "Y-m-d", // Set the date format
     altInput: true,      // Enable alternative input field display
     altFormat: "F j, Y"

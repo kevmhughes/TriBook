@@ -223,11 +223,19 @@
     <script>
 const reservedDates = <%- JSON.stringify(reservedDates.map(date => date.toISOString().split('T')[0])) %>;
 
+// Get today's date
+const today = new Date();
+
+// Calculate max date (1 year from today)
+const maxDate = new Date();
+maxDate.setFullYear(today.getFullYear() + 1); // Set max date to one year from today
+
 document.addEventListener("DOMContentLoaded", function () {
     flatpickr("#datepicker", {
         enableTime: false,
         dateFormat: "Y-m-d",
         minDate: "today",
+        maxDate: maxDate.toISOString().split('T')[0], // Convert to YYYY-MM-DD format
         disable: reservedDates,
         altInput: true,          // Enable alternative display for input
         altFormat: "F j, Y",     // Format the date display in the input (e.g., October 3, 2024)
