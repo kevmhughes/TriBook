@@ -1,4 +1,4 @@
-// importar módulos de terceros
+// Import third-party modules
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
@@ -8,22 +8,22 @@ const flash = require('connect-flash');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// importar las rutas públicas
+// Import public routes
 const indexRoutes = require('./routes/index.js');
 
-// importar las rutas de administrador
+// Import admin routes
 const adminRoutes = require('./routes/admin.js');
 
-// rutas de autentificación
+// Authentication routes
 const authRoutes = require('./routes/auth.js');
 
-// rutas del api
+// API routes
 const apiRoutes = require('./routes/api.js')
 
-// creamos una instancia del servidor Express
+// Create an instance of the Express server
 const app = express();
 
-// Tenemos que usar un nuevo middleware para indicar a Express que queremos procesar peticiones de tipo POST
+// Use middleware to process POST requests
 app.use(express.urlencoded({ extended: true }));
 
 // Set up session middleware
@@ -31,77 +31,79 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // secure: true en producción con HTTPS
+    cookie: { secure: false } // secure: true in production with HTTPS
 }));
 
 // Set up flash middleware
 app.use(flash());
 
-
+// Middleware to set up local variables for views
 app.use((req, res, next) => {
-    // La variable req.locals es una variable "global" de tipo objecto a la que todas las vistas pueden acceder
-    // Si el usuario esta autentificado entonces es que es de tipo administrador
+  // The req.locals variable is a "global" object that all views can access
 
     res.locals.successMessage = req.flash('success');
     res.locals.errorMessage = req.flash('error');
     
     if (req.session.isAuthenticated) {
-        // testing area
         res.locals.userData = userData
 
         res.locals.isAuthenticated = true;
-        res.locals.isAdmin = req.session.userType === "admin"; // Check if admin
-        res.locals.isUser = req.session.userType === "standard"; // Check if standard user
+        res.locals.isAdmin = req.session.userType === "admin"; // Check if the user is admin
+        res.locals.isUser = req.session.userType === "standard"; // Check if the user is a standard user
     } else {
         res.locals.isAuthenticated = false;
         res.locals.isAdmin = false;
         res.locals.isUser = false;
     }
 
-    // tenemos que ejecutar next() para que la petición HTTP siga su curso
+    // We need to execute next() to let the HTTP request continue its course
     next();
 })
 
-// Añadimos el middleware necesario para que el client puedo hacer peticiones GET a los recursos públicos de la carpeta 'public'
+// Add middleware to allow client to make GET requests to public resources in the 'public' folder
 app.use(express.static('public'));
 
 const PORT = process.env.PORT || 3000;
 
-// Especificar a Express que quiero usar EJS como motor de plantillas
+// Specify to Express that EJS will be the template engine
 app.set('view engine', 'ejs');
 
-// Usamos el middleware morgan para loguear las peticiones del cliente
+// Use the morgan middleware to log client requests
 app.use(morgan('tiny'));
 
-// Añadimos las ritas de index.js en nuestra app
-// El primer parámetro significa que todas las rutas que se encuentren en 'indexRouter' estarán prefijados por '/'
-// Voy a prefijar todas las rutas de administrador con '/admin'
-
-// Middleware para proteger las rutas de administrador
+// Middleware to protect admin routes
 app.use('/admin', (req, res, next) => {
-    // Miramos si el usuario esta autentificado
+    // Check if the user is authenticated
     if (req.session.isAuthenticated) {
-        // Si es que si, establecemos que es de tipo administrador y permitimos que siga la petición
+        // If yes, establish that the user is an admin type and allow the request to continue
         res.locals.isAdmin = true;
         next();
     } else {
-        // en caso contrario lo llevamos a la vista de login
+         // Otherwise, redirect them to the login view
         res.redirect('/login');
     }
 });
 
+// Use the routes
 app.use('/admin', adminRoutes);
 app.use('/', authRoutes);
 app.use('/', indexRoutes);
 app.use('/api', apiRoutes)
 
+// Function to connect to the database
 async function connectDB() {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log('Conectado a la base de datos');
+    try {
+        await mongoose.connect(process.env.MONGODB_URI);
+        console.log('Connected to the database');
+    } catch (err) {
+        console.error('Database connection error:', err.message);
+    }
 }
 
+// Call the connectDB function and catch any errors
 connectDB().catch(err => console.log(err))
 
+// Start the server and listen on the specified port
 app.listen(PORT, (req, res) => {
     console.log("Servidor escuchando correctamente en el puerto " + PORT);
 });
