@@ -251,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           L.marker([lat, lng]).addTo(map);
         } else {
-          console.error("Invalid latitude or longitude values.");
+          console.error("Invalid latitude or longitude values.", error.stack);
         }
       });
     </script>

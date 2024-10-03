@@ -136,7 +136,7 @@ const getDashboardBookingsCancel = async (req, res) => {
     });
     
   } catch (error) {
-    console.error("Error deleting reservation:", error);
+    console.error("Error deleting reservation:", error.stack);
     return res.status(500).render("500", {message: "Error deleting reservation."});
   }
 };
@@ -207,7 +207,7 @@ const getReservation = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Error fetching reservation confirmation:", error);
+    console.error("Error fetching reservation confirmation:", error.stack);
     return res.status(500).json({ error: "Failed to fetch reservation confirmation" });
   }
 };
@@ -226,7 +226,7 @@ const getApartments = async (req, res) => {
       return res.render("home", { apartments, zeroResultsMessage: false });
     }
   } catch (error) {
-    console.error("Error fetching properties:", error);
+    console.error("Error fetching properties:", error.stack);
     return res.status(500).json({ error: "Failed to fetch apartments" });
   }
 };
@@ -253,7 +253,7 @@ const getApartmentById = async (req, res) => {
       reservedDates,
     });
   } catch (error) {
-    console.error("Error fetching apartment details:", error);
+    console.error("Error fetching apartment details:", error.stack);
     return res.status(500).json({ error: "Failed to fetch apartment details" });
   }
 };
@@ -343,7 +343,7 @@ const searchApartments = async (req, res) => {
 
     return res.render("home", { apartments, zeroResultsMessage: false });
   } catch (error) {
-    console.error("Error during property search:", error);
+    console.error("Error during property search:", error.stack);
     return res.status(500).json({ error: "Failed to search for properties" });
   }
 };
@@ -407,7 +407,7 @@ const postNewReservation = async (req, res) => {
       return res.status(400).redirect(`/apartment/${req.body.id}`);
     }
   } catch (error) {
-    console.error("Error posting reservation:", error);
+    console.error("Error posting reservation:", error.stack);
     return res.status(500).json({ error: "Failed to create reservation" });
   }
 };
