@@ -175,6 +175,10 @@
 }
 
 @media only screen and (max-width: 767px) {
+  .search-form-values-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .home-main-image-container {
     width: 100%;
     height: auto;
