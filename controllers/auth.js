@@ -85,7 +85,7 @@ const logout = (req, res) => {
         if (err) {
             return res.send('Error while logging out.');
         }
-        return res.redirect('/');
+        return res.redirect("/login");
     });
 }
 
