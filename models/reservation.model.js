@@ -4,7 +4,7 @@ const { Schema, model } = require("mongoose");
 const reservationSchema = new Schema({
 
     email: {
-        type: String,
+        type: String, // email of user making the reservation
         required: true
     },
     startDate: {
@@ -20,7 +20,7 @@ const reservationSchema = new Schema({
         ref: 'Apartment', 
         required: true },
     user: { 
-        type: Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId, // user making the reservation
         ref: 'User', 
         required: true },
 }, { timestamps: true })
