@@ -18,32 +18,42 @@ const getSignUpForm = (req, res) => {
 const postSignUpForm = async (req, res) => {
     const {password, username, userType} = req.body
 
-    // Check if user with the same details already exists
-    const isUserInDatabase = await User.find({password, username, userType})
+    try {
 
-    // Check if the username is already taken
-    const isUsernameDuplicated = await User.find({username})
+        // Check if user with the same details already exists
+        const isUserInDatabase = await User.find({password, username, userType})
 
-    // If user details are already in the database, redirect to login
-    if (isUserInDatabase.length > 0 ) {
-        req.flash("error", "Those details were previously registered in our database, please proceed to log in.");
-        return res.redirect('/login');
+        // Check if the username is already taken
+        const isUsernameDuplicated = await User.find({username})
+
+        // If user details are already in the database, redirect to login
+        if (isUserInDatabase.length > 0 ) {
+            req.flash("error", "Those details were previously registered in our database, please proceed to log in.");
+            return res.redirect('/login');
+        }
+        
+        // If the username is already taken, prompt the user to choose another username
+        if (isUsernameDuplicated.length > 0) {
+            req.flash("error", "That username has already been used, please choose another username.")
+            return res.redirect("/sign-up")
+        } 
+
+        // Create new user in the database 
+        await User.create(req.body)
+        req.flash("success", "You have signed up successfully. Now, you can log in.")
+        return res.redirect("/login");
+            
+        } catch (error) {
+        console.error("Error during sign-up:", error.stack);
+        req.flash("error", "An error occurred during sign-up. Please try again.");
+        return res.redirect("/sign-up");
     }
-    
-    // If the username is already taken, prompt the user to choose another username
-    if (isUsernameDuplicated.length > 0) {
-        req.flash("error", "That username has already been used, please choose another username.")
-        return res.redirect("/sign-up")
-    } 
-
-    // Create new user in the database 
-    await User.create(req.body)
-    req.flash("success", "You have signed up successfully. Now, you can log in.")
-    return res.redirect("/login");
     }
 
 // Handle user login
 const postLoginForm = async (req, res) => {
+    try {
+        
     // Check if user exists in the database
     const isUserInDatabase = await User.find(req.body)
 
@@ -73,6 +83,11 @@ const postLoginForm = async (req, res) => {
 
         req.flash("success", "You have logged in as a standard user.")
         return res.redirect('/');
+    }
+    } catch (error) {
+        console.error("Error during login:", error);
+        req.flash("error", "An error occurred during login. Please try again.");
+        return res.redirect("/login");
     }
 }
 
