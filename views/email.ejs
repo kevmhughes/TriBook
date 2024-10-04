@@ -6,7 +6,6 @@
 <body>
   <%- include('partials/header') %>
     <main class="container">
-        <body>
             <h1>Cancellation email to: <%= user %></h1>
             <form action="/send-email/<%= user %>" method="POST">
               <label for="to">To:</label>
