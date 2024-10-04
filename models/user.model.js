@@ -17,7 +17,7 @@ const userSchema = new Schema({
             validator: function(value) {
                 return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}/.test(value);
             },
-            message: 'Password must be at least 8 characters long, including uppercase, lowercase, a number, and a special character.'
+            message: 'The password must contain at least 8 characters, including UPPER and lowercase, a number, and a special character (@#$%^&+=!).'
         }
     },
     email: {
