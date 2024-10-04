@@ -18,11 +18,7 @@
     <% if (isAdmin) { %>
       <p><a href="/admin/apartment/new-apartment">Add new apartment</a></p>
     <% } %>
-  
-    <% if (isUser) { %>
-      <p>If you want to list an apartment on this app, <a class="button-logout" href="/sign-up">create</a> or <a class="button-logout" href="/login">log in</a> to
-      an admin account.</p>
-    <% } %>
+
   </div>
   
   <form id="searchForm" action="/search" method="GET" class="container grid" style="display: flex;flex-direction: column; grid-row-gap: 0;">
