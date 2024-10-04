@@ -188,7 +188,7 @@ const getDashboardApartments = async (req, res) => {
       // Render the apartments on the dashboard view
       return res.render("dashboard-apartments", { apartments, updatedApartment });
     } else {
-      res
+      return res
         .status(404)
         .render("404", { message: "You must log in to see your dashboard." });
     }
