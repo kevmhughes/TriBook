@@ -16,7 +16,7 @@
           <!-- Unauthenticated check: Show login/signup prompt -->
           <p style="margin-left: 20px;">
             <a href="/login">Log in</a> or 
-            <a href="/sign-up">sign up</a> as a standard user here if you want to make a reservation.
+            <a href="/sign-up">sign up</a> as a standard user if you want to make a booking.
           </p>
         
         <% } %>
@@ -87,7 +87,7 @@
                   <label for="endDate"><div class="flexify"><img src="/icons/calendar-check-regular.svg" alt="calendar icon" class="font-awesome-calendar">Check Out:</div></label>
                   <input type="text" id="datepicker" name="endDate" id="endDate=" placeholder="Check-out date">
     
-                  <input type="submit" value="Reserve">
+                  <input type="submit" value="Book Now">
                 </form>
                 
                 <% } %>
@@ -188,6 +188,7 @@
               </div>
             </footer>
 
+            <!-- testing ground - only the contact button should show if isUser--> 
             <div class="apartment-details-contact">
               <% if (isUser) { %>
                 <div><div><b>Host:</b></div>
@@ -195,6 +196,11 @@
                 </div>
                 <button>Contact</button>
                 <% } %>
+                <% if (isAdmin) { %>
+                  <div><div><b>Host:</b></div>
+                    <div><%= selectedApartment.user.username %></div>
+                  </div>
+                  <% } %>
             </div>
           </div>
 
