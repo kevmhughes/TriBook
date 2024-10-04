@@ -387,7 +387,7 @@ const postNewReservation = async (req, res) => {
 
     // Send error message if there are overlapping dates
     if (hasOverlap) {
-      req.flash("error", "The requested dates are not available, please try some other dates.");
+      req.flash("error", "The requested dates are not available for this apartment.");
       return res.status(400).redirect(`/apartment/${req.body.id}`);
     }
 
