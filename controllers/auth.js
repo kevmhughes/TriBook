@@ -16,12 +16,12 @@ const getSignUpForm = (req, res) => {
 
 // Handle user sign-up
 const postSignUpForm = async (req, res) => {
-    const {password, username, userType} = req.body
+    const {password, username, userType, email} = req.body
 
     try {
 
         // Check if user with the same details already exists
-        const isUserInDatabase = await User.find({password, username, userType})
+        const isUserInDatabase = await User.find({password, username, userType, email})
 
         // Check if the username is already taken
         const isUsernameDuplicated = await User.find({username})
