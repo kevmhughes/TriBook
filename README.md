@@ -79,7 +79,7 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 
 # Features
 
-## Standard users are able to:
+## STANDARD USERS are able to:
 
 ### Home Page:
 * search for apartments using filters such as minimum and maximum price, number of guests, location, latest listings, and available dates.
