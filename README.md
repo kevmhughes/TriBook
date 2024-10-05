@@ -153,8 +153,8 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 
 <img src="readme-images/add-apartment-view_desktop.png" />
 
-### Dashboard View:
-#### View your bookings view:
+### Dashboard Views:
+#### 1) View your bookings view:
 * see all bookings and relevant information such as check-in and check-out dates, guest and guest contact email
 * sort bookings based on check-in and check-out dates, guest and apartment title
 * cancel the booking (feature in progress)
