@@ -79,7 +79,9 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 
 # Features
 
-## STANDARD USERS are able to:
+## STANDARD USERS
+
+### Standard user ara able to.
 
 ### Sign-up Page:
 * sign up for either a standard user or admin user account 
