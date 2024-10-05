@@ -103,7 +103,7 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 
 ### Apartment Details View:
 * view specific details of a selected apartment, including amenities, photos, and other relevant information
-* see the exact location of the apartment on an integrated map
+* see the exact location of the apartment on an interactive map
 * contact the host directly from the apartment view (feature in progress)
 * make a booking of the apartment based on check-in and check-out dates
 
