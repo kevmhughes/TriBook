@@ -77,14 +77,17 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 ### Hosting 
 * Render (free hosting)
 
+### Others
+* cloudinary (image management system)
+* leaflet (open-source interactive map)
+* flatpickr (datetime picker)
+
 # Features
 
-### Standard users ara able to:
+## Standard users are able to:
 
 ### Sign-up Page:
 * sign up for either a standard user or admin user account
-
-<img src="readme-images/sign-up_desktop.png" />
   
 ### Log-in Page:
 * log in to their account
@@ -92,11 +95,15 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 ### Home Page:
 * search for apartments using filters such as minimum and maximum price, number of guests, location, latest listings, and available dates
 
+<img src="readme-images/home-page_desktop.png" />
+
 ### Apartment Details View:
 * view specific details of a selected apartment, including amenities, photos, and other relevant information
 * see the exact location of the apartment on an integrated map
 * contact the host directly from the apartment view (feature in progress)
 * make a booking of the apartment based on check-in and check-out dates
+
+<img src="readme-images/apartment-view_desktop.png" />
 
 ### Dashboard View:
 * see all bookings and relevant information such as check-in and check-out dates, price per night and location
@@ -105,5 +112,45 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 * contact the host directly (feature in progress)
 * access the apartment details view for each booking
 
+<img src="readme-images/dashboard-view_desktop.png" />
 
+## Admin users are able to:
 
+### Sign-up Page:
+* sign up for either an admin user or a standard user account
+  
+### Log-in Page:
+* log in to their account
+
+### Home Page:
+* list a new apartment to the database
+* search for apartments using filters such as minimum and maximum price, number of guests, location, latest listings, and available dates
+
+### Add/Edit New Apartment View
+* add a new apartment including the following details:
+  - title
+  - description
+  - rules
+  - price/night
+  - square metres
+  - maximum number of guests
+  - number of bedrooms
+  - total beds
+  - number of bathrooms
+  - a maximum of four photographs
+  - amenities:
+    - air-conditioning
+    - central heating
+    - disabled access
+    - kitchen
+    - TV
+    - wifi
+  - exact location on an interactive map
+  - province
+  - city
+  - listed/delisted
+* edit any of the details of a listed or delisted apartment
+
+<img src="readme-images/add-apartment-view_desktop.png" />
+
+### Dashboard View:
