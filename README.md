@@ -59,7 +59,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
   - `logo/`: Contains logo files for branding purposes.
   - `utils/`: Contains utility functions and helpers that provide common functionalities used across the application.
 
-- `app.js/`: The main application file that sets up the Express framework, defines routes for handling HTTP requests, and includes JavaScript for data processing and client-side logic.
+- `app.js`: The main application file that sets up the Express framework, defines routes for handling HTTP requests, and includes JavaScript for data processing and client-side logic.
 
 - `package.json`: Lists dependencies and scripts required to run the application, facilitating easy management of project dependencies.
 
@@ -128,7 +128,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 * log in to their account
 
 ### Home Page:
-* list a new apartment to the database
+* list a new apartment in the database
 * search for apartments using filters such as minimum and maximum price, number of guests, location, latest listings, and available dates
 
 ### Add/Edit New Apartment View
@@ -149,7 +149,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
     - disabled access
     - kitchen
     - TV
-    - wifi
+    - Wifi
   - exact location on an interactive map
   - province
   - city
@@ -163,13 +163,13 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
   * see all bookings and relevant information such as check-in and check-out dates, guest name and guest contact email
   * sort bookings based on check-in and check-out dates, guest name, and apartment name
   * cancel the booking (feature in progress)
-  * access the apartment details view for each booking, in which the apartment can be edited
+  * access the Apartment Details view for each booking, in which the apartment can be edited
   * access the View or Edit Your Apartments view
 
 <img src="readme-images/view-your-bookings-view_desktop.png" />
 
 #### View or Edit Your Apartments view:
-* see all of your apartments on the Tribook appliaction
+* see all of your apartments on the Tribook application
 * sort apartments based on latest and oldest listing, listed or delisted, apartment name, and price 
 * see if the apartments are listed or delisted
 * edit a specific apartment
