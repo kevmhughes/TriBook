@@ -81,6 +81,12 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 
 ## STANDARD USERS are able to:
 
+### Sign-up Page:
+* sign up for either a standard user or admin user account 
+  
+### Log-in Page:
+* log in to their account
+
 ### Home Page:
 * search for apartments using filters such as minimum and maximum price, number of guests, location, latest listings, and available dates
 
