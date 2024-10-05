@@ -18,7 +18,13 @@ npm install
 ```
 
 ## Environment Variables
-You will need to create an .env file in the main folder, and then add a MongoDB connection string which includes your username, password and a database cluster with a database name in order to allow the app to perform database CRUD operations. You will also need to add a session-secret string to sign and encrypt session data (see the .env.example file in the main folder).
+To set up the application, create a .env file in the root directory. In this file, you need to add the following:
+
+- MongoDB Connection String: Include your MongoDB username, password, and database cluster, along with the database name. This connection string is required for the app to perform CRUD (Create, Read, Update, Delete) operations on the database.
+
+- Session Secret: Add a session secret string, which will be used to securely sign and encrypt session data for user authentication.
+
+For reference, check the .env.example file in the root folder for the correct format.
 
 ## Usage
 
