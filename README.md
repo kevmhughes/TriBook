@@ -5,7 +5,7 @@ This fully responsive full-stack apartment rental app, serving as the evaluated 
 Use the app [here](https://uf1845-ironhack.onrender.com/)*       
 _<sub>*It may take upto 50 seconds to load due to free hosting limitations</sub>_
 
-![App Demo](readme-images/preview.gif)
+<img src="readme-images/preview.gif" alt="App Demo" width="50%" />
 
 ## Overview
 
