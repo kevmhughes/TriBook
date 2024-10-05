@@ -170,4 +170,4 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 * edit a specific apartment
 * access the View Your Bookings view
   
-<img src="readme-images/view-your-apartments-view_desktop.png" />
+<img src="readme-images/view-or-edit-your-apartments-view_desktop.png" />
