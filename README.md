@@ -79,7 +79,7 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 
 # Features
 
-### Standard users are able to:
+## Standard users are able to:
 
 ### Sign-up Page:
 * sign up for either a standard user or admin user account
@@ -109,6 +109,6 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 
 <img src="readme-images/dashboard-view_desktop.png" />
 
-### Admin users are able to:
+## Admin users are able to:
 
 
