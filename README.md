@@ -151,4 +151,6 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
   - listed/delisted
 * edit any of the details of a listed or delisted apartment
 
+<img src="readme-images/add-apartment-view_desktop.png" />
+
 ### Dashboard View:
