@@ -79,6 +79,16 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 
 # Features
 
-### Standard user are able to:
+### Standard users are able to:
 
-* search for apartments based on minimum price, maximum price, number of guests, locations, latest listing and available dates. 
+### Home Page:
+* Users can search for apartments using filters such as minimum and maximum price, number of guests, location, latest listings, and available dates.  
+
+
+* sign up to a standard user account
+* log in to and log out of a standard user account
+* search for apartments based on minimum price, maximum price, number of guests, locations, latest listing and available dates on the home page
+* see the specific details of a chosen apartment in the apartment view
+* see the exact location of the apartment in the apartment view
+* contact the host in the apartment view (feature to be completed)
+* make a booking 
