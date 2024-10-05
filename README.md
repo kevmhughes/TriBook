@@ -82,7 +82,9 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 ### Standard users ara able to:
 
 ### Sign-up Page:
-* sign up for either a standard user or admin user account 
+* sign up for either a standard user or admin user account
+
+<img src="readme-images/sign-up_desktop.png" />
   
 ### Log-in Page:
 * log in to their account
