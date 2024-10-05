@@ -2,8 +2,6 @@
 
 # TRIBOOK
 
-# See the app here
-
 <img src="readme-images/preview.gif" alt="App Demo" width="250" />
 
 This fully responsive full-stack apartment rental app, serving as the evaluated project for the UF1845 module, is part of the encompassing IFCD0210 Professional Certificate (Development of Applications with Web Technologies).
