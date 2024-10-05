@@ -12,7 +12,7 @@ This fully responsive full-stack apartment rental app is the evaluated project f
 
 
 Use the app [here](https://uf1845-ironhack.onrender.com/)*       
-_<sub>*It may take upto 50 seconds to load due to free hosting limitations</sub>_
+_<sub>*It may take up to 50 seconds to load due to free hosting limitations</sub>_
 
 ## Installation
 
@@ -29,7 +29,7 @@ To set up the application, create a .env file in the root directory. In this fil
 
 - Session Secret: Add a session secret string, which will be used to securely sign and encrypt session data for user authentication.
 
-For reference, check the .env.example file in the root folder for the correct format.
+For reference, check the .env.example file in the root directory for the correct format.
 
 ## Usage
 
@@ -43,7 +43,7 @@ This will start the server, and you can navigate to [http://localhost:3000](http
 
 ## Project Structure
 
-This app follows the MVC (Model-View-Controller) architectural pattern and the repositiory includes the following main directories and files:
+This app follows the MVC (Model-View-Controller) architectural pattern and the repository includes the following main directories and files:
 
 - `controllers/`: Contains the logic for handling user input and interacting with the model. Controllers process requests, retrieve data, and return responses.
 
@@ -83,9 +83,9 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 * Render (free hosting)
 
 ### Others
-* cloudinary (image management system)
-* leaflet (open-source interactive map)
-* flatpickr (datetime picker)
+* Cloudinary (image management system)
+* Leaflet (open-source interactive map)
+* Flatpickr (datetime picker)
 
 # Features
 
@@ -111,7 +111,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 <img src="readme-images/apartment-view_desktop.png" />
 
 ### Dashboard View:
-* see all bookings and relevant information such as check-in and check-out dates, price per night and location
+* see all bookings and relevant information such as check-in and check-out dates, price per night, and location
 * see the actual address of each booking (feature in progress)
 * sort bookings based on check-in and check-out dates, and location
 * contact the host directly (feature in progress)
