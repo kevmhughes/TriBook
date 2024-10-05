@@ -77,6 +77,11 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 ### Hosting 
 * Render (free hosting)
 
+### Others
+* cloudinary (image management system)
+* leaflet (open-source interactive map)
+* flatpickr (datetime picker)
+
 # Features
 
 ## Standard users are able to:
@@ -111,4 +116,39 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 
 ## Admin users are able to:
 
+### Sign-up Page:
+* sign up for either an admin user or a standard user account
+  
+### Log-in Page:
+* log in to their account
 
+### Home Page:
+* list a new apartment to the database
+* search for apartments using filters such as minimum and maximum price, number of guests, location, latest listings, and available dates
+
+### Add/Edit New Apartment View
+* add a new apartment including the following details:
+  - title
+  - description
+  - rules
+  - price/night
+  - square metres
+  - maximum number of guests
+  - number of bedrooms
+  - total beds
+  - number of bathrooms
+  - a maximum of four photographs
+  - amenities:
+    - air-conditioning
+    - central heating
+    - disabled access
+    - kitchen
+    - TV
+    - wifi
+  - exact location on an interactive map
+  - province
+  - city
+  - listed/delisted
+* edit any of the details of a listed or delisted apartment
+
+### Dashboard View:
