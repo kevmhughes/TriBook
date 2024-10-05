@@ -1,5 +1,9 @@
 # UF1845: Data Access in Server-Side Web Applications
 
+## Overview
+
+The UF1845 module focuses on creating dynamic web applications with database access. It covers server-side development, database integration, and security best practices, including server-side validation. The curriculum includes designing, testing, and deploying web applications while managing vulnerabilities and ensuring data consistency and secure operations in production environments.
+
 ### TRIBOOK
 
 <img src="readme-images/preview.gif" alt="App Demo" width="300" />
@@ -8,10 +12,6 @@ This fully responsive full-stack apartment rental app, serving as the evaluated 
 
 Use the app [here](https://uf1845-ironhack.onrender.com/)*       
 _<sub>*It may take upto 50 seconds to load due to free hosting limitations</sub>_
-
-## Overview
-
-The UF1845 module focuses on creating dynamic web applications with database access. It covers server-side development, database integration, and security best practices, including server-side validation. The curriculum includes designing, testing, and deploying web applications while managing vulnerabilities and ensuring data consistency and secure operations in production environments.
 
 ## Installation
 
