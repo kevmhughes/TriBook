@@ -1,11 +1,15 @@
 # UF1845: Data Access in Server-Side Web Applications
 
+# TRIBOOK
+
+# See the app here
+
+<img src="readme-images/preview.gif" alt="App Demo" width="250" />
+
 This fully responsive full-stack apartment rental app, serving as the evaluated project for the UF1845 module, is part of the encompassing IFCD0210 Professional Certificate (Development of Applications with Web Technologies).
 
 Use the app [here](https://uf1845-ironhack.onrender.com/)*       
 _<sub>*It may take upto 50 seconds to load due to free hosting limitations</sub>_
-
-<img src="readme-images/preview.gif" alt="App Demo" width="250" />
 
 ## Overview
 
