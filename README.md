@@ -155,10 +155,19 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 
 ### Dashboard Views:
 #### View your bookings view:
-  * see all bookings and relevant information such as check-in and check-out dates, guest and guest contact email
-  * sort bookings based on check-in and check-out dates, guest and apartment title
+  * see all bookings and relevant information such as check-in and check-out dates, guest name and guest contact email
+  * sort bookings based on check-in and check-out dates, guest name, and apartment name
   * cancel the booking (feature in progress)
-  * access the apartment details view for each booking, in which the apartment can be edited.
-  * access the view or edit your apartments view
+  * access the apartment details view for each booking, in which the apartment can be edited
+  * access the View or Edit Your Apartments view
 
+<img src="readme-images/view-your-bookings-view_desktop.png" />
+
+#### View or Edit Your Apartments view:
+* see all of your apartments on the Tribook appliaction
+* sort apartments based on latest and oldest listing, listed or delisted, apartment name, and price 
+* see if the apartments are listed or delisted
+* edit a specific apartment
+* access the View Your Bookings view
   
+<img src="readme-images/view-your-apartments-view_desktop.png" />
