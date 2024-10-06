@@ -127,12 +127,24 @@ const getDashboardBookingsCancel = async (req, res) => {
       return res.status(404).render("404", { message: "Reservation not found." });
     }
 
+    // Check-in and check-out dates (startDate and endDate)
+    const startDate = new Date(reservationToDelete.startDate);
+    const endDate = new Date(reservationToDelete.endDate);
+
+    // Options for formatting the date
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    // Format the start and end dates
+    const formattedStartDate = startDate.toLocaleDateString('en-US', options);
+    const formattedEndDate = endDate.toLocaleDateString('en-US', options);
+
     console.log("Deleted reservation:", reservationToDelete);
+
     return res.render("email", {  
       email: reservationToDelete.email,
       user: reservationToDelete.user.username, 
       subject: "Unfortunately, we have to cancel your reservation.",
-      body: `We are very sorry, but we regret to inform you that we have no alternative but to cancel your reservation at ${reservationToDelete.apartment.title} between ${reservationToDelete.startDate} and ${reservationToDelete.endDate}. \n\nDespite the unfortunate circumstances, we hope that you will continue to use our services in the near future.\n\nBest regards, \n\n${(userData.username)}.`
+      body: `We are very sorry, but we regret to inform you that we have no alternative but to cancel your reservation at ${reservationToDelete.apartment.title} between ${formattedStartDate}, and ${formattedEndDate}. \n\nDespite the unfortunate circumstances, we hope that you will continue to use our services in the near future.\n\nBest regards, \n\n${(userData.username)}.`
     });
     
   } catch (error) {
