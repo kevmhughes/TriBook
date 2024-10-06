@@ -1,15 +1,18 @@
 # UF1845: Data Access in Server-Side Web Applications
 
-This fully responsive full-stack apartment rental app, serving as the evaluated project for the UF1845 module, is part of the encompassing IFCD0210 Professional Certificate (Development of Applications with Web Technologies).
-
-Use the app [here](https://uf1845-ironhack.onrender.com/)*       
-_<sub>*It may take upto 50 seconds to load due to free hosting limitations</sub>_
-
-![App Demo](readme-images/preview.gif)
-
 ## Overview
 
 The UF1845 module focuses on creating dynamic web applications with database access. It covers server-side development, database integration, and security best practices, including server-side validation. The curriculum includes designing, testing, and deploying web applications while managing vulnerabilities and ensuring data consistency and secure operations in production environments.
+
+## TRIBOOK
+
+This fully responsive full-stack apartment rental app is the evaluated project for the UF1845 module, which is part of the encompassing IFCD0210 Professional Certificate (Development of Applications with Web Technologies).
+
+<img src="readme-images/preview.gif" alt="App Demo" width="300" />
+
+
+Use the app [here](https://uf1845-ironhack.onrender.com/)*       
+_<sub>*It may take up to 50 seconds to load due to free hosting limitations</sub>_
 
 ## Installation
 
@@ -26,7 +29,7 @@ To set up the application, create a .env file in the root directory. In this fil
 
 - Session Secret: Add a session secret string, which will be used to securely sign and encrypt session data for user authentication.
 
-For reference, check the .env.example file in the root folder for the correct format.
+For reference, check the .env.example file in the root directory for the correct format.
 
 ## Usage
 
@@ -40,7 +43,7 @@ This will start the server, and you can navigate to [http://localhost:3000](http
 
 ## Project Structure
 
-This repository follows the MVC (Model-View-Controller) architectural pattern and includes the following main directories and files:
+This app follows the MVC (Model-View-Controller) architectural pattern and the repository includes the following main directories and files:
 
 - `controllers/`: Contains the logic for handling user input and interacting with the model. Controllers process requests, retrieve data, and return responses.
 
@@ -56,7 +59,7 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
   - `logo/`: Contains logo files for branding purposes.
   - `utils/`: Contains utility functions and helpers that provide common functionalities used across the application.
 
-- `app.js/`: The main application file that sets up the Express framework, defines routes for handling HTTP requests, and includes JavaScript for data processing and client-side logic.
+- `app.js`: The main application file that sets up the Express framework, defines routes for handling HTTP requests, and includes JavaScript for data processing and client-side logic.
 
 - `package.json`: Lists dependencies and scripts required to run the application, facilitating easy management of project dependencies.
 
@@ -80,9 +83,9 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 * Render (free hosting)
 
 ### Others
-* cloudinary (image management system)
-* leaflet (open-source interactive map)
-* flatpickr (datetime picker)
+* Cloudinary (image management system)
+* Leaflet (open-source interactive map)
+* Flatpickr (datetime picker)
 
 # Features
 
@@ -101,14 +104,14 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 
 ### Apartment Details View:
 * view specific details of a selected apartment, including amenities, photos, and other relevant information
-* see the exact location of the apartment on an integrated map
+* see the exact location of the apartment on an interactive map
 * contact the host directly from the apartment view (feature in progress)
 * make a booking of the apartment based on check-in and check-out dates
 
 <img src="readme-images/apartment-view_desktop.png" />
 
 ### Dashboard View:
-* see all bookings and relevant information such as check-in and check-out dates, price per night and location
+* see all bookings and relevant information such as check-in and check-out dates, price per night, and location
 * see the actual address of each booking (feature in progress)
 * sort bookings based on check-in and check-out dates, and location
 * contact the host directly (feature in progress)
@@ -125,7 +128,7 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
 * log in to their account
 
 ### Home Page:
-* list a new apartment to the database
+* list a new apartment in the database
 * search for apartments using filters such as minimum and maximum price, number of guests, location, latest listings, and available dates
 
 ### Add/Edit New Apartment View
@@ -146,7 +149,7 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
     - disabled access
     - kitchen
     - TV
-    - wifi
+    - Wifi
   - exact location on an interactive map
   - province
   - city
@@ -160,13 +163,13 @@ This repository follows the MVC (Model-View-Controller) architectural pattern an
   * see all bookings and relevant information such as check-in and check-out dates, guest name and guest contact email
   * sort bookings based on check-in and check-out dates, guest name, and apartment name
   * cancel the booking (feature in progress)
-  * access the apartment details view for each booking, in which the apartment can be edited
+  * access the Apartment Details view for each booking, in which the apartment can be edited
   * access the View or Edit Your Apartments view
 
 <img src="readme-images/view-your-bookings-view_desktop.png" />
 
 #### View or Edit Your Apartments view:
-* see all of your apartments on the Tribook appliaction
+* see all of your apartments on the Tribook application
 * sort apartments based on latest and oldest listing, listed or delisted, apartment name, and price 
 * see if the apartments are listed or delisted
 * edit a specific apartment
