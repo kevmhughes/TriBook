@@ -114,6 +114,8 @@
             </div>
             <input type="submit" value="Search">
           </form>
+        <% } else if (apartments.length == 0 && myApartmentsBooked.length == 0) { %>
+          <div class="alert-error">You do not have any bookings or apartments in the system at present.</div>
         <% } else { %>
           <div class="alert-error">You do not have any bookings at present.</div>
         <% } %>
