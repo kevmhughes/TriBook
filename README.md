@@ -43,7 +43,7 @@ This will start the server, and you can navigate to [http://localhost:3000](http
 
 ## Project Structure
 
-This app follows the MVC (Model-View-Controller) architectural pattern and the repository includes the following main directories and files:
+This app follows the MVC (Model-View-Controller) architectural pattern and the repository includes the following main folders and files:
 
 - `controllers/`: Contains the logic for handling user input and interacting with the model. Controllers process requests, retrieve data, and return responses.
 
