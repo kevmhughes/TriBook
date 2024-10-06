@@ -110,7 +110,8 @@ const getDashboardBookings = async (req, res) => {
   }
 };
 
-// Delete reservation and prepare cancellation email to send to user with reservation details
+// Delete reservation and prepare cancellation email to send to user with reservation details 
+/* WIP: 1) find the reservation by ID; 2) fill the email with guest and reservation details; 3) clicking submit opens a confirmation page; 4) clicking on confirm deletes the reservation and finally sends the email  */
 const getDashboardBookingsCancel = async (req, res) => {
   try {
     const { idReservation } = req.params;
@@ -151,7 +152,7 @@ const getDashboardBookingsCancel = async (req, res) => {
   }
 };
 
-// !!! testing ground !!!
+// Email sent success message => WIP: the guest should receive the cancellation email and be able to respond to the host
 const postSendEmail = async (req, res) => {
   const { idUser } = req.params
   req.flash("success", `A cancellation email has been sent to ${idUser}.`)

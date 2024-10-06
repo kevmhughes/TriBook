@@ -40,6 +40,7 @@
       </form>
 
       <main class="container main-apartments-container">
+        <% if (reservations.length > 0) { %>
         <% for (const res of reservations) { %>
           <article class="apartment">
             <header>
@@ -73,12 +74,14 @@
                 <a href="/apartment/<%= res.apartment._id %>">
                   <button>Details</button>
                 </a>
-                <!-- testing ground !! -->
                   <button>Contact Host</button>
               </div>
             </footer>
           </article>
-        <% } %>
+          <% } %>
+          <% } else { %>
+            <div class="alert-error" style="width:100%;">You do not have any bookings at present.</div>
+          <% } %>
       </main>
     <% } %>
 
@@ -87,7 +90,6 @@
         <div class="user-type">Admin</div>
         <br>
         <h1>Your Bookings</h1>
-        <!-- testing ground -->
         <% if ((successMessage && successMessage.length > 0)) { %>
           <div class="message"><%= successMessage %></div>
           
