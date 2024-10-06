@@ -110,17 +110,15 @@ const getDashboardBookings = async (req, res) => {
   }
 };
 
-// !!! testing ground !!!
+// Delete reservation and prepare cancellation email to send to user with reservation details
 const getDashboardBookingsCancel = async (req, res) => {
   try {
     const { idReservation } = req.params;
-    /* const reservationToDelete = await Reservation.findByIdAndDelete(idReservation) */
-    const reservationToDelete = await Reservation.findById(idReservation).populate("user").populate("apartment")
+    const reservationToDelete = await Reservation.findByIdAndDelete(idReservation).populate("user").populate("apartment")
     const email = reservationToDelete.email
     console.log(email)
 
     console.log(userData)
-
 
     if (!reservationToDelete) {
       console.log(`No reservation found with ID: ${idReservation}`);
