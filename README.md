@@ -132,7 +132,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 * list a new apartment in the database
 * search for apartments using filters such as minimum and maximum price, number of guests, location, latest listings, and available dates
 
-### Add/Edit New Apartment View
+### Add/Edit New Apartment View:
 * add a new apartment including the following details:
   - title
   - description
