@@ -101,7 +101,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 ### Home Page:
 * search for apartments using filters such as minimum and maximum price, number of guests, location, latest listings, and available dates
 
-<img src="readme-images/home-page_desktop.png" />
+<img src="readme-images/home-page_desktop.png"/>
 
 ### Apartment Details View:
 * view specific details of a selected apartment, including amenities, photos, and other relevant information
@@ -109,7 +109,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 * contact the host directly from the apartment view (feature in progress)
 * make a booking of the apartment based on check-in and check-out dates
 
-<img src="readme-images/apartment-view_desktop.png" />
+<img src="readme-images/apartment-view_desktop.png"/>
 
 ### Dashboard View:
 * see all bookings and relevant information such as check-in and check-out dates, price per night, and location
@@ -118,7 +118,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 * contact the host directly (feature in progress)
 * access the apartment details view for each booking
 
-<img src="readme-images/dashboard-view_desktop.png" />
+<img src="readme-images/dashboard-view_desktop.png"/>
 
 ## Admin users are able to:
 
@@ -157,7 +157,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
   - listed/delisted
 * edit any of the details of a listed or delisted apartment
 
-<img src="readme-images/add-apartment-view_desktop.png" />
+<img src="readme-images/add-apartment-view_desktop.png"/>
 
 ### Dashboard Views:
 #### View your bookings view:
@@ -167,7 +167,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
   * access the Apartment Details view for each booking, in which the apartment can be edited
   * access the View or Edit Your Apartments view
 
-<img src="readme-images/view-your-bookings-view_desktop.png" />
+<img src="readme-images/view-your-bookings-view_desktop.png"/>
 
 #### View or Edit Your Apartments view:
 * see all of your apartments on the Tribook application
@@ -176,4 +176,4 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 * edit a specific apartment
 * access the View Your Bookings view
   
-<img src="readme-images/view-or-edit-your-apartments-view_desktop.png" />
+<img src="readme-images/view-or-edit-your-apartments-view_desktop.png"/>
