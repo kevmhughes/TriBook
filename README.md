@@ -12,7 +12,7 @@ This fully responsive and full-stack apartment rental app is the evaluated proje
 
 
 Use the app [here](https://uf1845-ironhack.onrender.com/)*       
-_<sub>*It may take up to 50 seconds to load due to free hosting limitations</sub>_
+_<sub>*It may take up to 10 seconds to load due to free hosting limitations</sub>_
 
 ## Installation
 
@@ -80,7 +80,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 * Thunder Client
 
 ### Hosting 
-* Render (free hosting)
+* Vercel (free hosting)
 
 ### Others
 * Cloudinary (image management system)
