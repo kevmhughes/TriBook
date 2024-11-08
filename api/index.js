@@ -4,21 +4,22 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('connect-flash');
+const path = require('path');
 
 const dotenv = require('dotenv');
 dotenv.config();
 
 // Import public routes
-const indexRoutes = require('./routes/index.js');
+const indexRoutes = require('../routes/index.js');
 
 // Import admin routes
-const adminRoutes = require('./routes/admin.js');
+const adminRoutes = require('../routes/admin.js');
 
 // Authentication routes
-const authRoutes = require('./routes/auth.js');
+const authRoutes = require('../routes/auth.js');
 
 // API routes
-const apiRoutes = require('./routes/api.js')
+const apiRoutes = require('../routes/api.js')
 
 // Create an instance of the Express server
 const app = express();
@@ -65,6 +66,9 @@ app.use(express.static('public'));
 
 const PORT = process.env.PORT || 3000;
 
+// Set the views directory to the correct location
+app.set('views', path.join(__dirname, '..', 'views')); 
+
 // Specify to Express that EJS will be the template engine
 app.set('view engine', 'ejs');
 
@@ -107,3 +111,5 @@ connectDB().catch(err => console.log(err))
 app.listen(PORT, (req, res) => {
     console.log("Servidor escuchando correctamente en el puerto " + PORT);
 });
+
+module.exports = app
