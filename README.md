@@ -11,7 +11,7 @@ This fully responsive and full-stack apartment rental app is the evaluated proje
 <img src="readme-images/preview.gif" alt="App Demo" width="300"/>
 
 
-Use the app [here](https://uf1845-ironhack.onrender.com/)*       
+Use the app [here](https://tribook.vercel.app)*       
 _<sub>*It may take up to 10 seconds to load due to free hosting limitations</sub>_
 
 ## Installation
