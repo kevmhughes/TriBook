@@ -160,7 +160,8 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 <img src="readme-images/add-apartment-view_desktop.png"/>
 
 ### Dashboard Views:
-#### View your bookings view:
+
+### View The Bookings View:
   * see all bookings and relevant information such as check-in and check-out dates, guest name and guest contact email
   * sort bookings based on check-in and check-out dates, guest name, and apartment name
   * cancel the booking (feature in progress)
@@ -169,8 +170,8 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 
 <img src="readme-images/view-your-bookings-view_desktop.png"/>
 
-#### View or Edit Your Apartments view:
-* see all of your apartments on the Tribook application
+### View or Edit Your Apartments View:
+* see all of their apartments on the Tribook application
 * sort apartments based on latest and oldest listing, listed or delisted, apartment name, and price 
 * list and delist apartments
 * edit a specific apartment
