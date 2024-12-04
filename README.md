@@ -170,7 +170,7 @@ This app follows the MVC (Model-View-Controller) architectural pattern and the r
 
 <img src="readme-images/view-your-bookings-view_desktop.png"/>
 
-### View or Edit Your Apartments View:
+### View or Edit Their Apartments View:
 * see all of their apartments on the Tribook application
 * sort apartments based on latest and oldest listing, listed or delisted, apartment name, and price 
 * list and delist apartments
